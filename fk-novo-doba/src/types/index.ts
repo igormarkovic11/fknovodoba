@@ -35,6 +35,7 @@ export interface NewsPost {
   id: string;
   title: string;
   body: string;
+  excerpt?: string;
   date: string;
   tag: string;
   coverImage?: string;
@@ -50,4 +51,5 @@ export interface Standing {
   goalsFor: number;
   goalsAgainst: number;
   points: number;
+  logoUrl?: string;
 }
