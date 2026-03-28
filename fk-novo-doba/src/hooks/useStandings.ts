@@ -35,6 +35,7 @@ export const useSeasons = () => {
       const snapshot = await getDocs(collection(db, "standings"));
       return snapshot.docs
         .map((doc) => doc.id)
+        .filter((id) => id !== "placeholder")
         .sort()
         .reverse();
     },
