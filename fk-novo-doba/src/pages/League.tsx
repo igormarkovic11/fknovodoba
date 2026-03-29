@@ -228,7 +228,9 @@ const League = () => {
                   [...Array(10)].map((_, i) => (
                     <tr key={i} className="border-t border-white/04">
                       <td colSpan={8} className="py-2 px-4">
-                        <div className="bg-[#0d1017] animate-pulse rounded h-6 w-full" />
+                        <div className="relative overflow-hidden bg-[#0d1017] rounded h-6 w-full">
+                          <div className="absolute inset-0 -translate-x-full animate-[shimmer_1.5s_infinite] bg-gradient-to-r from-transparent via-white/05 to-transparent" />
+                        </div>
                       </td>
                     </tr>
                   ))
