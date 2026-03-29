@@ -3,11 +3,7 @@ import type { Match } from "../types";
 
 // ── Skeleton ──────────────────────────────────────────────────────────
 const Skeleton = ({ className }: { className: string }) => (
-  <div
-    className={`relative overflow-hidden bg-[#12161f] rounded-xl ${className}`}
-  >
-    <div className="absolute inset-0 -translate-x-full animate-[shimmer_1.5s_infinite] bg-gradient-to-r from-transparent via-white/05 to-transparent" />
-  </div>
+  <div className={`bg-[#12161f] animate-pulse rounded-xl ${className}`} />
 );
 
 // ── Fixture row ───────────────────────────────────────────────────────
@@ -35,7 +31,7 @@ const FixtureRow = ({ match }: { match: Match }) => {
       }`}
     >
       {/* Date block */}
-      <div className="flex-shrink-0 w-14 h-14 bg-[#0d1017] rounded-lg flex flex-col items-center justify-center border border-white/05">
+      <div className="shrink-0 w-14 h-14 bg-[#0d1017] rounded-lg flex flex-col items-center justify-center border border-white/05">
         <span className="text-[10px] font-semibold tracking-widest uppercase text-[#56544e]">
           {day}
         </span>
@@ -54,7 +50,7 @@ const FixtureRow = ({ match }: { match: Match }) => {
             {match.homeAway === "home" ? "vs" : "@"} {match.opponent}
           </span>
           <span
-            className={`flex-shrink-0 text-[9px] font-semibold tracking-widest uppercase px-2 py-0.5 rounded border ${
+            className={`shrink-0 text-[9px] font-semibold tracking-widest uppercase px-2 py-0.5 rounded border ${
               match.homeAway === "home"
                 ? "text-[#c49b32] border-[#c49b32]/30 bg-[#c49b32]/10"
                 : "text-[#8a8880] border-white/10 bg-white/05"
@@ -73,7 +69,7 @@ const FixtureRow = ({ match }: { match: Match }) => {
       </div>
 
       {/* Competition */}
-      <div className="flex-shrink-0 text-right">
+      <div className="shrink-0 text-right">
         <span className="text-[10px] font-semibold tracking-widest uppercase text-[#56544e]">
           {match.competition}
         </span>

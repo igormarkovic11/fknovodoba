@@ -29,11 +29,7 @@ const filterActiveStyles: Record<Filter, string> = {
 
 // ── Skeleton ──────────────────────────────────────────────────────────
 const Skeleton = ({ className }: { className: string }) => (
-  <div
-    className={`relative overflow-hidden bg-[#12161f] rounded-xl ${className}`}
-  >
-    <div className="absolute inset-0 -translate-x-full animate-[shimmer_1.5s_infinite] bg-gradient-to-r from-transparent via-white/05 to-transparent" />
-  </div>
+  <div className={`bg-[#12161f] animate-pulse rounded-xl ${className}`} />
 );
 
 // ── Result row ────────────────────────────────────────────────────────
@@ -53,7 +49,7 @@ const ResultRow = ({ match }: { match: Match }) => {
     <div className="bg-[#12161f] border border-white/07 rounded-xl px-4 py-4 flex items-center gap-3 hover:border-[#c49b32]/30 transition-colors duration-200">
       {/* Result badge */}
       <div
-        className={`flex-shrink-0 w-10 h-10 rounded-lg border flex items-center justify-center text-[11px] font-black tracking-wider ${resultStyles[result]}`}
+        className={`shrink-0 w-10 h-10 rounded-lg border flex items-center justify-center text-[11px] font-black tracking-wider ${resultStyles[result]}`}
       >
         {result[0]}
       </div>
@@ -65,7 +61,7 @@ const ResultRow = ({ match }: { match: Match }) => {
             {match.homeAway === "home" ? "vs" : "@"} {match.opponent}
           </span>
           <span
-            className={`flex-shrink-0 text-[9px] font-semibold tracking-widest uppercase px-2 py-0.5 rounded border ${
+            className={`shrink-0 text-[9px] font-semibold tracking-widest uppercase px-2 py-0.5 rounded border ${
               match.homeAway === "home"
                 ? "text-[#c49b32] border-[#c49b32]/30 bg-[#c49b32]/10"
                 : "text-[#8a8880] border-white/10 bg-white/05"
@@ -78,7 +74,7 @@ const ResultRow = ({ match }: { match: Match }) => {
       </div>
 
       {/* Score */}
-      <div className="flex-shrink-0 text-right">
+      <div className="shrink-0 text-right">
         <span className="text-[22px] font-black text-[#f5f0e8] tracking-wider leading-none">
           {gf}
           <span className="text-[#3a3830] mx-0.5">:</span>
@@ -150,7 +146,7 @@ const Results = () => {
           <button
             key={f}
             onClick={() => setActiveFilter(f)}
-            className={`flex-shrink-0 px-4 py-2 rounded-full text-[11px] font-semibold tracking-widest uppercase border transition-colors duration-200 cursor-pointer ${
+            className={`shrink-0 px-4 py-2 rounded-full text-[11px] font-semibold tracking-widest uppercase border transition-colors duration-200 cursor-pointer ${
               activeFilter === f
                 ? filterActiveStyles[f]
                 : "bg-transparent text-[#8a8880] border-white/10 hover:border-[#c49b32]/40 hover:text-[#f0ead8]"

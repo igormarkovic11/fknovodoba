@@ -44,10 +44,10 @@ const StandingRow = ({
             <img
               src={logo}
               alt={standing.team}
-              className="w-6 h-6 object-contain flex-shrink-0"
+              className="w-6 h-6 object-contain shrink-0"
             />
           ) : (
-            <div className="w-6 h-6 rounded-full bg-[#1a1f2e] border border-white/10 flex items-center justify-center flex-shrink-0">
+            <div className="w-6 h-6 rounded-full bg-[#1a1f2e] border border-white/10 flex items-center justify-center shrink-0">
               <span className="text-[8px] font-black text-[#56544e]">
                 {standing.team
                   .split(" ")
@@ -162,7 +162,7 @@ const League = () => {
             <button
               key={season}
               onClick={() => setActiveSeason(season)}
-              className={`flex-shrink-0 px-4 py-2 rounded-full text-[11px] font-semibold tracking-widest uppercase border transition-colors duration-200 cursor-pointer ${
+              className={`shrink-0 px-4 py-2 rounded-full text-[11px] font-semibold tracking-widest uppercase border transition-colors duration-200 cursor-pointer ${
                 activeSeason === season
                   ? "bg-[#c49b32] text-[#0a0c10] border-[#c49b32]"
                   : "bg-transparent text-[#8a8880] border-white/10 hover:border-[#c49b32]/40 hover:text-[#f0ead8]"
@@ -228,9 +228,7 @@ const League = () => {
                   [...Array(10)].map((_, i) => (
                     <tr key={i} className="border-t border-white/04">
                       <td colSpan={8} className="py-2 px-4">
-                        <div className="relative overflow-hidden bg-[#0d1017] rounded h-6 w-full">
-                          <div className="absolute inset-0 -translate-x-full animate-[shimmer_1.5s_infinite] bg-gradient-to-r from-transparent via-white/05 to-transparent" />
-                        </div>
+                        <div className="bg-[#0d1017] animate-pulse rounded h-6 w-full" />
                       </td>
                     </tr>
                   ))

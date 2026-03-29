@@ -55,7 +55,7 @@ const NextMatchCard = ({ match }: { match: Match }) => {
               style={{ mixBlendMode: "lighten" }}
             />
           ) : (
-            <div className="w-8 h-8 rounded-full bg-[#1a1f2e] border border-white/10 flex items-center justify-center flex-shrink-0">
+            <div className="w-8 h-8 rounded-full bg-[#1a1f2e] border border-white/10 flex items-center justify-center shrink-0">
               <span className="text-[8px] font-black text-[#56544e]">
                 {match.opponent
                   .split(" ")
@@ -182,11 +182,7 @@ const NewsCard = ({ post }: { post: NewsPost }) => {
 };
 
 const Skeleton = ({ className }: { className: string }) => (
-  <div
-    className={`relative overflow-hidden bg-[#12161f] rounded-xl ${className}`}
-  >
-    <div className="absolute inset-0 -translate-x-full animate-[shimmer_1.5s_infinite] bg-gradient-to-r from-transparent via-white/05 to-transparent" />
-  </div>
+  <div className={`bg-[#12161f] animate-pulse rounded-xl ${className}`} />
 );
 
 const Home = () => {
@@ -231,7 +227,7 @@ const Home = () => {
             />
 
             {/* Right — logo */}
-            <div className="hidden md:flex flex-shrink-0 items-center justify-center w-56">
+            <div className="hidden md:flex shrink-0 items-center justify-center w-56">
               <img
                 src={fkNovoDoba}
                 alt="FK Novo Doba"
