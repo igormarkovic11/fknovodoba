@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
-import logo from "../assets/logos/fk-novo-doba.png";
+import logo from "../assets/logo.png";
 
 const navLinks = [
   { label: "Home", path: "/" },
@@ -20,7 +20,6 @@ const Navbar = () => {
   return (
     <>
       <nav className="bg-[#0d1017] border-b border-[#c49b32]/25 px-5 h-14 flex items-center justify-between sticky top-0 z-50">
-        {/* Logo */}
         <Link
           to="/"
           className="flex items-center gap-3 no-underline"
@@ -42,7 +41,6 @@ const Navbar = () => {
           </div>
         </Link>
 
-        {/* Desktop links */}
         <ul className="hidden md:flex gap-6 list-none">
           {navLinks.map((link) => {
             const isActive = location.pathname === link.path;
@@ -63,7 +61,6 @@ const Navbar = () => {
           })}
         </ul>
 
-        {/* Hamburger button */}
         <button
           className="md:hidden flex flex-col justify-center items-center w-10 h-10 gap-[5px] cursor-pointer bg-transparent border-none p-0"
           onClick={() => setMenuOpen(!menuOpen)}
@@ -81,7 +78,6 @@ const Navbar = () => {
         </button>
       </nav>
 
-      {/* Mobile menu overlay */}
       <div
         className={`md:hidden fixed inset-0 z-40 bg-[#0a0c10]/95 backdrop-blur-sm transition-all duration-300 ${
           menuOpen
@@ -122,7 +118,6 @@ const Navbar = () => {
           })}
         </ul>
 
-        {/* Bottom club info */}
         <div className="absolute bottom-10 left-6 right-6">
           <div className="text-[11px] text-[#3a3830] tracking-widest uppercase">
             FK Novo Doba Kojčinovac

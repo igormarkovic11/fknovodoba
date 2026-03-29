@@ -195,9 +195,9 @@ const Home = () => {
       {/* ── HERO ── */}
       <div className="relative bg-[#0d1017] border-b border-white/05 overflow-hidden">
         {/* Background glow effects */}
-        <div className="absolute top-0 right-0 w-96 h-96 rounded-full bg-[#1a2e8a]/15 blur-3xl pointer-events-none" />
+        {/* <div className="absolute top-0 right-0 w-96 h-96 rounded-full bg-[#1a2e8a]/15 blur-3xl pointer-events-none" />
         <div className="absolute bottom-0 left-0 w-64 h-64 rounded-full bg-[#cc2222]/10 blur-3xl pointer-events-none" />
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-72 h-72 rounded-full bg-[#c49b32]/05 blur-3xl pointer-events-none" />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-72 h-72 rounded-full bg-[#c49b32]/05 blur-3xl pointer-events-none" /> */}
 
         <div className="relative pt-10 pb-8 md:min-h-[320px]">
           {/* Top row — text + divider + logo */}
