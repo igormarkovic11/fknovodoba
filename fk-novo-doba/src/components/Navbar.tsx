@@ -15,7 +15,15 @@ const Navbar = () => {
   const location = useLocation();
   const [menuOpen, setMenuOpen] = useState(false);
 
-  const closeMenu = () => setMenuOpen(false);
+  const openMenu = () => {
+    setMenuOpen(true);
+    document.body.style.overflow = "hidden";
+  };
+
+  const closeMenu = () => {
+    setMenuOpen(false);
+    document.body.style.overflow = "";
+  };
 
   return (
     <>
@@ -66,7 +74,7 @@ const Navbar = () => {
         {/* Hamburger button */}
         <button
           className="md:hidden flex flex-col justify-center items-center w-10 h-10 gap-[5px] cursor-pointer bg-transparent border-none p-0"
-          onClick={() => setMenuOpen(!menuOpen)}
+          onClick={() => (menuOpen ? closeMenu() : openMenu())}
           aria-label="Toggle menu"
         >
           <span
