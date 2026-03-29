@@ -11,7 +11,7 @@ const Skeleton = ({ className }: { className: string }) => (
 );
 
 // ── Fixture row ───────────────────────────────────────────────────────
-const FixtureRow = ({ match }: { match: Match }) => {
+const FixtureRow = ({ match, isNext }: { match: Match; isNext: boolean }) => {
   const matchDate = new Date(match.date);
 
   const day = matchDate.toLocaleDateString("en-GB", {
@@ -24,59 +24,68 @@ const FixtureRow = ({ match }: { match: Match }) => {
     timeZone: "Europe/Sarajevo",
   });
 
-  const isNext = match.id === match.id; // we'll highlight the first one
-
   return (
     <div
-      className={`bg-[#12161f] border rounded-xl px-4 py-4 flex items-center gap-4 transition-colors duration-200 ${
+      className={`bg-[#12161f] border rounded-xl p-4 transition-colors duration-200 ${
         isNext
-          ? "border-[#c49b32]/40 hover:border-[#c49b32]/70"
+          ? "border-[#c49b32]/40"
           : "border-white/07 hover:border-[#c49b32]/30"
       }`}
     >
-      {/* Date block */}
-      <div className="shrink-0 w-14 h-14 bg-[#0d1017] rounded-lg flex flex-col items-center justify-center border border-white/05">
-        <span className="text-[10px] font-semibold tracking-widest uppercase text-[#56544e]">
-          {day}
-        </span>
-        <span className="text-[18px] font-black text-[#f5f0e8] leading-none">
-          {matchDate.getDate()}
-        </span>
-        <span className="text-[10px] font-semibold text-[#56544e]">
-          {matchDate.toLocaleDateString("en-GB", { month: "short" })}
-        </span>
-      </div>
-
-      {/* Match info */}
-      <div className="flex-1 min-w-0">
-        <div className="flex items-center gap-2 mb-1">
-          <span className="text-[15px] font-bold text-[#f0ead8] truncate">
-            {match.homeAway === "home" ? "vs" : "@"} {match.opponent}
-          </span>
-          <span
-            className={`shrink-0 text-[9px] font-semibold tracking-widest uppercase px-2 py-0.5 rounded border ${
-              match.homeAway === "home"
-                ? "text-[#c49b32] border-[#c49b32]/30 bg-[#c49b32]/10"
-                : "text-[#8a8880] border-white/10 bg-white/05"
-            }`}
-          >
-            {match.homeAway === "home" ? "Home" : "Away"}
+      {/* Next match badge */}
+      {isNext && (
+        <div className="mb-3">
+          <span className="text-[9px] font-black tracking-widest uppercase bg-[#c49b32] text-[#0a0c10] px-2 py-1 rounded-full">
+            Next Match
           </span>
         </div>
-        <div className="flex items-center gap-3">
-          <span className="text-[11px] text-[#56544e]">{time}</span>
-          <span className="text-[#3a3830]">·</span>
-          <span className="text-[11px] text-[#56544e] truncate">
-            {match.venue}
+      )}
+
+      {/* Top row — date block + opponent + home/away badge */}
+      <div className="flex items-center gap-3 mb-3">
+        {/* Date block */}
+        <div className="flex-shrink-0 w-14 h-14 bg-[#0d1017] rounded-lg flex flex-col items-center justify-center border border-white/05">
+          <span className="text-[10px] font-semibold tracking-widest uppercase text-[#56544e]">
+            {day}
+          </span>
+          <span className="text-[18px] font-black text-[#f5f0e8] leading-none">
+            {matchDate.getDate()}
+          </span>
+          <span className="text-[10px] font-semibold text-[#56544e]">
+            {matchDate.toLocaleDateString("en-GB", {
+              month: "short",
+              timeZone: "Europe/Sarajevo",
+            })}
+          </span>
+        </div>
+
+        {/* Opponent + badge */}
+        <div className="flex-1 min-w-0">
+          <div className="flex items-center gap-2 flex-wrap mb-1">
+            <span className="text-[16px] font-black text-[#f0ead8]">
+              {match.homeAway === "home" ? "vs" : "@"} {match.opponent}
+            </span>
+            <span
+              className={`flex-shrink-0 text-[9px] font-semibold tracking-widest uppercase px-2 py-0.5 rounded border ${
+                match.homeAway === "home"
+                  ? "text-[#c49b32] border-[#c49b32]/30 bg-[#c49b32]/10"
+                  : "text-[#8a8880] border-white/10 bg-white/05"
+              }`}
+            >
+              {match.homeAway === "home" ? "Home" : "Away"}
+            </span>
+          </div>
+          <span className="text-[11px] text-[#56544e]">
+            {match.competition}
           </span>
         </div>
       </div>
 
-      {/* Competition */}
-      <div className="shrink-0 text-right">
-        <span className="text-[10px] font-semibold tracking-widest uppercase text-[#56544e]">
-          {match.competition}
-        </span>
+      {/* Bottom row — time + venue */}
+      <div className="flex items-center gap-2 pl-[68px]">
+        <span className="text-[12px] font-semibold text-[#8a8880]">{time}</span>
+        <span className="text-[#3a3830]">·</span>
+        <span className="text-[12px] text-[#56544e]">{match.venue}</span>
       </div>
     </div>
   );
@@ -132,19 +141,13 @@ const Fixtures = () => {
 
               {/* Matches */}
               <div className="flex flex-col gap-3">
-                {monthMatches.map((match, index) => (
-                  <div key={match.id} className="relative">
-                    {/* Next match indicator */}
-                    {index === 0 && Object.keys(grouped)[0] === month && (
-                      <div className="absolute -top-2 left-4 z-10">
-                        <span className="text-[9px] font-black tracking-widest uppercase bg-[#c49b32] text-[#0a0c10] px-2 py-0.5 rounded-full">
-                          Next Match
-                        </span>
-                      </div>
-                    )}
-                    <FixtureRow match={match} />
-                  </div>
-                ))}
+                {monthMatches.map((match, index) => {
+                  const isNext =
+                    index === 0 && Object.keys(grouped)[0] === month;
+                  return (
+                    <FixtureRow key={match.id} match={match} isNext={isNext} />
+                  );
+                })}
               </div>
             </div>
           ))
