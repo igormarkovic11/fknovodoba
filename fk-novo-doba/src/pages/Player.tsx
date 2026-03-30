@@ -1,4 +1,5 @@
 import { useParams, useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import { usePlayer } from "../hooks/usePlayers";
 
 const positionColor: Record<string, string> = {
@@ -8,32 +9,12 @@ const positionColor: Record<string, string> = {
   Forward: "text-[#ef4444] border-[#ef4444]/40 bg-[#ef4444]/10",
 };
 
-const StatBox = ({
-  label,
-  value,
-}: {
-  label: string;
-  value: number | string;
-}) => (
-  <div className="bg-[#12161f] border border-white/07 rounded-xl p-4 flex flex-col items-center justify-center text-center">
-    <span className="text-[28px] font-black text-[#f5f0e8] leading-none mb-1">
-      {value}
-    </span>
-    <span className="text-[10px] font-semibold tracking-widest uppercase text-[#56544e]">
-      {label}
-    </span>
-  </div>
-);
-
 const Skeleton = ({ className }: { className: string }) => (
-  <div
-    className={`relative overflow-hidden bg-[#12161f] rounded-xl ${className}`}
-  >
-    <div className="absolute inset-0 -translate-x-full animate-[shimmer_1.5s_infinite] bg-gradient-to-r from-transparent via-white/05 to-transparent" />
-  </div>
+  <div className={`bg-[#12161f] animate-pulse rounded-xl ${className}`} />
 );
 
 const Player = () => {
+  const { t } = useTranslation();
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const { data: player, isLoading } = usePlayer(id ?? "");
@@ -56,12 +37,12 @@ const Player = () => {
   if (!player) {
     return (
       <div className="min-h-screen bg-[#0a0c10] flex flex-col items-center justify-center text-[#56544e]">
-        <p className="text-[18px] font-bold mb-4">Player not found.</p>
+        <p className="text-[18px] font-bold mb-4">{t("player.notFound")}</p>
         <button
           onClick={() => navigate("/roster")}
           className="text-[#c49b32] text-sm uppercase tracking-widest border border-[#c49b32]/30 px-4 py-2 rounded-lg hover:bg-[#c49b32]/10 transition-colors cursor-pointer bg-transparent"
         >
-          ← Back to Roster
+          {t("player.backToRoster")}
         </button>
       </div>
     );
@@ -69,19 +50,15 @@ const Player = () => {
 
   return (
     <div className="min-h-screen bg-[#0a0c10] text-[#e8e4d9]">
-      {/* Back button */}
       <div className="px-5 pt-5">
         <button
           onClick={() => navigate("/roster")}
           className="text-[11px] font-semibold tracking-widest uppercase text-[#8a8880] hover:text-[#c49b32] transition-colors duration-200 cursor-pointer bg-transparent border-none p-0"
         >
-          ← Back to Roster
+          {t("player.backToRoster")}
         </button>
       </div>
-
-      {/* Hero — photo + name */}
       <div className="bg-[#0d1017] border-b border-white/05 mt-4 mx-5 rounded-xl overflow-hidden">
-        {/* Photo */}
         <div className="relative bg-[#0a0c10] w-full h-64 flex items-center justify-center overflow-hidden">
           {player.photoUrl ? (
             <img
@@ -99,16 +76,12 @@ const Player = () => {
               <div className="w-36 h-28 rounded-t-full bg-[#1a1f2e] border-2 border-b-0 border-white/10" />
             </div>
           )}
-
-          {/* Jersey number overlay */}
           <div className="absolute top-4 right-4 w-12 h-12 rounded-full bg-[#c49b32] flex items-center justify-center">
             <span className="text-[16px] font-black text-[#0a0c10]">
               {player.number}
             </span>
           </div>
         </div>
-
-        {/* Name + position */}
         <div className="px-5 py-5">
           <h1 className="text-[32px] font-black text-[#f5f0e8] leading-tight tracking-wide mb-3">
             {player.name}
@@ -120,25 +93,42 @@ const Player = () => {
           </span>
         </div>
       </div>
-
-      {/* Stats */}
       <div className="px-5 mt-5">
         <p className="text-[11px] font-semibold tracking-[0.15em] uppercase text-[#c49b32] mb-3">
-          Season Stats
+          {t("player.seasonStats")}
         </p>
         <div className="grid grid-cols-3 gap-3">
-          <StatBox label="Goals" value={player.goals} />
-          <StatBox label="Assists" value={player.assists} />
-          <StatBox label="Jersey" value={`#${player.number}`} />
+          <div className="bg-[#12161f] border border-white/07 rounded-xl p-4 flex flex-col items-center text-center">
+            <span className="text-[28px] font-black text-[#f5f0e8] leading-none mb-1">
+              {player.goals}
+            </span>
+            <span className="text-[10px] font-semibold tracking-widest uppercase text-[#56544e]">
+              {t("player.goals")}
+            </span>
+          </div>
+          <div className="bg-[#12161f] border border-white/07 rounded-xl p-4 flex flex-col items-center text-center">
+            <span className="text-[28px] font-black text-[#f5f0e8] leading-none mb-1">
+              {player.assists}
+            </span>
+            <span className="text-[10px] font-semibold tracking-widest uppercase text-[#56544e]">
+              {t("player.assists")}
+            </span>
+          </div>
+          <div className="bg-[#12161f] border border-white/07 rounded-xl p-4 flex flex-col items-center text-center">
+            <span className="text-[28px] font-black text-[#f5f0e8] leading-none mb-1">
+              #{player.number}
+            </span>
+            <span className="text-[10px] font-semibold tracking-widest uppercase text-[#56544e]">
+              {t("player.jersey")}
+            </span>
+          </div>
         </div>
       </div>
-
-      {/* Age */}
       {player.age && (
         <div className="px-5 mt-4">
           <div className="bg-[#12161f] border border-white/07 rounded-xl p-4 flex items-center justify-between">
             <span className="text-[12px] font-semibold tracking-widest uppercase text-[#56544e]">
-              Age
+              {t("player.age")}
             </span>
             <span className="text-[18px] font-black text-[#f5f0e8]">
               {player.age}
@@ -146,12 +136,10 @@ const Player = () => {
           </div>
         </div>
       )}
-
-      {/* Bio */}
       {player.bio && (
         <div className="px-5 mt-4 pb-10">
           <p className="text-[11px] font-semibold tracking-[0.15em] uppercase text-[#c49b32] mb-3">
-            About
+            {t("player.about")}
           </p>
           <div className="bg-[#12161f] border border-white/07 rounded-xl p-5">
             <p className="text-[14px] text-[#8a8880] leading-relaxed">

@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 import { useStandings, useSeasons } from "../hooks/useStandings";
 import type { Standing } from "../types";
 import { getTeamLogo } from "../utils/teamLogos";
@@ -19,27 +20,17 @@ const StandingRow = ({
 
   return (
     <tr
-      className={`border-t transition-colors duration-200 ${
-        isMyClub
-          ? "border-[#c49b32]/30 bg-[#c49b32]/10"
-          : "border-white/04 hover:bg-white/02"
-      }`}
+      className={`border-t transition-colors duration-200 ${isMyClub ? "border-[#c49b32]/30 bg-[#c49b32]/10" : "border-white/04 hover:bg-white/02"}`}
     >
-      {/* Position */}
       <td className="py-3 pl-4 pr-2">
         <span
-          className={`text-[13px] font-black ${
-            position <= 3 ? "text-[#c49b32]" : "text-[#3a3830]"
-          }`}
+          className={`text-[13px] font-black ${position <= 3 ? "text-[#c49b32]" : "text-[#3a3830]"}`}
         >
           {position}
         </span>
       </td>
-
-      {/* Team */}
       <td className="py-3 px-2">
         <div className="flex items-center gap-2">
-          {/* Logo or initials fallback */}
           {logo ? (
             <img
               src={logo}
@@ -59,16 +50,12 @@ const StandingRow = ({
             </div>
           )}
           <span
-            className={`text-[13px] font-semibold ${
-              isMyClub ? "text-[#f0ead8]" : "text-[#8a8880]"
-            }`}
+            className={`text-[13px] font-semibold ${isMyClub ? "text-[#f0ead8]" : "text-[#8a8880]"}`}
           >
             {standing.team}
           </span>
         </div>
       </td>
-
-      {/* Played */}
       <td className="py-3 px-2 text-center">
         <span
           className={`text-[12px] ${isMyClub ? "text-[#f0ead8]" : "text-[#56544e]"}`}
@@ -76,8 +63,6 @@ const StandingRow = ({
           {standing.played}
         </span>
       </td>
-
-      {/* Won */}
       <td className="py-3 px-2 text-center">
         <span
           className={`text-[12px] ${isMyClub ? "text-[#f0ead8]" : "text-[#56544e]"}`}
@@ -85,8 +70,6 @@ const StandingRow = ({
           {standing.won}
         </span>
       </td>
-
-      {/* Drawn */}
       <td className="py-3 px-2 text-center">
         <span
           className={`text-[12px] ${isMyClub ? "text-[#f0ead8]" : "text-[#56544e]"}`}
@@ -94,8 +77,6 @@ const StandingRow = ({
           {standing.drawn}
         </span>
       </td>
-
-      {/* Lost */}
       <td className="py-3 px-2 text-center">
         <span
           className={`text-[12px] ${isMyClub ? "text-[#f0ead8]" : "text-[#56544e]"}`}
@@ -103,30 +84,16 @@ const StandingRow = ({
           {standing.lost}
         </span>
       </td>
-
-      {/* GD */}
       <td className="py-3 px-2 text-center hidden sm:table-cell">
         <span
-          className={`text-[12px] font-semibold ${
-            isMyClub
-              ? "text-[#f0ead8]"
-              : gd > 0
-                ? "text-green-400"
-                : gd < 0
-                  ? "text-red-400"
-                  : "text-[#56544e]"
-          }`}
+          className={`text-[12px] font-semibold ${isMyClub ? "text-[#f0ead8]" : gd > 0 ? "text-green-400" : gd < 0 ? "text-red-400" : "text-[#56544e]"}`}
         >
           {gd > 0 ? `+${gd}` : gd}
         </span>
       </td>
-
-      {/* Points */}
       <td className="py-3 pr-4 pl-2 text-right">
         <span
-          className={`text-[15px] font-black ${
-            isMyClub ? "text-[#c49b32]" : "text-[#f0ead8]"
-          }`}
+          className={`text-[15px] font-black ${isMyClub ? "text-[#c49b32]" : "text-[#f0ead8]"}`}
         >
           {standing.points}
         </span>
@@ -136,6 +103,7 @@ const StandingRow = ({
 };
 
 const League = () => {
+  const { t } = useTranslation();
   const [activeSeason, setActiveSeason] = useState(CURRENT_SEASON);
   const { data: seasons, isLoading: loadingSeasons } = useSeasons();
   const { data: standings, isLoading: loadingStandings } =
@@ -143,17 +111,14 @@ const League = () => {
 
   return (
     <div className="min-h-screen bg-[#0a0c10] text-[#e8e4d9]">
-      {/* Header */}
       <div className="bg-[#0d1017] border-b border-white/05 px-5 pt-8 pb-6">
         <p className="text-[11px] font-semibold tracking-[0.15em] uppercase text-[#c49b32] mb-1">
-          Prva Opštinska Liga Bijeljina Istok
+          {t("league.season")}
         </p>
         <h1 className="text-[36px] font-black text-[#f5f0e8] tracking-wide leading-none">
-          LEAGUE TABLE
+          {t("league.title")}
         </h1>
       </div>
-
-      {/* Season selector */}
       <div className="px-5 py-4 border-b border-white/05 flex gap-2 overflow-x-auto scrollbar-none">
         {loadingSeasons ? (
           <div className="h-8 w-32 bg-[#12161f] animate-pulse rounded-full" />
@@ -173,8 +138,6 @@ const League = () => {
           ))
         )}
       </div>
-
-      {/* Table */}
       <div className="px-5 py-6">
         <div className="bg-[#12161f] border border-white/07 rounded-xl overflow-hidden">
           <div className="overflow-x-auto">
@@ -188,37 +151,37 @@ const League = () => {
                   </th>
                   <th className="py-3 px-2 text-left">
                     <span className="text-[10px] font-semibold tracking-widest uppercase text-[#3a3830]">
-                      Club
+                      {t("league.club")}
                     </span>
                   </th>
                   <th className="py-3 px-2 text-center">
                     <span className="text-[10px] font-semibold tracking-widest uppercase text-[#3a3830]">
-                      P
+                      {t("league.played")}
                     </span>
                   </th>
                   <th className="py-3 px-2 text-center">
                     <span className="text-[10px] font-semibold tracking-widest uppercase text-[#3a3830]">
-                      W
+                      {t("league.won")}
                     </span>
                   </th>
                   <th className="py-3 px-2 text-center">
                     <span className="text-[10px] font-semibold tracking-widest uppercase text-[#3a3830]">
-                      D
+                      {t("league.drawn")}
                     </span>
                   </th>
                   <th className="py-3 px-2 text-center">
                     <span className="text-[10px] font-semibold tracking-widest uppercase text-[#3a3830]">
-                      L
+                      {t("league.lost")}
                     </span>
                   </th>
                   <th className="py-3 px-2 text-center hidden sm:table-cell">
                     <span className="text-[10px] font-semibold tracking-widest uppercase text-[#3a3830]">
-                      GD
+                      {t("league.gd")}
                     </span>
                   </th>
                   <th className="py-3 pr-4 pl-2 text-right">
                     <span className="text-[10px] font-semibold tracking-widest uppercase text-[#3a3830]">
-                      Pts
+                      {t("league.points")}
                     </span>
                   </th>
                 </tr>
@@ -228,9 +191,7 @@ const League = () => {
                   [...Array(10)].map((_, i) => (
                     <tr key={i} className="border-t border-white/04">
                       <td colSpan={8} className="py-2 px-4">
-                        <div className="relative overflow-hidden bg-[#0d1017] rounded h-6 w-full">
-                          <div className="absolute inset-0 -translate-x-full animate-[shimmer_1.5s_infinite] bg-gradient-to-r from-transparent via-white/05 to-transparent" />
-                        </div>
+                        <div className="bg-[#0d1017] animate-pulse rounded h-6 w-full" />
                       </td>
                     </tr>
                   ))
@@ -255,8 +216,6 @@ const League = () => {
               </tbody>
             </table>
           </div>
-
-          {/* Legend */}
           <div className="px-4 py-3 border-t border-white/05 flex items-center gap-4">
             <div className="flex items-center gap-2">
               <div className="w-1.5 h-1.5 rounded-full bg-[#c49b32]" />
@@ -264,7 +223,9 @@ const League = () => {
             </div>
             <div className="flex items-center gap-2">
               <span className="text-[10px] text-[#c49b32] font-bold">#</span>
-              <span className="text-[10px] text-[#56544e]">Top 3</span>
+              <span className="text-[10px] text-[#56544e]">
+                {t("league.top3")}
+              </span>
             </div>
           </div>
         </div>

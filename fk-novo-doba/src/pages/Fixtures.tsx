@@ -1,19 +1,14 @@
 import { useMatches } from "../hooks/useMatches";
+import { useTranslation } from "react-i18next";
 import type { Match } from "../types";
 
-// ── Skeleton ──────────────────────────────────────────────────────────
 const Skeleton = ({ className }: { className: string }) => (
-  <div
-    className={`relative overflow-hidden bg-[#12161f] rounded-xl ${className}`}
-  >
-    <div className="absolute inset-0 -translate-x-full animate-[shimmer_1.5s_infinite] bg-gradient-to-r from-transparent via-white/05 to-transparent" />
-  </div>
+  <div className={`bg-[#12161f] animate-pulse rounded-xl ${className}`} />
 );
 
-// ── Fixture row ───────────────────────────────────────────────────────
 const FixtureRow = ({ match, isNext }: { match: Match; isNext: boolean }) => {
+  const { t } = useTranslation();
   const matchDate = new Date(match.date);
-
   const day = matchDate.toLocaleDateString("en-GB", {
     weekday: "short",
     timeZone: "Europe/Sarajevo",
@@ -26,25 +21,17 @@ const FixtureRow = ({ match, isNext }: { match: Match; isNext: boolean }) => {
 
   return (
     <div
-      className={`bg-[#12161f] border rounded-xl p-4 transition-colors duration-200 ${
-        isNext
-          ? "border-[#c49b32]/40"
-          : "border-white/07 hover:border-[#c49b32]/30"
-      }`}
+      className={`bg-[#12161f] border rounded-xl p-4 transition-colors duration-200 ${isNext ? "border-[#c49b32]/40" : "border-white/07 hover:border-[#c49b32]/30"}`}
     >
-      {/* Next match badge */}
       {isNext && (
         <div className="mb-3">
           <span className="text-[9px] font-black tracking-widest uppercase bg-[#c49b32] text-[#0a0c10] px-2 py-1 rounded-full">
-            Next Match
+            {t("fixtures.nextMatch")}
           </span>
         </div>
       )}
-
-      {/* Top row — date block + opponent + home/away badge */}
       <div className="flex items-center gap-3 mb-3">
-        {/* Date block */}
-        <div className="flex-shrink-0 w-14 h-14 bg-[#0d1017] rounded-lg flex flex-col items-center justify-center border border-white/05">
+        <div className="shrink-0 w-14 h-14 bg-[#0d1017] rounded-lg flex flex-col items-center justify-center border border-white/05">
           <span className="text-[10px] font-semibold tracking-widest uppercase text-[#56544e]">
             {day}
           </span>
@@ -58,21 +45,21 @@ const FixtureRow = ({ match, isNext }: { match: Match; isNext: boolean }) => {
             })}
           </span>
         </div>
-
-        {/* Opponent + badge */}
         <div className="flex-1 min-w-0">
           <div className="flex items-center gap-2 flex-wrap mb-1">
             <span className="text-[16px] font-black text-[#f0ead8]">
               {match.homeAway === "home" ? "vs" : "@"} {match.opponent}
             </span>
             <span
-              className={`flex-shrink-0 text-[9px] font-semibold tracking-widest uppercase px-2 py-0.5 rounded border ${
+              className={`shrink-0 text-[9px] font-semibold tracking-widest uppercase px-2 py-0.5 rounded border ${
                 match.homeAway === "home"
                   ? "text-[#c49b32] border-[#c49b32]/30 bg-[#c49b32]/10"
                   : "text-[#8a8880] border-white/10 bg-white/05"
               }`}
             >
-              {match.homeAway === "home" ? "Home" : "Away"}
+              {match.homeAway === "home"
+                ? t("fixtures.home")
+                : t("fixtures.away")}
             </span>
           </div>
           <span className="text-[11px] text-[#56544e]">
@@ -80,8 +67,6 @@ const FixtureRow = ({ match, isNext }: { match: Match; isNext: boolean }) => {
           </span>
         </div>
       </div>
-
-      {/* Bottom row — time + venue */}
       <div className="flex items-center gap-2 pl-[68px]">
         <span className="text-[12px] font-semibold text-[#8a8880]">{time}</span>
         <span className="text-[#3a3830]">·</span>
@@ -91,13 +76,11 @@ const FixtureRow = ({ match, isNext }: { match: Match; isNext: boolean }) => {
   );
 };
 
-// ── Fixtures page ─────────────────────────────────────────────────────
 const Fixtures = () => {
+  const { t } = useTranslation();
   const { data: matches, isLoading } = useMatches();
-
   const upcoming = matches?.filter((m) => m.status === "upcoming") ?? [];
 
-  // Group by month
   const grouped = upcoming.reduce<Record<string, Match[]>>((acc, match) => {
     const month = new Date(match.date).toLocaleDateString("en-GB", {
       month: "long",
@@ -110,24 +93,20 @@ const Fixtures = () => {
 
   return (
     <div className="min-h-screen bg-[#0a0c10] text-[#e8e4d9]">
-      {/* Header */}
       <div className="bg-[#0d1017] border-b border-white/05 px-5 pt-8 pb-6">
         <p className="text-[11px] font-semibold tracking-[0.15em] uppercase text-[#c49b32] mb-1">
-          Season 2025/26
+          {t("fixtures.season")}
         </p>
         <h1 className="text-[36px] font-black text-[#f5f0e8] tracking-wide leading-none">
-          FIXTURES
+          {t("fixtures.title")}
         </h1>
       </div>
-
-      {/* Fixtures list grouped by month */}
       <div className="px-5 py-6 flex flex-col gap-8">
         {isLoading ? (
           [...Array(4)].map((_, i) => <Skeleton key={i} className="h-20" />)
         ) : Object.keys(grouped).length > 0 ? (
           Object.entries(grouped).map(([month, monthMatches]) => (
             <div key={month}>
-              {/* Month label */}
               <div className="flex items-center gap-3 mb-4">
                 <span className="text-[12px] font-bold tracking-[0.12em] uppercase text-[#c49b32]">
                   {month}
@@ -135,11 +114,11 @@ const Fixtures = () => {
                 <div className="flex-1 h-px bg-white/05" />
                 <span className="text-[11px] text-[#3a3830]">
                   {monthMatches.length}{" "}
-                  {monthMatches.length === 1 ? "match" : "matches"}
+                  {monthMatches.length === 1
+                    ? t("fixtures.match")
+                    : t("fixtures.matches")}
                 </span>
               </div>
-
-              {/* Matches */}
               <div className="flex flex-col gap-3">
                 {monthMatches.map((match, index) => {
                   const isNext =
@@ -153,7 +132,7 @@ const Fixtures = () => {
           ))
         ) : (
           <div className="text-[#56544e] text-sm py-12 text-center">
-            No fixtures scheduled yet.
+            {t("fixtures.noFixtures")}
           </div>
         )}
       </div>

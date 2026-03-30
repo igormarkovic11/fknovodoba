@@ -1,6 +1,7 @@
 import novaVet from "../assets/sponsors/novaVet.png";
 import lyleAndScott from "../assets/sponsors/lyleAndScott.png";
 import stecoCentar from "../assets/sponsors/stecoCentar.png";
+import { useTranslation } from "react-i18next";
 
 const sponsors = [
   {
@@ -21,6 +22,7 @@ const sponsors = [
 ];
 
 const Footer = () => {
+  const { t } = useTranslation();
   return (
     <footer className="bg-[#0d1017] border-t border-white/05 pt-8 pb-6">
       {/* Social icons */}
@@ -74,7 +76,7 @@ const Footer = () => {
       {/* Sponsors section */}
       <div className="px-5 mb-8">
         <p className="text-center text-[11px] font-bold tracking-[0.2em] uppercase text-[#3a3830] mb-6">
-          Oficijalni sponzori
+          {t("footer.sponsors")}
         </p>
         <div className="grid grid-cols-3 gap-4 max-w-lg mx-auto">
           {sponsors.map((sponsor, i) => (
@@ -102,7 +104,7 @@ const Footer = () => {
           <strong className="text-[#56544e]">FK Novo Doba Kojčinovac</strong>
         </span>
         <span className="text-[10px] text-[#c49b32]/50 tracking-widest uppercase">
-          Est. 1947
+          {t("footer.est")}
         </span>
       </div>
     </footer>

@@ -1,0 +1,87 @@
+{
+  "nav": {
+    "home": "Početna",
+    "roster": "Tim",
+    "results": "Rezultati",
+    "fixtures": "Raspored",
+    "league": "Liga",
+    "news": "Vijesti"
+  },
+  "home": {
+    "official": "Zvanična Web Stranica Kluba",
+    "founded": "Osnovan 1947. · Čardačine · Kojčinovac",
+    "nextMatch": "Sljedeća Utakmica",
+    "allFixtures": "Svi Termini →",
+    "lastResult": "Posljednji Rezultat",
+    "allResults": "Svi Rezultati →",
+    "latestNews": "Najnovije Vijesti",
+    "allNews": "Sve Vijesti →",
+    "noFixtures": "Nema zakazanih utakmica",
+    "noResults": "Još nema rezultata",
+    "noNews": "Još nema vijesti"
+  },
+  "fixtures": {
+    "title": "Raspored",
+    "season": "Sezona 2025/26",
+    "nextMatch": "Sljedeća Utakmica",
+    "home": "Domaćin",
+    "away": "Gost",
+    "match": "utakmica",
+    "matches": "utakmice",
+    "noFixtures": "Nema zakazanih utakmica"
+  },
+  "results": {
+    "title": "Rezultati",
+    "season": "Sezona 2025/26",
+    "win": "Pobjeda",
+    "draw": "Remi",
+    "loss": "Poraz",
+    "all": "Sve",
+    "noResults": "Nema rezultata"
+  },
+  "roster": {
+    "title": "Tim",
+    "season": "Sezona 2025/26",
+    "all": "Svi",
+    "staff": "Stručni Štab",
+    "coaching": "Trenerski",
+    "moreInfo": "Više Info →",
+    "noPlayers": "Nema igrača",
+    "noStaff": "Nema članova stručnog štaba"
+  },
+  "player": {
+    "backToRoster": "← Nazad na Tim",
+    "seasonStats": "Statistike Sezone",
+    "goals": "Golovi",
+    "assists": "Asistencije",
+    "jersey": "Dres",
+    "age": "Godine",
+    "about": "O Igraču",
+    "notFound": "Igrač nije pronađen"
+  },
+  "league": {
+    "title": "Tabela",
+    "season": "Prva Opštinska Liga Bijeljina Istok",
+    "club": "Klub",
+    "points": "Bod",
+    "played": "U",
+    "won": "P",
+    "drawn": "R",
+    "lost": "I",
+    "gd": "GR",
+    "top3": "Top 3"
+  },
+  "news": {
+    "title": "Vijesti",
+    "readMore": "Pročitaj Više →",
+    "backToNews": "← Nazad na Vijesti",
+    "moreNews": "Više Vijesti",
+    "about": "Zvanični Klub",
+    "noNews": "Nema vijesti",
+    "notFound": "Članak nije pronađen"
+  },
+  "footer": {
+    "sponsors": "Oficijalni sponzori",
+    "est": "Osn. 1947"
+  }
+}
