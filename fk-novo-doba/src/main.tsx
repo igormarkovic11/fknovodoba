@@ -77,6 +77,12 @@ const prefetchData = async () => {
 
 // Prefetch then render
 prefetchData().finally(() => {
+  // Register service worker
+  if ("serviceWorker" in navigator) {
+    window.addEventListener("load", () => {
+      navigator.serviceWorker.register("/sw.js");
+    });
+  }
   createRoot(document.getElementById("root")!).render(
     <StrictMode>
       <QueryClientProvider client={queryClient}>
