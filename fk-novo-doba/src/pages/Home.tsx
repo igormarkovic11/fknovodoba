@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { useLastResult, useNextMatch } from "../hooks/useMatches";
 import { useNews } from "../hooks/useNews";
-import fkNovoDoba from "../assets/logos/fk-novo-doba.png";
+import fkNovoDoba from "../assets/logos/fk-novo-doba.webp";
 import { getTeamLogo } from "../utils/teamLogos";
 import type { Match, NewsPost } from "../types";
 import { useTranslation } from "react-i18next";
@@ -215,12 +215,15 @@ const Home = () => {
               className="hidden md:block w-px bg-white/05 mx-8"
               style={{ alignSelf: "stretch" }}
             />
+            {/* Right — logo */}
             <div className="hidden md:flex shrink-0 items-center justify-center w-56">
               <img
                 src={fkNovoDoba}
                 alt="FK Novo Doba"
                 className="w-48 h-48 object-contain"
                 style={{ mixBlendMode: "lighten" }}
+                fetchPriority="high"
+                loading="eager"
               />
             </div>
           </div>
