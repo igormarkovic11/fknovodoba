@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import logo from "../assets/logos/fk-novo-doba.png";
+import logo from "../assets/logos/fk-novo-doba.webp";
 import GB from "country-flag-icons/react/3x2/GB";
 import RS from "country-flag-icons/react/3x2/RS";
 
@@ -44,7 +44,7 @@ const Navbar = () => {
               FK Novo Doba
             </div>
             <div className="text-[10px] text-[#c49b32] tracking-widest uppercase">
-              Kojčinovac · est. 1947
+              Kojčinovac · {t("footer.est")}
             </div>
           </div>
         </Link>

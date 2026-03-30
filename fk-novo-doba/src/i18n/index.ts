@@ -20,6 +20,7 @@ i18n
       order: ["localStorage", "navigator"],
       caches: ["localStorage"],
     },
+    initAsync: false, // ← forces synchronous init
   });
 
 export default i18n;
