@@ -1,9 +1,8 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import { usePlayers, useStaff } from "../hooks/usePlayers";
 import type { Player, Staff } from "../types";
-
-const positions = ["All", "Goalkeeper", "Defender", "Midfielder", "Forward"];
 
 const positionColor: Record<string, string> = {
   Goalkeeper: "text-[#f59e0b] border-[#f59e0b]/40 bg-[#f59e0b]/10",
@@ -12,22 +11,16 @@ const positionColor: Record<string, string> = {
   Forward: "text-[#ef4444] border-[#ef4444]/40 bg-[#ef4444]/10",
 };
 
-// ── Skeleton ─────────────────────────────────────────────────────────
 const Skeleton = ({ className }: { className: string }) => (
-  <div
-    className={`relative overflow-hidden bg-[#12161f] rounded-xl ${className}`}
-  >
-    <div className="absolute inset-0 -translate-x-full animate-[shimmer_1.5s_infinite] bg-gradient-to-r from-transparent via-white/05 to-transparent" />
-  </div>
+  <div className={`bg-[#12161f] animate-pulse rounded-xl ${className}`} />
 );
 
-// ── Player card ───────────────────────────────────────────────────────
 const PlayerCard = ({ player }: { player: Player }) => {
   const navigate = useNavigate();
+  const { t } = useTranslation();
 
   return (
     <div className="bg-[#12161f] border border-white/07 rounded-xl overflow-hidden flex flex-col hover:border-[#c49b32]/40 transition-colors duration-200">
-      {/* Photo area */}
       <div className="relative bg-[#0d1017] aspect-square flex items-center justify-center overflow-hidden">
         {player.photoUrl ? (
           <img
@@ -36,7 +29,6 @@ const PlayerCard = ({ player }: { player: Player }) => {
             className="w-full h-full object-cover object-top"
           />
         ) : (
-          /* Placeholder silhouette */
           <div className="flex flex-col items-center justify-center w-full h-full">
             <div className="w-16 h-16 rounded-full bg-[#1a1f2e] border-2 border-white/10 flex items-center justify-center mb-2">
               <span className="text-[28px] font-black text-[#2a2f3e]">
@@ -46,44 +38,34 @@ const PlayerCard = ({ player }: { player: Player }) => {
             <div className="w-24 h-20 rounded-t-full bg-[#1a1f2e] border-2 border-b-0 border-white/10" />
           </div>
         )}
-
-        {/* Jersey number badge */}
         <div className="absolute top-3 left-3 w-8 h-8 rounded-full bg-[#c49b32] flex items-center justify-center">
           <span className="text-[12px] font-black text-[#0a0c10]">
             {player.number}
           </span>
         </div>
       </div>
-
-      {/* Info */}
       <div className="p-4 flex flex-col gap-2 flex-1">
-        <div>
-          <p className="text-[15px] font-bold text-[#f0ead8] leading-tight">
-            {player.name}
-          </p>
-        </div>
-
+        <p className="text-[15px] font-bold text-[#f0ead8] leading-tight">
+          {player.name}
+        </p>
         <span
           className={`self-start text-[10px] font-semibold tracking-widest uppercase px-2 py-1 rounded border ${positionColor[player.position]}`}
         >
           {player.position}
         </span>
-
         <button
           onClick={() => navigate(`/roster/${player.id}`)}
           className="mt-auto w-full py-2 rounded-lg border border-[#c49b32]/30 text-[#c49b32] text-[12px] font-semibold tracking-widest uppercase hover:bg-[#c49b32]/10 transition-colors duration-200 cursor-pointer bg-transparent"
         >
-          More Info →
+          {t("roster.moreInfo")}
         </button>
       </div>
     </div>
   );
 };
 
-// ── Staff card ────────────────────────────────────────────────────────
 const StaffCard = ({ member }: { member: Staff }) => (
   <div className="bg-[#12161f] border border-white/07 rounded-xl overflow-hidden flex flex-col hover:border-[#c49b32]/40 transition-colors duration-200">
-    {/* Photo area */}
     <div className="relative bg-[#0d1017] aspect-square flex items-center justify-center overflow-hidden">
       {member.photoUrl ? (
         <img
@@ -102,8 +84,6 @@ const StaffCard = ({ member }: { member: Staff }) => (
         </div>
       )}
     </div>
-
-    {/* Info */}
     <div className="p-4 flex flex-col gap-2">
       <p className="text-[15px] font-bold text-[#f0ead8] leading-tight">
         {member.name}
@@ -115,29 +95,33 @@ const StaffCard = ({ member }: { member: Staff }) => (
   </div>
 );
 
-// ── Roster page ───────────────────────────────────────────────────────
 const Roster = () => {
+  const { t } = useTranslation();
   const [activePosition, setActivePosition] = useState("All");
   const { data: players, isLoading: loadingPlayers } = usePlayers();
   const { data: staff, isLoading: loadingStaff } = useStaff();
 
+  const positions = [
+    t("roster.all"),
+    "Goalkeeper",
+    "Defender",
+    "Midfielder",
+    "Forward",
+  ];
   const filtered = players?.filter((p) =>
-    activePosition === "All" ? true : p.position === activePosition,
+    activePosition === t("roster.all") ? true : p.position === activePosition,
   );
 
   return (
     <div className="min-h-screen bg-[#0a0c10] text-[#e8e4d9]">
-      {/* Header */}
       <div className="bg-[#0d1017] border-b border-white/05 px-5 pt-8 pb-6">
         <p className="text-[11px] font-semibold tracking-[0.15em] uppercase text-[#c49b32] mb-1">
-          Season 2025/26
+          {t("roster.season")}
         </p>
         <h1 className="text-[36px] font-black text-[#f5f0e8] tracking-wide leading-none">
-          SQUAD
+          {t("roster.title")}
         </h1>
       </div>
-
-      {/* Position filter */}
       <div className="px-5 py-4 border-b border-white/05 flex gap-2 overflow-x-auto scrollbar-none">
         {positions.map((pos) => (
           <button
@@ -153,8 +137,6 @@ const Roster = () => {
           </button>
         ))}
       </div>
-
-      {/* Players grid */}
       <div className="px-5 py-6">
         {loadingPlayers ? (
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
@@ -170,22 +152,19 @@ const Roster = () => {
           </div>
         ) : (
           <div className="text-[#56544e] text-sm py-12 text-center">
-            No players found.
+            {t("roster.noPlayers")}
           </div>
         )}
       </div>
-
-      {/* Staff section */}
       <div className="px-5 pb-10">
         <div className="border-t border-white/05 pt-6 mb-5">
           <p className="text-[11px] font-semibold tracking-[0.15em] uppercase text-[#c49b32] mb-1">
-            Coaching
+            {t("roster.coaching")}
           </p>
           <h2 className="text-[28px] font-black text-[#f5f0e8] tracking-wide leading-none">
-            STAFF
+            {t("roster.staff")}
           </h2>
         </div>
-
         {loadingStaff ? (
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
             {[...Array(3)].map((_, i) => (
@@ -200,7 +179,7 @@ const Roster = () => {
           </div>
         ) : (
           <div className="text-[#56544e] text-sm py-8 text-center">
-            No staff listed yet.
+            {t("roster.noStaff")}
           </div>
         )}
       </div>

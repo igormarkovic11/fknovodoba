@@ -1,4 +1,5 @@
 import { useParams, useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import { useNewsPost } from "../hooks/useNews";
 
 const tagColors: Record<string, string> = {
@@ -10,14 +11,11 @@ const tagColors: Record<string, string> = {
 };
 
 const Skeleton = ({ className }: { className: string }) => (
-  <div
-    className={`relative overflow-hidden bg-[#12161f] rounded-xl ${className}`}
-  >
-    <div className="absolute inset-0 -translate-x-full animate-[shimmer_1.5s_infinite] bg-gradient-to-r from-transparent via-white/05 to-transparent" />
-  </div>
+  <div className={`bg-[#12161f] animate-pulse rounded-xl ${className}`} />
 );
 
 const NewsArticle = () => {
+  const { t } = useTranslation();
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const { data: post, isLoading } = useNewsPost(id ?? "");
@@ -48,12 +46,12 @@ const NewsArticle = () => {
   if (!post) {
     return (
       <div className="min-h-screen bg-[#0a0c10] flex flex-col items-center justify-center text-[#56544e]">
-        <p className="text-[18px] font-bold mb-4">Article not found.</p>
+        <p className="text-[18px] font-bold mb-4">{t("news.notFound")}</p>
         <button
           onClick={() => navigate("/news")}
           className="text-[#c49b32] text-sm uppercase tracking-widest border border-[#c49b32]/30 px-4 py-2 rounded-lg hover:bg-[#c49b32]/10 transition-colors cursor-pointer bg-transparent"
         >
-          ← Back to News
+          {t("news.backToNews")}
         </button>
       </div>
     );
@@ -61,17 +59,14 @@ const NewsArticle = () => {
 
   return (
     <div className="min-h-screen bg-[#0a0c10] text-[#e8e4d9]">
-      {/* Back button */}
       <div className="px-5 pt-5">
         <button
           onClick={() => navigate("/news")}
           className="text-[11px] font-semibold tracking-widest uppercase text-[#8a8880] hover:text-[#c49b32] transition-colors duration-200 cursor-pointer bg-transparent border-none p-0"
         >
-          ← Back to News
+          {t("news.backToNews")}
         </button>
       </div>
-
-      {/* Cover image */}
       <div className="mx-5 mt-4 rounded-xl overflow-hidden bg-[#0d1017] h-56 md:h-72 flex items-center justify-center">
         {post.coverImage ? (
           <img
@@ -90,10 +85,7 @@ const NewsArticle = () => {
           </div>
         )}
       </div>
-
-      {/* Article content */}
       <div className="px-5 mt-6 pb-12">
-        {/* Tag + date */}
         <div className="flex items-center gap-3 mb-4">
           <span
             className={`text-[10px] font-semibold tracking-widest uppercase px-2 py-1 rounded border ${tagColors[post.tag] ?? "text-[#8a8880] bg-white/05 border-white/10"}`}
@@ -102,28 +94,18 @@ const NewsArticle = () => {
           </span>
           <span className="text-[12px] text-[#56544e]">{date}</span>
         </div>
-
-        {/* Title */}
         <h1 className="text-[28px] md:text-[36px] font-black text-[#f5f0e8] leading-tight tracking-wide mb-4">
           {post.title}
         </h1>
-
-        {/* Excerpt */}
         {post.excerpt && (
           <p className="text-[16px] text-[#8a8880] leading-relaxed font-semibold mb-6 border-l-4 border-[#c49b32]/40 pl-4">
             {post.excerpt}
           </p>
         )}
-
-        {/* Divider */}
         <div className="h-px bg-white/05 mb-6" />
-
-        {/* Body */}
         <div className="text-[15px] text-[#8a8880] leading-relaxed whitespace-pre-line">
           {post.body}
         </div>
-
-        {/* Footer */}
         <div className="mt-10 pt-6 border-t border-white/05 flex items-center justify-between">
           <div className="flex items-center gap-3">
             <div className="w-8 h-8 rounded-full bg-gradient-to-br from-[#cc2222] to-[#1a2e8a] border border-[#c49b32]/50 flex items-center justify-center text-white text-[10px] font-bold">
@@ -133,14 +115,16 @@ const NewsArticle = () => {
               <div className="text-[13px] font-semibold text-[#f0ead8]">
                 FK Novo Doba
               </div>
-              <div className="text-[11px] text-[#56544e]">Official Club</div>
+              <div className="text-[11px] text-[#56544e]">
+                {t("news.about")}
+              </div>
             </div>
           </div>
           <button
             onClick={() => navigate("/news")}
-            className="text-[11px] font-semibold tracking-widest uppercase text-[#c49b32] border border-[#c49b32]/30 px-4 py-2 rounded-lg hover:bg-[#c49b32]/10 transition-colors cursor-pointer bg-transparent"
+            className="text-[11px] font-semibold tracking-widests uppercase text-[#c49b32] border border-[#c49b32]/30 px-4 py-2 rounded-lg hover:bg-[#c49b32]/10 transition-colors cursor-pointer bg-transparent"
           >
-            More News
+            {t("news.moreNews")}
           </button>
         </div>
       </div>

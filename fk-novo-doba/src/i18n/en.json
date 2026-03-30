@@ -1,0 +1,87 @@
+{
+  "nav": {
+    "home": "Home",
+    "roster": "Roster",
+    "results": "Results",
+    "fixtures": "Fixtures",
+    "league": "League",
+    "news": "News"
+  },
+  "home": {
+    "official": "Official Club Website",
+    "founded": "Founded 1947 · Čardačine · Kojčinovac",
+    "nextMatch": "Next Match",
+    "allFixtures": "All Fixtures →",
+    "lastResult": "Last Result",
+    "allResults": "All Results →",
+    "latestNews": "Latest News",
+    "allNews": "All News →",
+    "noFixtures": "No upcoming matches scheduled",
+    "noResults": "No results yet",
+    "noNews": "No news yet"
+  },
+  "fixtures": {
+    "title": "Fixtures",
+    "season": "Season 2025/26",
+    "nextMatch": "Next Match",
+    "home": "Home",
+    "away": "Away",
+    "match": "match",
+    "matches": "matches",
+    "noFixtures": "No fixtures scheduled yet"
+  },
+  "results": {
+    "title": "Results",
+    "season": "Season 2025/26",
+    "win": "Win",
+    "draw": "Draw",
+    "loss": "Loss",
+    "all": "All",
+    "noResults": "No results found"
+  },
+  "roster": {
+    "title": "Squad",
+    "season": "Season 2025/26",
+    "all": "All",
+    "staff": "Staff",
+    "coaching": "Coaching",
+    "moreInfo": "More Info →",
+    "noPlayers": "No players found",
+    "noStaff": "No staff listed yet"
+  },
+  "player": {
+    "backToRoster": "← Back to Roster",
+    "seasonStats": "Season Stats",
+    "goals": "Goals",
+    "assists": "Assists",
+    "jersey": "Jersey",
+    "age": "Age",
+    "about": "About",
+    "notFound": "Player not found"
+  },
+  "league": {
+    "title": "League Table",
+    "season": "Prva Opštinska Liga Bijeljina Istok",
+    "club": "Club",
+    "points": "Pts",
+    "played": "P",
+    "won": "W",
+    "drawn": "D",
+    "lost": "L",
+    "gd": "GD",
+    "top3": "Top 3"
+  },
+  "news": {
+    "title": "News",
+    "readMore": "Read More →",
+    "backToNews": "← Back to News",
+    "moreNews": "More News",
+    "about": "Official Club",
+    "noNews": "No news found",
+    "notFound": "Article not found"
+  },
+  "footer": {
+    "sponsors": "Official Sponsors",
+    "est": "Est. 1947"
+  }
+}

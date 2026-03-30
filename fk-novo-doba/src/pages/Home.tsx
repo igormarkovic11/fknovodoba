@@ -4,6 +4,7 @@ import { useNews } from "../hooks/useNews";
 import fkNovoDoba from "../assets/logos/fk-novo-doba.png";
 import { getTeamLogo } from "../utils/teamLogos";
 import type { Match, NewsPost } from "../types";
+import { useTranslation } from "react-i18next";
 
 const NextMatchCard = ({ match }: { match: Match }) => {
   const date = new Date(match.date);
@@ -27,7 +28,6 @@ const NextMatchCard = ({ match }: { match: Match }) => {
         Next Match · {match.competition}
       </div>
       <div className="flex items-center gap-3 mb-3">
-        {/* Home — FK Novo Doba */}
         <div className="flex-1 flex items-center gap-2">
           <img
             src={fkNovoDoba}
@@ -42,7 +42,6 @@ const NextMatchCard = ({ match }: { match: Match }) => {
         <div className="text-[16px] font-black text-[#3a3830] tracking-widest px-2">
           VS
         </div>
-        {/* Away — opponent */}
         <div className="flex-1 flex items-center justify-end gap-2">
           <span className="text-[14px] font-black text-[#f0ead8] tracking-wide text-right">
             {match.opponent}
@@ -104,7 +103,6 @@ const ResultCard = ({ match }: { match: Match }) => {
         {resultLabel} · {match.competition}
       </span>
       <div className="flex items-center gap-4 mb-3">
-        {/* Home */}
         <div className="flex flex-col items-center gap-2 w-24">
           <img
             src={fkNovoDoba}
@@ -116,13 +114,11 @@ const ResultCard = ({ match }: { match: Match }) => {
             FK Novo Doba
           </span>
         </div>
-        {/* Score */}
         <div className="text-[44px] font-black text-[#f5f0e8] leading-none tracking-wider">
           {gf}
           <span className="text-[#3a3830] text-[30px] mx-1">:</span>
           {ga}
         </div>
-        {/* Away */}
         <div className="flex flex-col items-center gap-2 w-24">
           {opponentLogo ? (
             <img
@@ -154,6 +150,7 @@ const ResultCard = ({ match }: { match: Match }) => {
     </div>
   );
 };
+
 const NewsCard = ({ post }: { post: NewsPost }) => {
   const date = new Date(post.date).toLocaleDateString("en-GB", {
     day: "numeric",
@@ -182,14 +179,11 @@ const NewsCard = ({ post }: { post: NewsPost }) => {
 };
 
 const Skeleton = ({ className }: { className: string }) => (
-  <div
-    className={`relative overflow-hidden bg-[#12161f] rounded-xl ${className}`}
-  >
-    <div className="absolute inset-0 -translate-x-full animate-[shimmer_1.5s_infinite] bg-gradient-to-r from-transparent via-white/05 to-transparent" />
-  </div>
+  <div className={`bg-[#12161f] animate-pulse rounded-xl ${className}`} />
 );
 
 const Home = () => {
+  const { t } = useTranslation();
   const { data: nextMatch, isLoading: loadingNext } = useNextMatch();
   const { data: lastResult, isLoading: loadingResult } = useLastResult();
   const { data: news, isLoading: loadingNews } = useNews(4);
@@ -198,18 +192,12 @@ const Home = () => {
     <div className="min-h-screen bg-[#0a0c10] text-[#e8e4d9]">
       {/* ── HERO ── */}
       <div className="relative bg-[#0d1017] border-b border-white/05 overflow-hidden">
-        {/* Background glow effects */}
-        {/* <div className="absolute top-0 right-0 w-96 h-96 rounded-full bg-[#1a2e8a]/15 blur-3xl pointer-events-none" />
-        <div className="absolute bottom-0 left-0 w-64 h-64 rounded-full bg-[#cc2222]/10 blur-3xl pointer-events-none" />
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-72 h-72 rounded-full bg-[#c49b32]/05 blur-3xl pointer-events-none" /> */}
-
         <div className="relative pt-10 pb-8 md:min-h-[320px]">
           {/* Top row — text + divider + logo */}
           <div className="md:flex md:items-start md:gap-0 mb-6 px-5">
-            {/* Left — text only */}
             <div className="flex-1">
               <p className="text-[11px] font-bold tracking-[0.2em] uppercase text-[#c49b32] mb-3">
-                Official Club Website
+                {t("home.official")}
               </p>
               <h1 className="font-black text-[#f5f0e8] leading-none tracking-wide mb-2">
                 <span className="block text-[58px] md:text-[72px]">
@@ -220,17 +208,13 @@ const Home = () => {
                 </span>
               </h1>
               <p className="text-[12px] text-[#3a3830] tracking-widest">
-                Founded 1947 · Čardačine · Kojčinovac
+                {t("home.founded")}
               </p>
             </div>
-
-            {/* Divider */}
             <div
               className="hidden md:block w-px bg-white/05 mx-8"
               style={{ alignSelf: "stretch" }}
             />
-
-            {/* Right — logo */}
             <div className="hidden md:flex shrink-0 items-center justify-center w-56">
               <img
                 src={fkNovoDoba}
@@ -241,17 +225,17 @@ const Home = () => {
             </div>
           </div>
 
-          {/* Bottom — next match, full width */}
+          {/* Next match */}
           <div className="border-t border-white/05 pt-6 mt-6 px-5">
             <div className="flex items-baseline justify-between mb-3">
               <h2 className="text-[13px] font-black tracking-[0.12em] uppercase text-[#f0ead8]">
-                Next Match
+                {t("home.nextMatch")}
               </h2>
               <Link
                 to="/fixtures"
                 className="text-[11px] tracking-widest uppercase text-[#c49b32] opacity-70 hover:opacity-100 no-underline transition-opacity"
               >
-                All Fixtures →
+                {t("home.allFixtures")}
               </Link>
             </div>
             {loadingNext ? (
@@ -260,7 +244,7 @@ const Home = () => {
               <NextMatchCard match={nextMatch} />
             ) : (
               <div className="bg-white/03 border border-dashed border-white/10 rounded-xl p-4 text-[#3a3830] text-[13px] text-center">
-                No upcoming matches scheduled
+                {t("home.noFixtures")}
               </div>
             )}
           </div>
@@ -271,13 +255,13 @@ const Home = () => {
       <div className="px-5 py-6 border-b border-white/05">
         <div className="flex items-baseline justify-between mb-4">
           <h2 className="text-[13px] font-black tracking-[0.12em] uppercase text-[#f0ead8]">
-            Last Result
+            {t("home.lastResult")}
           </h2>
           <Link
             to="/results"
             className="text-[11px] tracking-widest uppercase text-[#c49b32] opacity-70 hover:opacity-100 no-underline transition-opacity"
           >
-            All Results →
+            {t("home.allResults")}
           </Link>
         </div>
         {loadingResult ? (
@@ -286,7 +270,7 @@ const Home = () => {
           <ResultCard match={lastResult} />
         ) : (
           <div className="bg-white/03 border border-dashed border-white/10 rounded-xl p-6 text-[#3a3830] text-[13px] text-center">
-            No results yet
+            {t("home.noResults")}
           </div>
         )}
       </div>
@@ -295,13 +279,13 @@ const Home = () => {
       <div className="px-5 py-6">
         <div className="flex items-baseline justify-between mb-4">
           <h2 className="text-[13px] font-black tracking-[0.12em] uppercase text-[#f0ead8]">
-            Latest News
+            {t("home.latestNews")}
           </h2>
           <Link
             to="/news"
             className="text-[11px] tracking-widest uppercase text-[#c49b32] opacity-70 hover:opacity-100 no-underline transition-opacity"
           >
-            All News →
+            {t("home.allNews")}
           </Link>
         </div>
         {loadingNews ? (
@@ -318,7 +302,7 @@ const Home = () => {
           </div>
         ) : (
           <div className="bg-white/03 border border-dashed border-white/10 rounded-xl p-6 text-[#3a3830] text-[13px] text-center">
-            No news yet
+            {t("home.noNews")}
           </div>
         )}
       </div>
