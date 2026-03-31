@@ -79,7 +79,9 @@ const FixtureRow = ({ match, isNext }: { match: Match; isNext: boolean }) => {
 const Fixtures = () => {
   const { t } = useTranslation();
   const { data: matches, isLoading } = useMatches();
-  const upcoming = matches?.filter((m) => m.status === "upcoming") ?? [];
+  const upcoming = (matches?.filter((m) => m.status === "upcoming") ?? []).sort(
+    (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime(),
+  );
 
   const grouped = upcoming.reduce<Record<string, Match[]>>((acc, match) => {
     const month = new Date(match.date).toLocaleDateString("en-GB", {
