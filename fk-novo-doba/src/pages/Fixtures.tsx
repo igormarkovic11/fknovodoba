@@ -7,13 +7,14 @@ const Skeleton = ({ className }: { className: string }) => (
 );
 
 const FixtureRow = ({ match, isNext }: { match: Match; isNext: boolean }) => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const matchDate = new Date(match.date);
-  const day = matchDate.toLocaleDateString("en-GB", {
+  const locale = i18n.language === "sr" ? "sr-Latn-RS" : "en-GB";
+  const day = matchDate.toLocaleDateString(locale, {
     weekday: "short",
     timeZone: "Europe/Sarajevo",
   });
-  const time = matchDate.toLocaleTimeString("en-GB", {
+  const time = matchDate.toLocaleTimeString(locale, {
     hour: "2-digit",
     minute: "2-digit",
     timeZone: "Europe/Sarajevo",
@@ -39,7 +40,7 @@ const FixtureRow = ({ match, isNext }: { match: Match; isNext: boolean }) => {
             {matchDate.getDate()}
           </span>
           <span className="text-[10px] font-semibold text-[#56544e]">
-            {matchDate.toLocaleDateString("en-GB", {
+            {matchDate.toLocaleDateString(locale, {
               month: "short",
               timeZone: "Europe/Sarajevo",
             })}
@@ -77,14 +78,15 @@ const FixtureRow = ({ match, isNext }: { match: Match; isNext: boolean }) => {
 };
 
 const Fixtures = () => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const { data: matches, isLoading } = useMatches();
+  const locale = i18n.language === "sr" ? "sr-Latn-RS" : "en-GB";
   const upcoming = (matches?.filter((m) => m.status === "upcoming") ?? []).sort(
     (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime(),
   );
 
   const grouped = upcoming.reduce<Record<string, Match[]>>((acc, match) => {
-    const month = new Date(match.date).toLocaleDateString("en-GB", {
+    const month = new Date(match.date).toLocaleDateString(locale, {
       month: "long",
       year: "numeric",
     });

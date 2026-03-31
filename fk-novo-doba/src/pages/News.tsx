@@ -4,14 +4,6 @@ import { useTranslation } from "react-i18next";
 import { useNews } from "../hooks/useNews";
 import type { NewsPost } from "../types";
 
-type Tag =
-  | "All"
-  | "Match Report"
-  | "Transfer"
-  | "Club News"
-  | "Academy"
-  | "Interview";
-
 const tagColors: Record<string, string> = {
   "Match Report": "text-[#3b82f6] bg-[#3b82f6]/10 border-[#3b82f6]/30",
   Transfer: "text-[#10b981] bg-[#10b981]/10 border-[#10b981]/30",
@@ -20,23 +12,27 @@ const tagColors: Record<string, string> = {
   Interview: "text-[#ef4444] bg-[#ef4444]/10 border-[#ef4444]/30",
 };
 
-const tags: Tag[] = [
+const tagKeys = [
   "All",
   "Match Report",
   "Transfer",
   "Club News",
   "Academy",
   "Interview",
-];
+] as const;
 
 const Skeleton = ({ className }: { className: string }) => (
   <div className={`bg-[#12161f] animate-pulse rounded-xl ${className}`} />
 );
 
+type TagKey = (typeof tagKeys)[number];
+
 const NewsCard = ({ post }: { post: NewsPost }) => {
   const navigate = useNavigate();
-  const { t } = useTranslation();
-  const date = new Date(post.date).toLocaleDateString("en-GB", {
+  const { t, i18n } = useTranslation();
+
+  const locale = i18n.language === "sr" ? "sr-RS" : "en-GB";
+  const date = new Date(post.date).toLocaleDateString(locale, {
     day: "numeric",
     month: "short",
     year: "numeric",
@@ -68,7 +64,7 @@ const NewsCard = ({ post }: { post: NewsPost }) => {
           <span
             className={`text-[10px] font-semibold tracking-widest uppercase px-2 py-1 rounded border ${tagColors[post.tag] ?? "text-[#8a8880] bg-white/05 border-white/10"}`}
           >
-            {post.tag}
+            {t(`news.tags.${post.tag}`)}
           </span>
           <span className="text-[11px] text-[#56544e]">{date}</span>
         </div>
@@ -93,8 +89,9 @@ const NewsCard = ({ post }: { post: NewsPost }) => {
 
 const News = () => {
   const { t } = useTranslation();
-  const [activeTag, setActiveTag] = useState<Tag>("All");
+  const [activeTag, setActiveTag] = useState<TagKey>("All");
   const { data: news, isLoading } = useNews(50);
+
   const filtered = news?.filter((post) =>
     activeTag === "All" ? true : post.tag === activeTag,
   );
@@ -110,7 +107,7 @@ const News = () => {
         </h1>
       </div>
       <div className="px-5 py-4 border-b border-white/05 flex gap-2 overflow-x-auto scrollbar-none">
-        {tags.map((tag) => (
+        {tagKeys.map((tag) => (
           <button
             key={tag}
             onClick={() => setActiveTag(tag)}

@@ -7,15 +7,19 @@ import type { Match, NewsPost } from "../types";
 import { useTranslation } from "react-i18next";
 
 const NextMatchCard = ({ match }: { match: Match }) => {
+  const { t, i18n } = useTranslation();
+  // Force Serbian Latin locale
+  const locale = i18n.language === "sr" ? "sr-Latn-RS" : "en-GB";
+
   const date = new Date(match.date);
-  const formatted = date.toLocaleDateString("en-GB", {
+  const formatted = date.toLocaleDateString(locale, {
     weekday: "short",
     day: "numeric",
     month: "short",
     year: "numeric",
     timeZone: "Europe/Sarajevo",
   });
-  const time = date.toLocaleTimeString("en-GB", {
+  const time = date.toLocaleTimeString(locale, {
     hour: "2-digit",
     minute: "2-digit",
     timeZone: "Europe/Sarajevo",
@@ -25,7 +29,7 @@ const NextMatchCard = ({ match }: { match: Match }) => {
   return (
     <div className="bg-white/05 backdrop-blur-sm border border-[#c49b32]/30 rounded-xl p-4">
       <div className="text-[10px] font-bold tracking-[0.15em] uppercase text-[#c49b32] mb-4">
-        Next Match · {match.competition}
+        {t("home.nextMatch")} · {match.competition}
       </div>
       <div className="flex items-center gap-3 mb-3">
         <div className="flex-1 flex items-center gap-2">
@@ -68,26 +72,36 @@ const NextMatchCard = ({ match }: { match: Match }) => {
         </div>
       </div>
       <div className="flex flex-wrap gap-3 text-[11px] text-[#56544e] border-t border-white/05 pt-3 mt-1">
-        <span>{formatted}</span>
+        <span className="capitalize">{formatted}</span>
         <span className="text-[#8a8880]">{time}</span>
         <span className="text-[#8a8880]">{match.venue}</span>
       </div>
     </div>
   );
 };
-
 const ResultCard = ({ match }: { match: Match }) => {
+  const { t, i18n } = useTranslation();
+  const locale = i18n.language === "sr" ? "sr-Latn-RS" : "en-GB";
+
   const gf = match.goalsFor ?? 0;
   const ga = match.goalsAgainst ?? 0;
   const isWin = gf > ga;
   const isDraw = gf === ga;
-  const resultLabel = isWin ? "WIN" : isDraw ? "DRAW" : "LOSS";
+
+  // Translate Result Label (WIN/DRAW/LOSS)
+  const resultLabel = isWin
+    ? t("results.win")
+    : isDraw
+      ? t("results.draw")
+      : t("results.loss");
+
   const resultColor = isWin
     ? "bg-green-900/30 text-green-400"
     : isDraw
       ? "bg-blue-900/30 text-blue-400"
       : "bg-red-900/30 text-red-400";
-  const date = new Date(match.date).toLocaleDateString("en-GB", {
+
+  const date = new Date(match.date).toLocaleDateString(locale, {
     day: "numeric",
     month: "short",
     year: "numeric",
@@ -144,25 +158,29 @@ const ResultCard = ({ match }: { match: Match }) => {
           </span>
         </div>
       </div>
-      <div className="text-[11px] text-[#56544e]">
+      <div className="text-[11px] text-[#56544e] capitalize">
         {date} · {match.venue}
       </div>
     </div>
   );
 };
-
 const NewsCard = ({ post }: { post: NewsPost }) => {
-  const date = new Date(post.date).toLocaleDateString("en-GB", {
+  const { t, i18n } = useTranslation();
+  const locale = i18n.language === "sr" ? "sr-Latn-RS" : "en-GB";
+
+  const date = new Date(post.date).toLocaleDateString(locale, {
     day: "numeric",
     month: "short",
     year: "numeric",
     timeZone: "Europe/Sarajevo",
   });
+
   return (
     <Link to={`/news/${post.id}`} className="no-underline">
       <div className="bg-[#12161f] border border-white/07 rounded-xl p-4 cursor-pointer hover:border-[#c49b32]/35 transition-colors duration-200 h-full">
         <div className="text-[10px] font-bold tracking-[0.1em] uppercase text-[#cc2222] mb-2">
-          {post.tag}
+          {/* Translate Tag */}
+          {t(`news.tags.${post.tag}`)}
         </div>
         <div className="text-[14px] font-semibold text-[#d8d4c8] leading-snug mb-3">
           {post.title}
@@ -172,7 +190,7 @@ const NewsCard = ({ post }: { post: NewsPost }) => {
             {post.excerpt}
           </p>
         )}
-        <div className="text-[10px] text-[#3a3830]">{date}</div>
+        <div className="text-[10px] text-[#3a3830] capitalize">{date}</div>
       </div>
     </Link>
   );

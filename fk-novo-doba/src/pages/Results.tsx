@@ -24,11 +24,12 @@ const Skeleton = ({ className }: { className: string }) => (
 );
 
 const ResultRow = ({ match }: { match: Match }) => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+  const locale = i18n.language === "sr" ? "sr-Latn-RS" : "en-GB";
   const result = getResult(match);
   const gf = match.goalsFor ?? 0;
   const ga = match.goalsAgainst ?? 0;
-  const date = new Date(match.date).toLocaleDateString("en-GB", {
+  const date = new Date(match.date).toLocaleDateString(locale, {
     day: "numeric",
     month: "short",
     year: "numeric",
