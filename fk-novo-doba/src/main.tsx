@@ -27,53 +27,50 @@ const queryClient = new QueryClient({
 
 // Prefetch critical data before app renders
 const prefetchData = async () => {
-  // Next match
-  await queryClient.prefetchQuery({
-    queryKey: ["nextMatch"],
-    queryFn: async () => {
-      const q = query(
-        collection(db, "matches"),
-        where("status", "==", "upcoming"),
-        orderBy("date", "asc"),
-        limit(1),
-      );
-      const snapshot = await getDocs(q);
-      if (snapshot.empty) return null;
-      const doc = snapshot.docs[0];
-      return { id: doc.id, ...doc.data() };
-    },
-  });
-
-  // Last result
-  await queryClient.prefetchQuery({
-    queryKey: ["lastResult"],
-    queryFn: async () => {
-      const q = query(
-        collection(db, "matches"),
-        where("status", "==", "played"),
-        orderBy("date", "desc"),
-        limit(1),
-      );
-      const snapshot = await getDocs(q);
-      if (snapshot.empty) return null;
-      const doc = snapshot.docs[0];
-      return { id: doc.id, ...doc.data() };
-    },
-  });
-
-  // Latest news
-  await queryClient.prefetchQuery({
-    queryKey: ["news", 4],
-    queryFn: async () => {
-      const q = query(
-        collection(db, "news"),
-        orderBy("date", "desc"),
-        limit(4),
-      );
-      const snapshot = await getDocs(q);
-      return snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
-    },
-  });
+  await Promise.all([
+    queryClient.prefetchQuery({
+      queryKey: ["nextMatch"],
+      queryFn: async () => {
+        const q = query(
+          collection(db, "matches"),
+          where("status", "==", "upcoming"),
+          orderBy("date", "asc"),
+          limit(1),
+        );
+        const snapshot = await getDocs(q);
+        if (snapshot.empty) return null;
+        const doc = snapshot.docs[0];
+        return { id: doc.id, ...doc.data() };
+      },
+    }),
+    queryClient.prefetchQuery({
+      queryKey: ["lastResult"],
+      queryFn: async () => {
+        const q = query(
+          collection(db, "matches"),
+          where("status", "==", "played"),
+          orderBy("date", "desc"),
+          limit(1),
+        );
+        const snapshot = await getDocs(q);
+        if (snapshot.empty) return null;
+        const doc = snapshot.docs[0];
+        return { id: doc.id, ...doc.data() };
+      },
+    }),
+    queryClient.prefetchQuery({
+      queryKey: ["news", 4],
+      queryFn: async () => {
+        const q = query(
+          collection(db, "news"),
+          orderBy("date", "desc"),
+          limit(4),
+        );
+        const snapshot = await getDocs(q);
+        return snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+      },
+    }),
+  ]);
 };
 
 // Prefetch then render

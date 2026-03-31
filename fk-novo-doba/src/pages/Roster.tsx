@@ -51,7 +51,8 @@ const PlayerCard = ({ player }: { player: Player }) => {
         <span
           className={`self-start text-[10px] font-semibold tracking-widest uppercase px-2 py-1 rounded border ${positionColor[player.position]}`}
         >
-          {player.position}
+          {/* FIXED: Localized position */}
+          {t(`player.positions.${player.position}`)}
         </span>
         <button
           onClick={() => navigate(`/roster/${player.id}`)}
@@ -64,52 +65,58 @@ const PlayerCard = ({ player }: { player: Player }) => {
   );
 };
 
-const StaffCard = ({ member }: { member: Staff }) => (
-  <div className="bg-[#12161f] border border-white/07 rounded-xl overflow-hidden flex flex-col hover:border-[#c49b32]/40 transition-colors duration-200">
-    <div className="relative bg-[#0d1017] aspect-square flex items-center justify-center overflow-hidden">
-      {member.photoUrl ? (
-        <img
-          src={member.photoUrl}
-          alt={member.name}
-          className="w-full h-full object-cover object-top"
-        />
-      ) : (
-        <div className="flex flex-col items-center justify-center w-full h-full">
-          <div className="w-16 h-16 rounded-full bg-[#1a1f2e] border-2 border-white/10 flex items-center justify-center mb-2">
-            <span className="text-[22px] font-black text-[#2a2f3e]">
-              {member.name.charAt(0)}
-            </span>
+const StaffCard = ({ member }: { member: Staff }) => {
+  //const { t } = useTranslation();
+  return (
+    <div className="bg-[#12161f] border border-white/07 rounded-xl overflow-hidden flex flex-col hover:border-[#c49b32]/40 transition-colors duration-200">
+      <div className="relative bg-[#0d1017] aspect-square flex items-center justify-center overflow-hidden">
+        {member.photoUrl ? (
+          <img
+            src={member.photoUrl}
+            alt={member.name}
+            className="w-full h-full object-cover object-top"
+          />
+        ) : (
+          <div className="flex flex-col items-center justify-center w-full h-full">
+            <div className="w-16 h-16 rounded-full bg-[#1a1f2e] border-2 border-white/10 flex items-center justify-center mb-2">
+              <span className="text-[22px] font-black text-[#2a2f3e]">
+                {member.name.charAt(0)}
+              </span>
+            </div>
+            <div className="w-24 h-20 rounded-t-full bg-[#1a1f2e] border-2 border-b-0 border-white/10" />
           </div>
-          <div className="w-24 h-20 rounded-t-full bg-[#1a1f2e] border-2 border-b-0 border-white/10" />
-        </div>
-      )}
+        )}
+      </div>
+      <div className="p-4 flex flex-col gap-2">
+        <p className="text-[15px] font-bold text-[#f0ead8] leading-tight">
+          {member.name}
+        </p>
+        <span className="self-start text-[10px] font-semibold tracking-widest uppercase px-2 py-1 rounded border text-[#c49b32] border-[#c49b32]/40 bg-[#c49b32]/10">
+          {/* Ensure you have staff roles in your JSON if needed, otherwise displays raw member.role */}
+          {member.role}
+        </span>
+      </div>
     </div>
-    <div className="p-4 flex flex-col gap-2">
-      <p className="text-[15px] font-bold text-[#f0ead8] leading-tight">
-        {member.name}
-      </p>
-      <span className="self-start text-[10px] font-semibold tracking-widest uppercase px-2 py-1 rounded border text-[#c49b32] border-[#c49b32]/40 bg-[#c49b32]/10">
-        {member.role}
-      </span>
-    </div>
-  </div>
-);
+  );
+};
 
 const Roster = () => {
   const { t } = useTranslation();
+  // FIXED: Store the ID/Key of the position, not the translated label
   const [activePosition, setActivePosition] = useState("All");
   const { data: players, isLoading: loadingPlayers } = usePlayers();
   const { data: staff, isLoading: loadingStaff } = useStaff();
 
-  const positions = [
-    t("roster.all"),
-    "Goalkeeper",
-    "Defender",
-    "Midfielder",
-    "Forward",
+  const filterOptions = [
+    { id: "All", label: t("roster.all") },
+    { id: "Goalkeeper", label: t("player.positions.Goalkeeper") },
+    { id: "Defender", label: t("player.positions.Defender") },
+    { id: "Midfielder", label: t("player.positions.Midfielder") },
+    { id: "Forward", label: t("player.positions.Forward") },
   ];
+
   const filtered = players?.filter((p) =>
-    activePosition === t("roster.all") ? true : p.position === activePosition,
+    activePosition === "All" ? true : p.position === activePosition,
   );
 
   return (
@@ -122,21 +129,23 @@ const Roster = () => {
           {t("roster.title")}
         </h1>
       </div>
+
       <div className="px-5 py-4 border-b border-white/05 flex gap-2 overflow-x-auto scrollbar-none">
-        {positions.map((pos) => (
+        {filterOptions.map((opt) => (
           <button
-            key={pos}
-            onClick={() => setActivePosition(pos)}
+            key={opt.id}
+            onClick={() => setActivePosition(opt.id)}
             className={`shrink-0 px-4 py-2 rounded-full text-[11px] font-semibold tracking-widest uppercase border transition-colors duration-200 cursor-pointer ${
-              activePosition === pos
+              activePosition === opt.id
                 ? "bg-[#c49b32] text-[#0a0c10] border-[#c49b32]"
                 : "bg-transparent text-[#8a8880] border-white/10 hover:border-[#c49b32]/40 hover:text-[#f0ead8]"
             }`}
           >
-            {pos}
+            {opt.label}
           </button>
         ))}
       </div>
+
       <div className="px-5 py-6">
         {loadingPlayers ? (
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
@@ -156,11 +165,9 @@ const Roster = () => {
           </div>
         )}
       </div>
+
       <div className="px-5 pb-10">
         <div className="border-t border-white/05 pt-6 mb-5">
-          <p className="text-[11px] font-semibold tracking-[0.15em] uppercase text-[#c49b32] mb-1">
-            {t("roster.coaching")}
-          </p>
           <h2 className="text-[28px] font-black text-[#f5f0e8] tracking-wide leading-none">
             {t("roster.staff")}
           </h2>

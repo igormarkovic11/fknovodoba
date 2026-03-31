@@ -58,6 +58,7 @@ const Player = () => {
           {t("player.backToRoster")}
         </button>
       </div>
+
       <div className="bg-[#0d1017] border-b border-white/05 mt-4 mx-5 rounded-xl overflow-hidden">
         <div className="relative bg-[#0a0c10] w-full h-64 flex items-center justify-center overflow-hidden">
           {player.photoUrl ? (
@@ -89,10 +90,12 @@ const Player = () => {
           <span
             className={`text-[11px] font-semibold tracking-widest uppercase px-3 py-1 rounded border ${positionColor[player.position]}`}
           >
-            {player.position}
+            {/* Translate Position */}
+            {t(`player.positions.${player.position}`)}
           </span>
         </div>
       </div>
+
       <div className="px-5 mt-5">
         <p className="text-[11px] font-semibold tracking-[0.15em] uppercase text-[#c49b32] mb-3">
           {t("player.seasonStats")}
@@ -124,6 +127,7 @@ const Player = () => {
           </div>
         </div>
       </div>
+
       {player.age && (
         <div className="px-5 mt-4">
           <div className="bg-[#12161f] border border-white/07 rounded-xl p-4 flex items-center justify-between">
@@ -136,6 +140,7 @@ const Player = () => {
           </div>
         </div>
       )}
+
       {player.bio && (
         <div className="px-5 mt-4 pb-10">
           <p className="text-[11px] font-semibold tracking-[0.15em] uppercase text-[#c49b32] mb-3">

@@ -10,7 +10,7 @@
   "home": {
     "official": "Zvanična Web Stranica Kluba",
     "founded": "Osnovan 1947. · Čardačine · Kojčinovac",
-    "nextMatch": "Sljedeća Utakmica",
+    "nextMatch": "Sledeća Utakmica",
     "allFixtures": "Svi Termini →",
     "lastResult": "Posljednji Rezultat",
     "allResults": "Svi Rezultati →",
@@ -23,12 +23,13 @@
   "fixtures": {
     "title": "Raspored",
     "season": "Sezona 2025/26",
-    "nextMatch": "Sljedeća Utakmica",
+    "nextMatch": "Sledeća Utakmica",
     "home": "Domaćin",
     "away": "Gost",
     "match": "utakmica",
     "matches": "utakmice",
-    "noFixtures": "Nema zakazanih utakmica"
+    "noFixtures": "Nema zakazanih utakmica",
+    "locales": "sr-RS"
   },
   "results": {
     "title": "Rezultati",
@@ -40,24 +41,29 @@
     "noResults": "Nema rezultata"
   },
   "roster": {
-    "title": "Tim",
+    "title": "Prvi Tim",
     "season": "Sezona 2025/26",
     "all": "Svi",
-    "staff": "Stručni Štab",
-    "coaching": "Trenerski",
-    "moreInfo": "Više Info →",
-    "noPlayers": "Nema igrača",
+    "staff": "Rukovodstvo",
+    "moreInfo": "Profil Igrača",
+    "noPlayers": "Nema igrača u ovoj kategoriji",
     "noStaff": "Nema članova stručnog štaba"
   },
   "player": {
-    "backToRoster": "← Nazad na Tim",
-    "seasonStats": "Statistike Sezone",
+    "notFound": "Igrač nije pronađen",
+    "backToRoster": "← Nazad na tim",
+    "seasonStats": "Statistika sezone",
     "goals": "Golovi",
     "assists": "Asistencije",
-    "jersey": "Dres",
+    "jersey": "Broj",
     "age": "Godine",
-    "about": "O Igraču",
-    "notFound": "Igrač nije pronađen"
+    "about": "Biografija",
+    "positions": {
+      "Goalkeeper": "Golman",
+      "Defender": "Defanzivac",
+      "Midfielder": "Vezni",
+      "Forward": "Napadač"
+    }
   },
   "league": {
     "title": "Tabela",
@@ -74,11 +80,18 @@
   "news": {
     "title": "Vijesti",
     "readMore": "Pročitaj Više →",
+    "noNews": "Nema vijesti",
+    "tags": {
+      "All": "Sve",
+      "Match Report": "Izvještaj",
+      "Transfer": "Transfer",
+      "Club News": "Vijesti Kluba",
+      "Academy": "Akademija",
+      "Interview": "Intervju"
+    },
     "backToNews": "← Nazad na Vijesti",
     "moreNews": "Više Vijesti",
-    "about": "Zvanični Klub",
-    "noNews": "Nema vijesti",
-    "notFound": "Članak nije pronađen"
+    "about": "Zvanične Vijesti Kluba"
   },
   "footer": {
     "sponsors": "Oficijalni sponzori",

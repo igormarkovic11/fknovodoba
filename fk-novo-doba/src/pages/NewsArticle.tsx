@@ -1,6 +1,7 @@
 import { useParams, useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { useNewsPost } from "../hooks/useNews";
+import logo from "../assets/logos/fk-novo-doba.webp";
 
 const tagColors: Record<string, string> = {
   "Match Report": "text-[#3b82f6] bg-[#3b82f6]/10 border-[#3b82f6]/30",
@@ -15,13 +16,16 @@ const Skeleton = ({ className }: { className: string }) => (
 );
 
 const NewsArticle = () => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const { data: post, isLoading } = useNewsPost(id ?? "");
 
+  // Determine locale: Use Serbian Latin for 'sr'
+  const locale = i18n.language === "sr" ? "sr-Latn-RS" : "en-GB";
+
   const date = post
-    ? new Date(post.date).toLocaleDateString("en-GB", {
+    ? new Date(post.date).toLocaleDateString(locale, {
         weekday: "long",
         day: "numeric",
         month: "long",
@@ -67,6 +71,7 @@ const NewsArticle = () => {
           {t("news.backToNews")}
         </button>
       </div>
+
       <div className="mx-5 mt-4 rounded-xl overflow-hidden bg-[#0d1017] h-56 md:h-72 flex items-center justify-center">
         {post.coverImage ? (
           <img
@@ -85,32 +90,48 @@ const NewsArticle = () => {
           </div>
         )}
       </div>
+
       <div className="px-5 mt-6 pb-12">
         <div className="flex items-center gap-3 mb-4">
           <span
-            className={`text-[10px] font-semibold tracking-widest uppercase px-2 py-1 rounded border ${tagColors[post.tag] ?? "text-[#8a8880] bg-white/05 border-white/10"}`}
+            className={`text-[10px] font-semibold tracking-widest uppercase px-2 py-1 rounded border ${
+              tagColors[post.tag] ??
+              "text-[#8a8880] bg-white/05 border-white/10"
+            }`}
           >
-            {post.tag}
+            {/* Translate the tag */}
+            {t(`news.tags.${post.tag}`)}
           </span>
-          <span className="text-[12px] text-[#56544e]">{date}</span>
+          {/* Apply capitalize to ensure the day/month starts with uppercase in Latin */}
+          <span className="text-[12px] text-[#56544e] first-letter:uppercase">
+            {date}
+          </span>
         </div>
+
         <h1 className="text-[28px] md:text-[36px] font-black text-[#f5f0e8] leading-tight tracking-wide mb-4">
           {post.title}
         </h1>
+
         {post.excerpt && (
           <p className="text-[16px] text-[#8a8880] leading-relaxed font-semibold mb-6 border-l-4 border-[#c49b32]/40 pl-4">
             {post.excerpt}
           </p>
         )}
+
         <div className="h-px bg-white/05 mb-6" />
+
         <div className="text-[15px] text-[#8a8880] leading-relaxed whitespace-pre-line">
           {post.body}
         </div>
+
         <div className="mt-10 pt-6 border-t border-white/05 flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <div className="w-8 h-8 rounded-full bg-gradient-to-br from-[#cc2222] to-[#1a2e8a] border border-[#c49b32]/50 flex items-center justify-center text-white text-[10px] font-bold">
-              FK
-            </div>
+            <img
+              src={logo}
+              alt="FK Novo Doba"
+              className="h-10 w-10 object-contain"
+              style={{ mixBlendMode: "lighten" }}
+            />
             <div>
               <div className="text-[13px] font-semibold text-[#f0ead8]">
                 FK Novo Doba
@@ -122,7 +143,7 @@ const NewsArticle = () => {
           </div>
           <button
             onClick={() => navigate("/news")}
-            className="text-[11px] font-semibold tracking-widests uppercase text-[#c49b32] border border-[#c49b32]/30 px-4 py-2 rounded-lg hover:bg-[#c49b32]/10 transition-colors cursor-pointer bg-transparent"
+            className="text-[11px] font-semibold tracking-widest uppercase text-[#c49b32] border border-[#c49b32]/30 px-4 py-2 rounded-lg hover:bg-[#c49b32]/10 transition-colors cursor-pointer bg-transparent"
           >
             {t("news.moreNews")}
           </button>

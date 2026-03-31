@@ -12,7 +12,8 @@ i18n
       en: { translation: en },
       sr: { translation: sr },
     },
-    fallbackLng: "en",
+    lng: "sr",
+    fallbackLng: "sr",
     interpolation: {
       escapeValue: false,
     },
@@ -20,6 +21,7 @@ i18n
       order: ["localStorage", "navigator"],
       caches: ["localStorage"],
     },
+    initAsync: false, // ← forces synchronous init
   });
 
 export default i18n;

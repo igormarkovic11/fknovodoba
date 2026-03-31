@@ -28,7 +28,8 @@
     "away": "Away",
     "match": "match",
     "matches": "matches",
-    "noFixtures": "No fixtures scheduled yet"
+    "noFixtures": "No fixtures scheduled yet",
+    "locales": "en-GB"
   },
   "results": {
     "title": "Results",
@@ -44,20 +45,25 @@
     "season": "Season 2025/26",
     "all": "All",
     "staff": "Staff",
-    "coaching": "Coaching",
-    "moreInfo": "More Info →",
-    "noPlayers": "No players found",
-    "noStaff": "No staff listed yet"
+    "moreInfo": "View Profile",
+    "noPlayers": "No players found in this category",
+    "noStaff": "No staff members found"
   },
   "player": {
+    "notFound": "Player not found",
     "backToRoster": "← Back to Roster",
-    "seasonStats": "Season Stats",
+    "seasonStats": "Season Statistics",
     "goals": "Goals",
     "assists": "Assists",
     "jersey": "Jersey",
     "age": "Age",
-    "about": "About",
-    "notFound": "Player not found"
+    "about": "Biography",
+    "positions": {
+      "Goalkeeper": "Goalkeeper",
+      "Defender": "Defender",
+      "Midfielder": "Midfielder",
+      "Forward": "Forward"
+    }
   },
   "league": {
     "title": "League Table",
@@ -74,11 +80,18 @@
   "news": {
     "title": "News",
     "readMore": "Read More →",
+    "noNews": "No news found",
+    "tags": {
+      "All": "All",
+      "Match Report": "Match Report",
+      "Transfer": "Transfer",
+      "Club News": "Club News",
+      "Academy": "Academy",
+      "Interview": "Interview"
+    },
     "backToNews": "← Back to News",
     "moreNews": "More News",
-    "about": "Official Club",
-    "noNews": "No news found",
-    "notFound": "Article not found"
+    "about": "Official Club News"
   },
   "footer": {
     "sponsors": "Official Sponsors",
