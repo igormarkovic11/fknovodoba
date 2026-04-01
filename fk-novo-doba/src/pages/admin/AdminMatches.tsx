@@ -17,7 +17,7 @@ type MatchForm = {
   date: string;
   homeAway: "home" | "away";
   venue: string;
-  status: "upcoming" | "played";
+  status: "upcoming" | "played" | "live";
   goalsFor: string;
   goalsAgainst: string;
 };
