@@ -104,5 +104,16 @@
   "footer": {
     "sponsors": "Official Sponsors",
     "est": "Est. 1947"
+  },
+  "live": {
+    "live": "LIVE",
+    "startingXI": "Starting XI",
+    "reserves": "Reserves",
+    "liveCommentary": "Live Commentary",
+    "matchReport": "Match Report",
+    "waiting": "Waiting for match events...",
+    "noCommentary": "No commentary available.",
+    "notFound": "Match not found.",
+    "backHome": "← Home"
   }
 }

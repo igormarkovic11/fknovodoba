@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import {
   collection,
@@ -39,8 +39,17 @@ const AdminCommentary = () => {
   const [text, setText] = useState("");
   const [preview, setPreview] = useState("");
   const [saving, setSaving] = useState(false);
-  const [scoreHome, setScoreHome] = useState(match?.scoreHome ?? 0);
-  const [scoreAway, setScoreAway] = useState(match?.scoreAway ?? 0);
+  const [scoreHome, setScoreHome] = useState(0);
+  const [scoreAway, setScoreAway] = useState(0);
+  const [scoreInitialized, setScoreInitialized] = useState(false);
+
+  useEffect(() => {
+    if (match && !scoreInitialized) {
+      setScoreHome(match.scoreHome ?? 0);
+      setScoreAway(match.scoreAway ?? 0);
+      setScoreInitialized(true);
+    }
+  }, [match, scoreInitialized]);
 
   const handlePreview = () => {
     const formatted = formatCommentary(eventType, parseInt(minute) || 0, text);

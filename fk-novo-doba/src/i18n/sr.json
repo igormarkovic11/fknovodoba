@@ -104,5 +104,16 @@
   "footer": {
     "sponsors": "Oficijalni sponzori",
     "est": "Osn. 1947"
+  },
+  "live": {
+    "live": "UŽIVO",
+    "startingXI": "Početna postava",
+    "reserves": "Rezerve",
+    "liveCommentary": "Komentari uživo",
+    "matchReport": "Izvještaj sa utakmice",
+    "waiting": "Čekanje na događaje sa utakmice...",
+    "noCommentary": "Nema dostupnih komentara.",
+    "notFound": "Utakmica nije pronađena.",
+    "backHome": "← Početna"
   }
 }

@@ -136,7 +136,7 @@ const AdminLive = () => {
         </div>
 
         {/* Lineup selector */}
-        {selectedMatchId && players && (
+        {selectedMatchId && players && selectedMatch?.status !== "live" && (
           <div className="bg-[#12161f] border border-white/07 rounded-xl p-5 mb-6">
             <h2 className="text-[14px] font-black text-[#f0ead8] mb-1">
               Set Lineup
@@ -209,17 +209,28 @@ const AdminLive = () => {
 
         {/* Start match button */}
         {selectedMatchId && (
-          <button
-            onClick={handleStartMatch}
-            disabled={saving || starting.length === 0}
-            className="w-full py-4 rounded-xl bg-red-500 text-white text-[14px] font-black tracking-widest uppercase hover:bg-red-600 transition-colors cursor-pointer border-none disabled:opacity-50 disabled:cursor-not-allowed"
-          >
-            {saving
-              ? "Starting..."
-              : selectedMatch?.status === "live"
-                ? "Continue Commentary →"
-                : "🔴 Start Live Match"}
-          </button>
+          <div className="flex flex-col gap-3">
+            {/* If match is already live, show continue button directly */}
+            {selectedMatch?.status === "live" && (
+              <button
+                onClick={() => navigate(`/admin/commentary/${selectedMatchId}`)}
+                className="w-full py-4 rounded-xl bg-[#c49b32] text-[#0a0c10] text-[14px] font-black tracking-widests uppercase hover:bg-[#d4aa3f] transition-colors cursor-pointer border-none"
+              >
+                Continue Commentary →
+              </button>
+            )}
+
+            {/* Only show start button for upcoming matches */}
+            {selectedMatch?.status !== "live" && (
+              <button
+                onClick={handleStartMatch}
+                disabled={saving || starting.length === 0}
+                className="w-full py-4 rounded-xl bg-red-500 text-white text-[14px] font-black tracking-widests uppercase hover:bg-red-600 transition-colors cursor-pointer border-none disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                {saving ? "Starting..." : "🔴 Start Live Match"}
+              </button>
+            )}
+          </div>
         )}
       </div>
     </div>

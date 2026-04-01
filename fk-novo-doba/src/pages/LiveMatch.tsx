@@ -1,4 +1,5 @@
 import { useParams, useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import { useLiveMatch, useCommentary, useLineup } from "../hooks/useCommentary";
 import { getEmoji } from "../utils/commentaryFormatter";
 import fkNovoDoba from "../assets/logos/fk-novo-doba.png";
@@ -7,6 +8,7 @@ import { getTeamLogo } from "../utils/teamLogos";
 const LiveMatch = () => {
   const { matchId } = useParams<{ matchId: string }>();
   const navigate = useNavigate();
+  const { t } = useTranslation();
   const { match, loading: loadingMatch } = useLiveMatch(matchId ?? "");
   const { events, loading: loadingEvents } = useCommentary(matchId ?? "");
   const { lineup } = useLineup(matchId ?? "");
@@ -22,12 +24,12 @@ const LiveMatch = () => {
   if (!match) {
     return (
       <div className="min-h-screen bg-[#0a0c10] flex flex-col items-center justify-center text-[#56544e]">
-        <p className="text-[18px] font-bold mb-4">Match not found.</p>
+        <p className="text-[18px] font-bold mb-4">{t("live.notFound")}</p>
         <button
           onClick={() => navigate("/")}
           className="text-[#c49b32] text-sm uppercase tracking-widest border border-[#c49b32]/30 px-4 py-2 rounded-lg hover:bg-[#c49b32]/10 transition-colors cursor-pointer bg-transparent"
         >
-          ← Home
+          {t("live.backHome")}
         </button>
       </div>
     );
@@ -43,8 +45,8 @@ const LiveMatch = () => {
         {/* Live badge */}
         {isLive && (
           <div className="flex justify-center mb-4">
-            <span className="text-[11px] font-black tracking-widests uppercase bg-red-500 text-white px-4 py-1.5 rounded-full animate-pulse">
-              🔴 LIVE
+            <span className="text-[11px] font-black tracking-widest uppercase bg-red-500 text-white px-4 py-1.5 rounded-full animate-pulse">
+              🔴 {t("live.live")}
             </span>
           </div>
         )}
@@ -105,7 +107,7 @@ const LiveMatch = () => {
       {lineup && (
         <div className="px-5 py-6 border-b border-white/05">
           <p className="text-[11px] font-semibold tracking-[0.15em] uppercase text-[#c49b32] mb-4">
-            Starting XI
+            {t("live.startingXI")}
           </p>
           <div className="grid grid-cols-2 gap-2 mb-4">
             {lineup.starting.map((player) => (
@@ -127,7 +129,7 @@ const LiveMatch = () => {
           {lineup.reserves.length > 0 && (
             <>
               <p className="text-[11px] font-semibold tracking-[0.15em] uppercase text-[#56544e] mb-3">
-                Reserves
+                {t("live.reserves")}
               </p>
               <div className="grid grid-cols-2 gap-2">
                 {lineup.reserves.map((player) => (
@@ -154,7 +156,7 @@ const LiveMatch = () => {
       {/* Commentary feed */}
       <div className="px-5 py-6">
         <p className="text-[11px] font-semibold tracking-[0.15em] uppercase text-[#c49b32] mb-4">
-          {isLive ? "Live Commentary" : "Match Report"}
+          {isLive ? t("live.liveCommentary") : t("live.matchReport")}
         </p>
         {loadingEvents ? (
           <div className="flex flex-col gap-2">
@@ -189,9 +191,7 @@ const LiveMatch = () => {
           </div>
         ) : (
           <div className="text-[#56544e] text-sm text-center py-12">
-            {isLive
-              ? "Waiting for match events..."
-              : "No commentary available."}
+            {isLive ? t("live.waiting") : t("live.noCommentary")}
           </div>
         )}
       </div>

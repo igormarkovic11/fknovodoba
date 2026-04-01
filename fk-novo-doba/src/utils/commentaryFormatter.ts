@@ -14,13 +14,13 @@ const templates: Record<
   CommentaryEvent["type"],
   (minute: number, text: string) => string
 > = {
-  goal: (minute, text) => `⚽ ${minute}' — ${text}`,
-  yellow_card: (minute, text) => `🟨 ${minute}' — ${text}`,
-  red_card: (minute, text) => `🟥 ${minute}' — ${text}`,
-  substitution: (minute, text) => `🔄 ${minute}' — ${text}`,
-  comment: (minute, text) => `💬 ${minute}' — ${text}`,
-  halftime: (_, text) => `🔔 Poluvrijeme — ${text}`,
-  fulltime: (_, text) => `🏁 Kraj utakmice — ${text}`,
+  goal: (minute, text) => `${minute}' — ${text}`,
+  yellow_card: (minute, text) => `${minute}' — ${text}`,
+  red_card: (minute, text) => `${minute}' — ${text}`,
+  substitution: (minute, text) => `${minute}' — ${text}`,
+  comment: (minute, text) => `${minute}' — ${text}`,
+  halftime: (_, text) => `Poluvrijeme — ${text}`,
+  fulltime: (_, text) => `Kraj utakmice — ${text}`,
 };
 
 export const formatCommentary = (
