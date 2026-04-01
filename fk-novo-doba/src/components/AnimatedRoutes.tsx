@@ -2,6 +2,8 @@ import { Routes, Route, useLocation } from "react-router-dom";
 import { AnimatePresence } from "framer-motion";
 import PageTransition from "./PageTransition";
 import ProtectedRoute from "./ProtectedRoute";
+
+// Public Pages
 import Home from "../pages/Home";
 import Roster from "../pages/Roster";
 import Player from "../pages/Player";
@@ -10,12 +12,17 @@ import Fixtures from "../pages/Fixtures";
 import League from "../pages/League";
 import News from "../pages/News";
 import NewsArticle from "../pages/NewsArticle";
+import LiveMatch from "../pages/LiveMatch";
+
+// Admin Pages
 import AdminLogin from "../pages/admin/AdminLogin";
 import AdminDashboard from "../pages/admin/AdminDashboard";
 import AdminPlayers from "../pages/admin/AdminPlayers";
 import AdminMatches from "../pages/admin/AdminMatches";
 import AdminNews from "../pages/admin/AdminNews";
 import AdminStandings from "../pages/admin/AdminStandings";
+import AdminLive from "../pages/admin/AdminLive";
+import AdminCommentary from "../pages/admin/AdminCommentary";
 
 const AnimatedRoutes = () => {
   const location = useLocation();
@@ -23,6 +30,7 @@ const AnimatedRoutes = () => {
   return (
     <AnimatePresence mode="wait">
       <Routes location={location} key={location.pathname}>
+        {/* Public Routes */}
         <Route
           path="/"
           element={
@@ -87,7 +95,18 @@ const AnimatedRoutes = () => {
             </PageTransition>
           }
         />
+        <Route
+          path="/match/:matchId"
+          element={
+            <PageTransition>
+              <LiveMatch />
+            </PageTransition>
+          }
+        />
+
+        {/* Admin Routes */}
         <Route path="/admin" element={<AdminLogin />} />
+
         <Route
           path="/admin/dashboard"
           element={
@@ -125,6 +144,22 @@ const AnimatedRoutes = () => {
           element={
             <ProtectedRoute>
               <AdminStandings />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/admin/live"
+          element={
+            <ProtectedRoute>
+              <AdminLive />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/admin/commentary/:matchId"
+          element={
+            <ProtectedRoute>
+              <AdminCommentary />
             </ProtectedRoute>
           }
         />

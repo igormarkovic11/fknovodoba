@@ -138,6 +138,12 @@ const AdminDashboard = () => {
             to="/admin/standings"
             color="bg-[#c49b32]"
           />
+          <QuickLink
+            label="Live Match"
+            description="Start live commentary for a match"
+            to="/admin/live"
+            color="bg-red-500"
+          />
         </div>
       </div>
     </div>

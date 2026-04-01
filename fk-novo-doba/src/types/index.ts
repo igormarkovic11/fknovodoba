@@ -26,9 +26,38 @@ export interface Match {
   score?: string;
   goalsFor?: number;
   goalsAgainst?: number;
-  status: "upcoming" | "played";
+  status: "upcoming" | "played" | "live";
   competition: string;
   venue: string;
+  scoreHome?: number;
+  scoreAway?: number;
+}
+
+export interface LineupPlayer {
+  playerId: string;
+  name: string;
+  number: number;
+  position: string;
+}
+
+export interface Lineup {
+  starting: LineupPlayer[];
+  reserves: LineupPlayer[];
+}
+
+export interface CommentaryEvent {
+  id: string;
+  minute: number;
+  type:
+    | "goal"
+    | "yellow_card"
+    | "red_card"
+    | "substitution"
+    | "comment"
+    | "halftime"
+    | "fulltime";
+  text: string;
+  createdAt: number;
 }
 
 export interface NewsPost {
@@ -51,5 +80,4 @@ export interface Standing {
   goalsFor: number;
   goalsAgainst: number;
   points: number;
-  logoUrl?: string;
 }

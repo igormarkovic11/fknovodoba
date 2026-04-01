@@ -47,7 +47,15 @@
     "staff": "Staff",
     "moreInfo": "View Profile",
     "noPlayers": "No players found in this category",
-    "noStaff": "No staff members found"
+    "noStaff": "No staff members found",
+    "roles": {
+      "President": "President",
+      "Head Coach": "Head Coach",
+      "Assistant Coach": "Assistant Coach",
+      "Secretary": "Secretary",
+      "Security Commissioner": "Security Commissioner",
+      "Club Representative": "Club Representative"
+    }
   },
   "player": {
     "notFound": "Player not found",

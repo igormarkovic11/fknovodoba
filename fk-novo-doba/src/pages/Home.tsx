@@ -5,6 +5,7 @@ import fkNovoDoba from "../assets/logos/fk-novo-doba.webp";
 import { getTeamLogo } from "../utils/teamLogos";
 import type { Match, NewsPost } from "../types";
 import { useTranslation } from "react-i18next";
+import LiveBadge from "../components/LiveBadge";
 
 const NextMatchCard = ({ match }: { match: Match }) => {
   const { t, i18n } = useTranslation();
@@ -247,6 +248,7 @@ const Home = () => {
           </div>
 
           {/* Next match */}
+          <LiveBadge />
           <div className="border-t border-white/05 pt-6 mt-6 px-5">
             <div className="flex items-baseline justify-between mb-3">
               <h2 className="text-[13px] font-black tracking-[0.12em] uppercase text-[#f0ead8]">

@@ -66,7 +66,8 @@ const PlayerCard = ({ player }: { player: Player }) => {
 };
 
 const StaffCard = ({ member }: { member: Staff }) => {
-  //const { t } = useTranslation();
+  const { t } = useTranslation(); // Initialize translation hook
+
   return (
     <div className="bg-[#12161f] border border-white/07 rounded-xl overflow-hidden flex flex-col hover:border-[#c49b32]/40 transition-colors duration-200">
       <div className="relative bg-[#0d1017] aspect-square flex items-center justify-center overflow-hidden">
@@ -92,8 +93,10 @@ const StaffCard = ({ member }: { member: Staff }) => {
           {member.name}
         </p>
         <span className="self-start text-[10px] font-semibold tracking-widest uppercase px-2 py-1 rounded border text-[#c49b32] border-[#c49b32]/40 bg-[#c49b32]/10">
-          {/* Ensure you have staff roles in your JSON if needed, otherwise displays raw member.role */}
-          {member.role}
+          {/* This looks for 'roster.roles.Head Coach'. 
+              The second argument is the fallback (the raw string) 
+          */}
+          {t(`roster.roles.${member.role}`, member.role)}
         </span>
       </div>
     </div>

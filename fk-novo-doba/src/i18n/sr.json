@@ -47,7 +47,15 @@
     "staff": "Rukovodstvo",
     "moreInfo": "Profil Igrača",
     "noPlayers": "Nema igrača u ovoj kategoriji",
-    "noStaff": "Nema članova stručnog štaba"
+    "noStaff": "Nema članova stručnog štaba",
+    "roles": {
+      "President": "Predsjednik",
+      "Head Coach": "Glavni Trener",
+      "Assistant Coach": "Pomoćni Trener",
+      "Secretary": "Sekretar",
+      "Security Commissioner": "Komesar za Bezbijednost",
+      "Club Representative": "Predstavnik Kluba"
+    }
   },
   "player": {
     "notFound": "Igrač nije pronađen",
