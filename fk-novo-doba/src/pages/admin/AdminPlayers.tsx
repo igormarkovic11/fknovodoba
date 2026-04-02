@@ -18,6 +18,7 @@ type PlayerForm = {
   number: string;
   goals: string;
   assists: string;
+  appearances: string;
   age: string;
   bio: string;
 };
@@ -33,6 +34,7 @@ const emptyPlayerForm: PlayerForm = {
   number: "",
   goals: "0",
   assists: "0",
+  appearances: "0",
   age: "",
   bio: "",
 };
@@ -118,6 +120,7 @@ const AdminPlayers = () => {
         number: parseInt(playerForm.number),
         goals: parseInt(playerForm.goals),
         assists: parseInt(playerForm.assists),
+        appearances: parseInt(playerForm.appearances),
         ...(playerForm.age && { age: parseInt(playerForm.age) }),
         ...(playerForm.bio && { bio: playerForm.bio }),
         ...(photoUrl && { photoUrl }),
@@ -173,6 +176,7 @@ const AdminPlayers = () => {
       number: player.number.toString(),
       goals: player.goals.toString(),
       assists: player.assists.toString(),
+      appearances: (player.appearances ?? 0).toString(),
       age: player.age?.toString() ?? "",
       bio: player.bio ?? "",
     });
@@ -322,7 +326,18 @@ const AdminPlayers = () => {
                   </div>
                 </div>
 
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-3 gap-4">
+                  <div>
+                    <label className={labelClass}>Apps</label>
+                    <input
+                      type="number"
+                      name="appearances"
+                      value={playerForm.appearances}
+                      onChange={handlePlayerChange}
+                      min="0"
+                      className={inputClass}
+                    />
+                  </div>
                   <div>
                     <label className={labelClass}>Goals</label>
                     <input

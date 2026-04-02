@@ -5,6 +5,7 @@ export interface Player {
   number: number;
   goals: number;
   assists: number;
+  appearances: number;
   age?: number;
   bio?: string;
   photoUrl?: string;

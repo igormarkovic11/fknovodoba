@@ -60,7 +60,8 @@
   "player": {
     "notFound": "Igrač nije pronađen",
     "backToRoster": "← Nazad na tim",
-    "seasonStats": "Statistika sezone",
+    "seasonStats": "Statistika u klubu",
+    "appearances": "Nastupi",
     "goals": "Golovi",
     "assists": "Asistencije",
     "jersey": "Broj",

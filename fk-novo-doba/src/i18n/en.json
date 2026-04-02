@@ -60,7 +60,8 @@
   "player": {
     "notFound": "Player not found",
     "backToRoster": "← Back to Roster",
-    "seasonStats": "Season Statistics",
+    "seasonStats": "Club Statistics",
+    "appearances": "Appearances",
     "goals": "Goals",
     "assists": "Assists",
     "jersey": "Jersey",

@@ -9,6 +9,13 @@ const positionColor: Record<string, string> = {
   Forward: "text-[#ef4444] border-[#ef4444]/40 bg-[#ef4444]/10",
 };
 
+const statStyles = {
+  appearances: "bg-[#c49b32]/10 text-[#c49b32] border-[#c49b32]/30",
+  goals: "bg-green-900/20 text-green-400 border-green-400/20",
+  assists: "bg-blue-900/20 text-blue-400 border-blue-400/20",
+  jersey: "bg-white/05 text-[#f5f0e8] border-white/10",
+};
+
 const Skeleton = ({ className }: { className: string }) => (
   <div className={`bg-[#12161f] animate-pulse rounded-xl ${className}`} />
 );
@@ -100,28 +107,51 @@ const Player = () => {
         <p className="text-[11px] font-semibold tracking-[0.15em] uppercase text-[#c49b32] mb-3">
           {t("player.seasonStats")}
         </p>
-        <div className="grid grid-cols-3 gap-3">
-          <div className="bg-[#12161f] border border-white/07 rounded-xl p-4 flex flex-col items-center text-center">
-            <span className="text-[28px] font-black text-[#f5f0e8] leading-none mb-1">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mt-5">
+          {/* APPEARANCES - Club Gold */}
+          <div
+            className={`rounded-xl p-4 border flex flex-col items-center text-center transition-all ${statStyles.appearances}`}
+          >
+            <span className="text-[28px] font-black leading-none mb-1">
+              {player.appearances || 0}
+            </span>
+            <span className="text-[10px] font-bold tracking-widest uppercase opacity-70">
+              {t("player.appearances")}
+            </span>
+          </div>
+
+          {/* GOALS - Success Green */}
+          <div
+            className={`rounded-xl p-4 border flex flex-col items-center text-center transition-all ${statStyles.goals}`}
+          >
+            <span className="text-[28px] font-black leading-none mb-1">
               {player.goals}
             </span>
-            <span className="text-[10px] font-semibold tracking-widest uppercase text-[#56544e]">
+            <span className="text-[10px] font-bold tracking-widest uppercase opacity-70">
               {t("player.goals")}
             </span>
           </div>
-          <div className="bg-[#12161f] border border-white/07 rounded-xl p-4 flex flex-col items-center text-center">
-            <span className="text-[28px] font-black text-[#f5f0e8] leading-none mb-1">
+
+          {/* ASSISTS - Playmaker Blue */}
+          <div
+            className={`rounded-xl p-4 border flex flex-col items-center text-center transition-all ${statStyles.assists}`}
+          >
+            <span className="text-[28px] font-black leading-none mb-1">
               {player.assists}
             </span>
-            <span className="text-[10px] font-semibold tracking-widest uppercase text-[#56544e]">
+            <span className="text-[10px] font-bold tracking-widest uppercase opacity-70">
               {t("player.assists")}
             </span>
           </div>
-          <div className="bg-[#12161f] border border-white/07 rounded-xl p-4 flex flex-col items-center text-center">
-            <span className="text-[28px] font-black text-[#f5f0e8] leading-none mb-1">
+
+          {/* JERSEY - Neutral Silver */}
+          <div
+            className={`rounded-xl p-4 border flex flex-col items-center text-center transition-all ${statStyles.jersey}`}
+          >
+            <span className="text-[28px] font-black leading-none mb-1">
               #{player.number}
             </span>
-            <span className="text-[10px] font-semibold tracking-widest uppercase text-[#56544e]">
+            <span className="text-[10px] font-bold tracking-widest uppercase opacity-70">
               {t("player.jersey")}
             </span>
           </div>
