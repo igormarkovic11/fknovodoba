@@ -6,6 +6,9 @@ import {
   doc,
   updateDoc,
   deleteDoc,
+  getDocs,
+  query,
+  orderBy,
 } from "firebase/firestore";
 import { db } from "../../firebase/config";
 import {
@@ -72,7 +75,6 @@ const AdminCommentary = () => {
         createdAt: Date.now(),
       });
 
-      // If fulltime, end the match
       if (eventType === "fulltime") {
         await updateDoc(doc(db, "matches", matchId), {
           status: "played",
@@ -81,8 +83,53 @@ const AdminCommentary = () => {
           scoreHome,
           scoreAway,
         });
-      }
 
+        // Fetch commentary in chronological order
+        const allEvents = await getDocs(
+          query(
+            collection(db, "matches", matchId, "commentary"),
+            orderBy("minute", "asc"),
+          ),
+        );
+        const commentaryLines = allEvents.docs
+          .map((doc) => doc.data().text)
+          .join("\n");
+
+        // Build lineup section
+        let lineupSection = "";
+        if (lineup) {
+          const startingList = lineup.starting
+            .map((p) => `#${p.number} ${p.name} (${p.position})`)
+            .join("\n");
+          const reservesList = lineup.reserves
+            .map((p) => `#${p.number} ${p.name}`)
+            .join("\n");
+
+          lineupSection = `📋 POČETNA POSTAVA\n${startingList}`;
+          if (reservesList) {
+            lineupSection += `\n\n🔄 REZERVE\n${reservesList}`;
+          }
+          lineupSection += "\n\n──────────────────\n\n";
+        }
+
+        const result =
+          scoreHome > scoreAway
+            ? "Pobjeda"
+            : scoreHome === scoreAway
+              ? "Remi"
+              : "Poraz";
+        const title = `${result} protiv ${match?.opponent} (${scoreHome}:${scoreAway})`;
+        const excerpt = `FK Novo Doba ${scoreHome > scoreAway ? "slavilo" : scoreHome === scoreAway ? "remiziralo" : "izgubilo"} ${scoreHome}:${scoreAway} protiv ${match?.opponent}. Pročitajte tok utakmice.`;
+
+        await addDoc(collection(db, "news"), {
+          title,
+          excerpt,
+          body: lineupSection + commentaryLines,
+          tag: "Match Report",
+          date: new Date().toISOString(),
+          matchId,
+        });
+      }
       setText("");
       setPreview("");
       if (eventType !== "halftime" && eventType !== "fulltime") {
