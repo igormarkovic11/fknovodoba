@@ -18,6 +18,7 @@ import {
 } from "../../hooks/useCommentary";
 import { formatCommentary, getEmoji } from "../../utils/commentaryFormatter";
 import type { CommentaryEvent } from "../../types";
+import { sortByPosition } from "../../utils/sortPlayers";
 
 type EventType = CommentaryEvent["type"];
 
@@ -297,7 +298,7 @@ const AdminCommentary = () => {
                 Quick insert player
               </p>
               <div className="flex flex-wrap gap-1.5">
-                {lineup.starting.map((p) => (
+                {sortByPosition(lineup.starting).map((p) => (
                   <button
                     key={p.playerId}
                     onClick={() =>

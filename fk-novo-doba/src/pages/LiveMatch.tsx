@@ -4,6 +4,7 @@ import { useLiveMatch, useCommentary, useLineup } from "../hooks/useCommentary";
 import { getEmoji } from "../utils/commentaryFormatter";
 import fkNovoDoba from "../assets/logos/fk-novo-doba.png";
 import { getTeamLogo } from "../utils/teamLogos";
+import { sortByPosition } from "../utils/sortPlayers";
 
 const LiveMatch = () => {
   const { matchId } = useParams<{ matchId: string }>();
@@ -110,7 +111,7 @@ const LiveMatch = () => {
             {t("live.startingXI")}
           </p>
           <div className="grid grid-cols-2 gap-2 mb-4">
-            {lineup.starting.map((player) => (
+            {sortByPosition(lineup.starting).map((player) => (
               <div
                 key={player.playerId}
                 className="flex items-center gap-2 bg-[#12161f] border border-white/07 rounded-lg px-3 py-2"
@@ -132,7 +133,7 @@ const LiveMatch = () => {
                 {t("live.reserves")}
               </p>
               <div className="grid grid-cols-2 gap-2">
-                {lineup.reserves.map((player) => (
+                {sortByPosition(lineup.reserves).map((player) => (
                   <div
                     key={player.playerId}
                     className="flex items-center gap-2 bg-[#12161f] border border-white/05 rounded-lg px-3 py-2"

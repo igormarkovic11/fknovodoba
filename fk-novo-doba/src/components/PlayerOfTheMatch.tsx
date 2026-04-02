@@ -1,6 +1,7 @@
 import { useVoting } from "../hooks/useVoting";
 import { useLineup } from "../hooks/useCommentary";
 import { useTranslation } from "react-i18next";
+import { sortByPosition } from "../utils/sortPlayers";
 
 const PlayerOfTheMatch = ({ matchId }: { matchId: string }) => {
   const { t } = useTranslation();
@@ -54,7 +55,7 @@ const PlayerOfTheMatch = ({ matchId }: { matchId: string }) => {
           <p className="text-[10px] font-semibold tracking-widest uppercase text-[#56544e] mb-1">
             {t("live.startingXI")}
           </p>
-          {lineup.starting.map((player) => (
+          {sortByPosition(lineup.starting).map((player) => (
             <button
               key={player.playerId}
               onClick={() => vote(player.playerId, player.name)}
@@ -81,7 +82,7 @@ const PlayerOfTheMatch = ({ matchId }: { matchId: string }) => {
               <p className="text-[10px] font-semibold tracking-widests uppercase text-[#56544e] mt-3 mb-1">
                 {t("live.reserves")}
               </p>
-              {lineup.reserves.map((player) => (
+              {sortByPosition(lineup.reserves).map((player) => (
                 <button
                   key={player.playerId}
                   onClick={() => vote(player.playerId, player.name)}
