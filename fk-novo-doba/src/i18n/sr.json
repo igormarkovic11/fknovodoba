@@ -117,5 +117,14 @@
     "notFound": "Utakmica nije pronađena.",
     "backHome": "← Početna",
     "watch": "Gledaj"
+  },
+  "vote": {
+    "title": "Igrač utakmice",
+    "instructions": "Glasajte za igrača utakmice!",
+    "thankYou": "Hvala na glasanju!",
+    "leading": "Trenutno vodi",
+    "ofVotes": "glasova",
+    "vote": "glas",
+    "votes": "glasova"
   }
 }

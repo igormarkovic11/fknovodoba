@@ -117,5 +117,14 @@
     "notFound": "Match not found.",
     "backHome": "← Home",
     "watch": "Watch"
+  },
+  "vote": {
+    "title": "Player of the Match",
+    "instructions": "Vote for your man of the match!",
+    "thankYou": "Thanks for voting!",
+    "leading": "Currently leading",
+    "ofVotes": "of votes",
+    "vote": "vote",
+    "votes": "votes"
   }
 }

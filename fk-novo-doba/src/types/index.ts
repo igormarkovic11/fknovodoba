@@ -69,6 +69,7 @@ export interface NewsPost {
   date: string;
   tag: string;
   coverImage?: string;
+  matchId?: string;
 }
 
 export interface Standing {
@@ -81,4 +82,18 @@ export interface Standing {
   goalsFor: number;
   goalsAgainst: number;
   points: number;
+}
+
+export interface Vote {
+  id: string;
+  playerId: string;
+  playerName: string;
+  createdAt: number;
+}
+
+export interface VoteResult {
+  playerId: string;
+  playerName: string;
+  count: number;
+  percentage: number;
 }
