@@ -5,6 +5,7 @@ import {
   query,
   orderBy,
   doc,
+  limit,
 } from "firebase/firestore";
 import { db } from "../firebase/config";
 import type { CommentaryEvent, Lineup, Match } from "../types";
@@ -36,6 +37,7 @@ export const useCommentary = (matchId: string) => {
     const q = query(
       collection(db, "matches", matchId, "commentary"),
       orderBy("minute", "desc"),
+      limit(50),
     );
     const unsub = onSnapshot(q, (snapshot) => {
       const data = snapshot.docs.map((doc) => ({

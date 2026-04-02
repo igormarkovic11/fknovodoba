@@ -114,6 +114,7 @@
     "waiting": "Waiting for match events...",
     "noCommentary": "No commentary available.",
     "notFound": "Match not found.",
-    "backHome": "← Home"
+    "backHome": "← Home",
+    "watch": "Watch"
   }
 }

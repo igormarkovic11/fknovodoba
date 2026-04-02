@@ -2,8 +2,10 @@ import { Link } from "react-router-dom";
 import { useLiveMatches } from "../hooks/useCommentary";
 import fkNovoDoba from "../assets/logos/fk-novo-doba.png";
 import { getTeamLogo } from "../utils/teamLogos";
+import { useTranslation } from "react-i18next";
 
 const LiveBadge = () => {
+  const { t } = useTranslation();
   const liveMatches = useLiveMatches();
 
   if (liveMatches.length === 0) return null;
@@ -15,7 +17,7 @@ const LiveBadge = () => {
     <Link to={`/match/${match.id}`} className="no-underline block">
       <div className="bg-red-500/10 border border-red-500/30 rounded-xl px-4 py-3 flex items-center gap-3 hover:border-red-500/60 transition-colors duration-200">
         <span className="text-[9px] font-black tracking-widest uppercase bg-red-500 text-white px-2 py-1 rounded-full animate-pulse shrink-0">
-          🔴 LIVE
+          🔴 {t("live.live")}
         </span>
         <div className="flex items-center gap-2 flex-1 min-w-0">
           <img
@@ -39,7 +41,9 @@ const LiveBadge = () => {
             {match.opponent}
           </span>
         </div>
-        <span className="text-[11px] text-red-400 shrink-0">Watch →</span>
+        <span className="text-[11px] text-red-400 shrink-0">
+          {t("live.watch")} →
+        </span>
       </div>
     </Link>
   );
