@@ -75,6 +75,7 @@ const StaffCard = ({ member }: { member: Staff }) => {
           <img
             src={member.photoUrl}
             alt={member.name}
+            loading="lazy"
             className="w-full h-full object-cover object-top"
           />
         ) : (

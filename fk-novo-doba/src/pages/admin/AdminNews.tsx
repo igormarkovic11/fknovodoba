@@ -7,7 +7,8 @@ import {
   doc,
   updateDoc,
 } from "firebase/firestore";
-import { db } from "../../firebase/config";
+import { ref, uploadBytes, getDownloadURL } from "firebase/storage"; // Dodato za storage
+import { db, storage } from "../../firebase/config"; // Dodat storage import
 import { useNews } from "../../hooks/useNews";
 import type { NewsPost } from "../../types";
 
@@ -17,7 +18,6 @@ type NewsForm = {
   body: string;
   tag: string;
   date: string;
-  coverImage: string;
 };
 
 const emptyForm: NewsForm = {
@@ -26,7 +26,6 @@ const emptyForm: NewsForm = {
   body: "",
   tag: "Club News",
   date: new Date().toISOString().slice(0, 16),
-  coverImage: "",
 };
 
 const tags = ["Match Report", "Transfer", "Club News", "Academy", "Interview"];
@@ -40,10 +39,14 @@ const tagColors: Record<string, string> = {
 };
 
 const AdminNews = () => {
-  const { data: news, isLoading, refetch } = useNews(100);
+  const { data: news, refetch } = useNews(100);
   const [form, setForm] = useState<NewsForm>(emptyForm);
   const [editingId, setEditingId] = useState<string | null>(null);
   const [saving, setSaving] = useState(false);
+
+  // State za sliku (kopirano iz AdminPlayers)
+  const [photoFile, setPhotoFile] = useState<File | null>(null);
+  const [photoPreview, setPhotoPreview] = useState<string | null>(null);
 
   const handleChange = (
     e: React.ChangeEvent<
@@ -53,25 +56,48 @@ const AdminNews = () => {
     setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
+  // Handler za biranje fajla
+  const handlePhotoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    setPhotoFile(file);
+    setPhotoPreview(URL.createObjectURL(file));
+  };
+
+  // Upload funkcija na Firebase Storage
+  const uploadPhoto = async (title: string): Promise<string | undefined> => {
+    if (!photoFile) return undefined;
+    const photoRef = ref(
+      storage,
+      `news/${title.toLowerCase().replace(/\s/g, "-")}-${Date.now()}`,
+    );
+    await uploadBytes(photoRef, photoFile);
+    return getDownloadURL(photoRef);
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setSaving(true);
     try {
+      // Prvo upload-uj sliku ako je izabrana
+      const coverImage = await uploadPhoto(form.title);
+
       const data: Partial<NewsPost> = {
         title: form.title,
         excerpt: form.excerpt,
         body: form.body,
         tag: form.tag,
         date: form.date,
-        ...(form.coverImage && { coverImage: form.coverImage }),
+        ...(coverImage && { coverImage }), // Čuvamo URL slike u bazu
       };
+
       if (editingId) {
         await updateDoc(doc(db, "news", editingId), data);
       } else {
         await addDoc(collection(db, "news"), data);
       }
-      setForm(emptyForm);
-      setEditingId(null);
+
+      handleCancel(); // Resetuje sve
       refetch();
     } catch (err) {
       console.error(err);
@@ -87,9 +113,9 @@ const AdminNews = () => {
       body: post.body,
       tag: post.tag,
       date: post.date.slice(0, 16),
-      coverImage: post.coverImage ?? "",
     });
     setEditingId(post.id);
+    setPhotoPreview(post.coverImage ?? null); // Prikaži staru sliku u preview
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
@@ -102,15 +128,9 @@ const AdminNews = () => {
   const handleCancel = () => {
     setForm(emptyForm);
     setEditingId(null);
+    setPhotoFile(null);
+    setPhotoPreview(null);
   };
-
-  const formatDate = (date: string) =>
-    new Date(date).toLocaleDateString("en-GB", {
-      day: "numeric",
-      month: "short",
-      year: "numeric",
-      timeZone: "Europe/Sarajevo",
-    });
 
   const inputClass =
     "bg-[#0d1017] border border-white/10 rounded-lg px-4 py-3 text-[14px] text-[#f0ead8] outline-none focus:border-[#c49b32]/50 transition-colors duration-200 w-full";
@@ -119,7 +139,6 @@ const AdminNews = () => {
 
   return (
     <div className="min-h-screen bg-[#0a0c10] text-[#e8e4d9]">
-      {/* Header */}
       <div className="bg-[#0d1017] border-b border-white/05 px-5 py-4 flex items-center gap-3">
         <Link
           to="/admin/dashboard"
@@ -132,14 +151,12 @@ const AdminNews = () => {
       </div>
 
       <div className="px-5 py-6 max-w-2xl mx-auto">
-        {/* Form */}
         <div className="bg-[#12161f] border border-white/07 rounded-xl p-5 mb-8">
           <h2 className="text-[14px] font-black text-[#f0ead8] mb-5">
             {editingId ? "Edit Post" : "New Post"}
           </h2>
 
           <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-            {/* Title */}
             <div>
               <label className={labelClass}>Title</label>
               <input
@@ -152,26 +169,24 @@ const AdminNews = () => {
               />
             </div>
 
-            {/* Excerpt */}
             <div>
               <label className={labelClass}>Excerpt</label>
               <input
                 name="excerpt"
                 value={form.excerpt}
                 onChange={handleChange}
-                placeholder="Short summary shown on news cards..."
+                placeholder="Short summary..."
                 className={inputClass}
               />
             </div>
 
-            {/* Body */}
             <div>
               <label className={labelClass}>Body</label>
               <textarea
                 name="body"
                 value={form.body}
                 onChange={handleChange}
-                placeholder="Full article content..."
+                placeholder="Full content..."
                 required
                 rows={8}
                 className={`${inputClass} resize-none leading-relaxed`}
@@ -179,7 +194,6 @@ const AdminNews = () => {
             </div>
 
             <div className="grid grid-cols-2 gap-4">
-              {/* Tag */}
               <div>
                 <label className={labelClass}>Tag</label>
                 <select
@@ -195,8 +209,6 @@ const AdminNews = () => {
                   ))}
                 </select>
               </div>
-
-              {/* Date */}
               <div>
                 <label className={labelClass}>Date</label>
                 <input
@@ -210,16 +222,28 @@ const AdminNews = () => {
               </div>
             </div>
 
-            {/* Cover image URL */}
+            {/* Photo upload - ISTO KAO KOD IGRAČA */}
             <div>
-              <label className={labelClass}>Cover Image URL (optional)</label>
-              <input
-                name="coverImage"
-                value={form.coverImage}
-                onChange={handleChange}
-                placeholder="https://..."
-                className={inputClass}
-              />
+              <label className={labelClass}>Cover Photo</label>
+              <div className="flex items-center gap-4">
+                {photoPreview ? (
+                  <img
+                    src={photoPreview}
+                    alt="Preview"
+                    className="w-20 h-14 rounded-lg object-cover shrink-0 border border-white/10"
+                  />
+                ) : (
+                  <div className="w-20 h-14 rounded-lg bg-[#0d1017] border border-white/10 flex items-center justify-center text-[#3a3830] text-[10px] shrink-0">
+                    No Image
+                  </div>
+                )}
+                <input
+                  type="file"
+                  accept="image/*"
+                  onChange={handlePhotoChange}
+                  className="text-[13px] text-[#8a8880] file:mr-3 file:py-2 file:px-4 file:rounded-lg file:border-0 file:bg-[#0d1017] file:text-[#c49b32] file:text-[11px] file:font-semibold file:uppercase file:tracking-widest file:cursor-pointer hover:file:bg-[#c49b32]/10"
+                />
+              </div>
             </div>
 
             <div className="flex gap-3 mt-2">
@@ -247,55 +271,46 @@ const AdminNews = () => {
           </form>
         </div>
 
-        {/* News list */}
-        <p className="text-[11px] font-semibold tracking-[0.15em] uppercase text-[#c49b32] mb-4">
-          All Posts ({news?.length ?? 0})
-        </p>
+        {/* List of News - Skraćena verzija za lakši pregled */}
         <div className="flex flex-col gap-3">
-          {isLoading ? (
-            <div className="text-[#56544e] text-sm text-center py-8">
-              Loading...
-            </div>
-          ) : news && news.length > 0 ? (
-            news.map((post) => (
-              <div
-                key={post.id}
-                className="bg-[#12161f] border border-white/07 rounded-xl px-4 py-3 flex items-center gap-3"
-              >
-                <div className="flex-1 min-w-0">
-                  <div className="flex items-center gap-2 mb-1">
-                    <span
-                      className={`text-[9px] font-bold tracking-widest uppercase px-2 py-0.5 rounded border ${tagColors[post.tag] ?? ""}`}
-                    >
-                      {post.tag}
-                    </span>
-                  </div>
-                  <p className="text-[13px] font-semibold text-[#f0ead8] truncate">
-                    {post.title}
-                  </p>
-                  <p className="text-[11px] text-[#56544e]">
-                    {formatDate(post.date)}
-                  </p>
-                </div>
+          {news?.map((post) => (
+            <div
+              key={post.id}
+              className="bg-[#12161f] border border-white/07 rounded-xl p-4 flex items-center gap-4"
+            >
+              {post.coverImage && (
+                <img
+                  src={post.coverImage}
+                  className="w-16 h-12 rounded object-cover"
+                  alt=""
+                />
+              )}
+              <div className="flex-1 min-w-0">
+                <h3 className="text-[14px] font-bold text-[#f0ead8] truncate">
+                  {post.title}
+                </h3>
+                <span
+                  className={`text-[9px] font-bold uppercase tracking-widest px-2 py-0.5 rounded border ${tagColors[post.tag]}`}
+                >
+                  {post.tag}
+                </span>
+              </div>
+              <div className="flex gap-3">
                 <button
                   onClick={() => handleEdit(post)}
-                  className="text-[11px] font-semibold uppercase tracking-widest text-[#8a8880] hover:text-[#c49b32] transition-colors cursor-pointer bg-transparent border-none shrink-0"
+                  className="text-[11px] font-semibold uppercase text-[#8a8880] hover:text-[#c49b32]"
                 >
                   Edit
                 </button>
                 <button
                   onClick={() => handleDelete(post.id)}
-                  className="text-[11px] font-semibold uppercase tracking-widest text-[#56544e] hover:text-red-400 transition-colors cursor-pointer bg-transparent border-none shrink-0"
+                  className="text-[11px] font-semibold uppercase text-[#56544e] hover:text-red-400"
                 >
                   Delete
                 </button>
               </div>
-            ))
-          ) : (
-            <div className="text-[#56544e] text-sm text-center py-8">
-              No posts yet.
             </div>
-          )}
+          ))}
         </div>
       </div>
     </div>

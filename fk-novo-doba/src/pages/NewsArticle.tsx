@@ -73,12 +73,19 @@ const NewsArticle = () => {
         </button>
       </div>
 
-      <div className="mx-5 mt-4 rounded-xl overflow-hidden bg-[#0d1017] h-56 md:h-72 flex items-center justify-center">
+      <div
+        className="mt-4 rounded-xl overflow-hidden bg-[#0d1017] 
+                w-auto aspect-video md:aspect-21/9 lg:aspect-3/1 
+                max-h-300 md:max-h-400 lg:max-h-450
+                flex items-center justify-center mx-auto max-w-6xl"
+      >
         {post.coverImage ? (
           <img
             src={post.coverImage}
             alt={post.title}
-            className="w-full h-full object-cover"
+            // IZMENA: object-contain osigurava da se VIDI CELA SLIKA (bez sečenja)
+            // Ako ipak želiš da popuni sve, koristi object-cover
+            className="w-full h-full object-cover object-center"
           />
         ) : (
           <div className="text-center">
