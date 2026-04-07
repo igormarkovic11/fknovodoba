@@ -1,6 +1,7 @@
 import { useParams, useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { usePlayer } from "../hooks/usePlayers";
+import { useState } from "react";
 
 const positionColor: Record<string, string> = {
   Goalkeeper: "text-[#f59e0b] border-[#f59e0b]/40 bg-[#f59e0b]/10",
@@ -25,6 +26,7 @@ const Player = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const { data: player, isLoading } = usePlayer(id ?? "");
+  const [isLoaded, setIsLoaded] = useState(false);
 
   if (isLoading) {
     return (
@@ -72,7 +74,11 @@ const Player = () => {
             <img
               src={player.photoUrl}
               alt={player.name}
-              className="h-full w-auto object-contain"
+              loading="lazy"
+              onLoad={() => setIsLoaded(true)} // Okidač za sklanjanje skeletona
+              className={`h-full w-auto object-contain transition-opacity duration-500 ${
+                isLoaded ? "opacity-100" : "opacity-0"
+              }`}
             />
           ) : (
             <div className="flex flex-col items-center justify-center w-full h-full">

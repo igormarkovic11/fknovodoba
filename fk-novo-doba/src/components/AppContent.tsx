@@ -2,10 +2,10 @@ import { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import Navbar from "./Navbar";
 import Footer from "./Footer";
-import ScrollToTop from "./ScrollToTop";
 import AnimatedRoutes from "./AnimatedRoutes";
 import AppLoader from "./AppLoader";
-import ScrollToTopButton from "./ScrollToTop";
+import ScrollToTopButton from "./ScrollToTopButton";
+import ScrollToTop from "./ScrollToTop";
 
 const AppContent = () => {
   const location = useLocation();
