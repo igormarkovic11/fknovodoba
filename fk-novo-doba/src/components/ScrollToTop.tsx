@@ -1,42 +1,21 @@
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
+import { useLocation } from "react-router-dom";
 
-const ScrollToTopButton = () => {
-  const [visible, setVisible] = useState(false);
+const ScrollToTop = () => {
+  const { pathname } = useLocation();
 
   useEffect(() => {
-    const handleScroll = () => {
-      setVisible(window.scrollY > 400);
-    };
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+    // Čekamo da se završi exit animacija stare stranice (npr. 400ms)
+    // Podesi vreme (400) da se poklapa sa trajanjem tvoje PageTransition animacije
+    const timer = setTimeout(() => {
+      window.scrollTo(0, 0);
+      document.documentElement.scrollTo(0, 0);
+    }, 250);
 
-  const scrollToTop = () => {
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  };
+    return () => clearTimeout(timer);
+  }, [pathname]);
 
-  if (!visible) return null;
-
-  return (
-    <button
-      onClick={scrollToTop}
-      className="fixed bottom-6 right-6 z-50 w-10 h-10 rounded-full bg-[#c49b32] text-[#0a0c10] flex items-center justify-center shadow-lg hover:bg-[#d4aa3f] transition-colors duration-200 cursor-pointer border-none"
-      aria-label="Scroll to top"
-    >
-      <svg
-        width="16"
-        height="16"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="2.5"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      >
-        <path d="M18 15l-6-6-6 6" />
-      </svg>
-    </button>
-  );
+  return null;
 };
 
-export default ScrollToTopButton;
+export default ScrollToTop;
