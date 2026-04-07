@@ -17,7 +17,7 @@ type MatchForm = {
   date: string;
   homeAway: "home" | "away";
   venue: string;
-  status: "upcoming" | "played";
+  status: "upcoming" | "played" | "live";
   goalsFor: string;
   goalsAgainst: string;
 };
@@ -40,7 +40,9 @@ const AdminMatches = () => {
   const [saving, setSaving] = useState(false);
   const [activeTab, setActiveTab] = useState<"upcoming" | "played">("upcoming");
 
-  const upcoming = matches?.filter((m) => m.status === "upcoming") ?? [];
+  const upcoming = [
+    ...(matches?.filter((m) => m.status === "upcoming") ?? []),
+  ].sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
   const played = matches?.filter((m) => m.status === "played") ?? [];
 
   const handleChange = (

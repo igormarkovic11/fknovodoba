@@ -47,12 +47,21 @@
     "staff": "Rukovodstvo",
     "moreInfo": "Profil Igrača",
     "noPlayers": "Nema igrača u ovoj kategoriji",
-    "noStaff": "Nema članova stručnog štaba"
+    "noStaff": "Nema članova stručnog štaba",
+    "roles": {
+      "President": "Predsjednik",
+      "Head Coach": "Glavni Trener",
+      "Assistant Coach": "Pomoćni Trener",
+      "Secretary": "Sekretar",
+      "Security Commissioner": "Komesar za Bezbijednost",
+      "Club Representative": "Predstavnik Kluba"
+    }
   },
   "player": {
     "notFound": "Igrač nije pronađen",
     "backToRoster": "← Nazad na tim",
-    "seasonStats": "Statistika sezone",
+    "seasonStats": "Statistika u klubu",
+    "appearances": "Nastupi",
     "goals": "Golovi",
     "assists": "Asistencije",
     "jersey": "Broj",
@@ -96,5 +105,26 @@
   "footer": {
     "sponsors": "Oficijalni sponzori",
     "est": "Osn. 1947"
+  },
+  "live": {
+    "live": "UŽIVO",
+    "startingXI": "Početna postava",
+    "reserves": "Rezerve",
+    "liveCommentary": "Komentari uživo",
+    "matchReport": "Izvještaj sa utakmice",
+    "waiting": "Čekanje na događaje sa utakmice...",
+    "noCommentary": "Nema dostupnih komentara.",
+    "notFound": "Utakmica nije pronađena.",
+    "backHome": "← Početna",
+    "watch": "Gledaj"
+  },
+  "vote": {
+    "title": "Igrač utakmice",
+    "instructions": "Glasajte za igrača utakmice!",
+    "thankYou": "Hvala na glasanju!",
+    "leading": "Trenutno vodi",
+    "ofVotes": "glasova",
+    "vote": "glas",
+    "votes": "glasova"
   }
 }

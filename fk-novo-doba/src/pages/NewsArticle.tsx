@@ -2,6 +2,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { useNewsPost } from "../hooks/useNews";
 import logo from "../assets/logos/fk-novo-doba.webp";
+import PlayerOfTheMatch from "../components/PlayerOfTheMatch";
 
 const tagColors: Record<string, string> = {
   "Match Report": "text-[#3b82f6] bg-[#3b82f6]/10 border-[#3b82f6]/30",
@@ -107,23 +108,20 @@ const NewsArticle = () => {
             {date}
           </span>
         </div>
-
         <h1 className="text-[28px] md:text-[36px] font-black text-[#f5f0e8] leading-tight tracking-wide mb-4">
           {post.title}
         </h1>
-
         {post.excerpt && (
           <p className="text-[16px] text-[#8a8880] leading-relaxed font-semibold mb-6 border-l-4 border-[#c49b32]/40 pl-4">
             {post.excerpt}
           </p>
         )}
-
         <div className="h-px bg-white/05 mb-6" />
-
         <div className="text-[15px] text-[#8a8880] leading-relaxed whitespace-pre-line">
           {post.body}
         </div>
 
+        {post.matchId && <PlayerOfTheMatch matchId={post.matchId} />}
         <div className="mt-10 pt-6 border-t border-white/05 flex items-center justify-between">
           <div className="flex items-center gap-3">
             <img

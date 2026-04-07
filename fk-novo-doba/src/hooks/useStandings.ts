@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { collection, getDocs, query, orderBy } from "firebase/firestore";
+import { collection, getDocs, query, orderBy, limit } from "firebase/firestore";
 import { db } from "../firebase/config";
 import type { Standing } from "../types";
 
@@ -10,6 +10,7 @@ export const useStandings = (season: string) => {
       const q = query(
         collection(db, "standings", season, "teams"),
         orderBy("points", "desc"),
+        limit(30),
       );
       const snapshot = await getDocs(q);
       const teams = snapshot.docs.map(

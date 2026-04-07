@@ -18,7 +18,7 @@ export const useNews = (count: number = 4) => {
       const q = query(
         collection(db, "news"),
         orderBy("date", "desc"),
-        limit(count),
+        limit(Math.min(count, 50)),
       );
       const snapshot = await getDocs(q);
       return snapshot.docs.map(
