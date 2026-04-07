@@ -99,10 +99,10 @@ const AdminCommentary = () => {
         // Build lineup section
         let lineupSection = "";
         if (lineup) {
-          const startingList = lineup.starting
+          const startingList = sortByPosition(lineup.starting)
             .map((p) => `#${p.number} ${p.name} (${p.position})`)
             .join("\n");
-          const reservesList = lineup.reserves
+          const reservesList = sortByPosition(lineup.reserves)
             .map((p) => `#${p.number} ${p.name}`)
             .join("\n");
 
