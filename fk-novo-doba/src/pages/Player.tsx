@@ -183,7 +183,7 @@ const Player = () => {
             {t("player.about")}
           </p>
           <div className="bg-[#12161f] border border-white/07 rounded-xl p-5">
-            <p className="text-[14px] text-[#8a8880] leading-relaxed">
+            <p className="text-[14px] text-[#8a8880] leading-relaxed whitespace-pre-line">
               {player.bio}
             </p>
           </div>
