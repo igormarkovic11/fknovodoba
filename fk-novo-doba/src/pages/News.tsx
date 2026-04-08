@@ -48,6 +48,7 @@ const NewsCard = ({ post }: { post: NewsPost }) => {
             src={post.coverImage}
             alt={post.title}
             className="w-full h-full object-cover object-center"
+            loading="lazy"
           />
         ) : (
           <div className="w-full h-full flex items-center justify-center">
@@ -118,7 +119,7 @@ const News = () => {
                 : "bg-transparent text-[#8a8880] border-white/10 hover:border-[#c49b32]/40 hover:text-[#f0ead8]"
             }`}
           >
-            {tag}
+            {t(`news.tags.${tag}`)}
           </button>
         ))}
       </div>

@@ -22,7 +22,6 @@ const NewsArticle = () => {
   const navigate = useNavigate();
   const { data: post, isLoading } = useNewsPost(id ?? "");
 
-  // Determine locale: Use Serbian Latin for 'sr'
   const locale = i18n.language === "sr" ? "sr-Latn-RS" : "en-GB";
 
   const date = post
@@ -38,12 +37,13 @@ const NewsArticle = () => {
   if (isLoading) {
     return (
       <div className="min-h-screen bg-[#0a0c10] px-5 pt-6">
-        <Skeleton className="h-6 w-24 mb-6" />
-        <Skeleton className="h-56 w-full mb-6" />
-        <Skeleton className="h-8 w-3/4 mb-3" />
-        <Skeleton className="h-4 w-full mb-2" />
-        <Skeleton className="h-4 w-full mb-2" />
-        <Skeleton className="h-4 w-2/3 mb-2" />
+        <div className="max-w-3xl mx-auto">
+          <Skeleton className="h-6 w-24 mb-6" />
+          <Skeleton className="h-64 w-full mb-6" />
+          <Skeleton className="h-10 w-3/4 mb-3" />
+          <Skeleton className="h-4 w-full mb-2" />
+          <Skeleton className="h-20 w-full mb-2" />
+        </div>
       </div>
     );
   }
@@ -63,92 +63,110 @@ const NewsArticle = () => {
   }
 
   return (
-    <div className="min-h-screen bg-[#0a0c10] text-[#e8e4d9]">
-      <div className="px-5 pt-5">
+    <div className="min-h-screen bg-[#0a0c10] text-[#e8e4d9] pb-20">
+      {/* Header sa dugmetom nazad - centriran */}
+      <div className="max-w-4xl mx-auto px-5 pt-8">
         <button
           onClick={() => navigate("/news")}
-          className="text-[11px] font-semibold tracking-widest uppercase text-[#8a8880] hover:text-[#c49b32] transition-colors duration-200 cursor-pointer bg-transparent border-none p-0"
+          className="group flex items-center gap-2 text-[11px] font-bold tracking-widest uppercase text-[#8a8880] hover:text-[#c49b32] transition-colors duration-200 bg-transparent border-none p-0 cursor-pointer"
         >
+          <span className="text-[14px] transition-transform group-hover:-translate-x-1">
+            ←
+          </span>
           {t("news.backToNews")}
         </button>
       </div>
 
-      <div
-        className="mt-4 rounded-xl overflow-hidden bg-[#0d1017] 
-                w-auto aspect-video md:aspect-21/9 lg:aspect-3/1 
-                max-h-300 md:max-h-400 lg:max-h-450
-                flex items-center justify-center mx-auto max-w-6xl"
-      >
-        {post.coverImage ? (
-          <img
-            src={post.coverImage}
-            alt={post.title}
-            // IZMENA: object-contain osigurava da se VIDI CELA SLIKA (bez sečenja)
-            // Ako ipak želiš da popuni sve, koristi object-cover
-            className="w-full h-full object-cover object-center"
-          />
-        ) : (
-          <div className="text-center">
-            <div className="text-[48px] font-black text-[#2a2f3e] leading-none">
-              FK
+      {/* Kontejner za sliku - Optimizovan da se uvek vidi cela slika */}
+      <div className="max-w-5xl mx-auto px-5 mt-6">
+        <div
+          className="relative w-full rounded-2xl overflow-hidden bg-[#0d1017] border border-white/05 shadow-2xl
+                        aspect-video md:h-[400px] lg:h-[500px]"
+        >
+          {post.coverImage ? (
+            <img
+              src={post.coverImage}
+              alt={post.title}
+              /* object-contain osigurava da se ništa ne odseče */
+              className="w-full h-full object-contain md:object-cover"
+              loading="lazy"
+            />
+          ) : (
+            <div className="w-full h-full flex items-center justify-center opacity-20">
+              <div className="text-[64px] font-black">FKND</div>
             </div>
-            <div className="text-[12px] tracking-widest uppercase text-[#2a2f3e] mt-1">
-              Novo Doba
-            </div>
-          </div>
-        )}
+          )}
+        </div>
       </div>
 
-      <div className="px-5 mt-6 pb-12">
-        <div className="flex items-center gap-3 mb-4">
+      {/* Glavni sadržaj teksta - Sužen na max-w-3xl za bolju čitljivost */}
+      <div className="max-w-3xl mx-auto px-5 mt-10">
+        {/* Tag i Datum */}
+        <div className="flex items-center gap-4 mb-6">
           <span
-            className={`text-[10px] font-semibold tracking-widest uppercase px-2 py-1 rounded border ${
-              tagColors[post.tag] ??
-              "text-[#8a8880] bg-white/05 border-white/10"
-            }`}
+            className={`text-[10px] font-bold tracking-widest uppercase px-3 py-1 rounded-full border ${tagColors[post.tag] ?? "text-[#8a8880] border-white/10"}`}
           >
-            {/* Translate the tag */}
             {t(`news.tags.${post.tag}`)}
           </span>
-          {/* Apply capitalize to ensure the day/month starts with uppercase in Latin */}
-          <span className="text-[12px] text-[#56544e] first-letter:uppercase">
+          <span className="text-[12px] text-[#56544e] font-medium first-letter:uppercase italic">
             {date}
           </span>
         </div>
-        <h1 className="text-[28px] md:text-[36px] font-black text-[#f5f0e8] leading-tight tracking-wide mb-4">
+
+        {/* Naslov */}
+        <h1 className="text-[32px] md:text-[44px] font-black text-[#f5f0e8] leading-tight tracking-tight mb-8">
           {post.title}
         </h1>
+
+        {/* Excerpt - Istaknut stilski */}
         {post.excerpt && (
-          <p className="text-[16px] text-[#8a8880] leading-relaxed font-semibold mb-6 border-l-4 border-[#c49b32]/40 pl-4">
-            {post.excerpt}
-          </p>
+          <div className="relative mb-10">
+            <div className="absolute left-0 top-0 bottom-0 w-1 bg-[#c49b32] rounded-full shadow-[0_0_10px_rgba(196,155,50,0.3)]" />
+            <p className="text-[18px] md:text-[20px] text-[#f0ead8] leading-relaxed font-medium pl-6 italic opacity-90">
+              {post.excerpt}
+            </p>
+          </div>
         )}
-        <div className="h-px bg-white/05 mb-6" />
-        <div className="text-[15px] text-[#8a8880] leading-relaxed whitespace-pre-line">
+
+        {/* Divider */}
+        <div className="h-px bg-gradient-to-r from-transparent via-white/10 to-transparent mb-10" />
+
+        {/* Telo teksta */}
+        <div className="text-[16px] md:text-[17px] text-[#8a8880] leading-[1.8] whitespace-pre-line font-normal selection:bg-[#c49b32]/30">
           {post.body}
         </div>
 
-        {post.matchId && <PlayerOfTheMatch matchId={post.matchId} />}
-        <div className="mt-10 pt-6 border-t border-white/05 flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <img
-              src={logo}
-              alt="FK Novo Doba"
-              className="h-10 w-10 object-contain"
-              style={{ mixBlendMode: "lighten" }}
-            />
+        {/* Player of the match sekcija */}
+        {post.matchId && (
+          <div className="mt-12 p-1 rounded-2xl bg-gradient-to-br from-[#c49b32]/20 to-transparent">
+            <PlayerOfTheMatch matchId={post.matchId} />
+          </div>
+        )}
+
+        {/* Author/Club Footer */}
+        <div className="mt-16 pt-8 border-t border-white/05 flex flex-col md:flex-row items-center justify-between gap-6">
+          <div className="flex items-center gap-4">
+            <div className="p-2 bg-white/03 rounded-xl border border-white/05">
+              <img
+                src={logo}
+                alt="FK Novo Doba"
+                className="h-12 w-12 object-contain"
+                style={{ mixBlendMode: "lighten" }}
+              />
+            </div>
             <div>
-              <div className="text-[13px] font-semibold text-[#f0ead8]">
+              <div className="text-[14px] font-bold text-[#f5f0e8]">
                 FK Novo Doba
               </div>
-              <div className="text-[11px] text-[#56544e]">
+              <div className="text-[12px] text-[#56544e]">
                 {t("news.about")}
               </div>
             </div>
           </div>
+
           <button
             onClick={() => navigate("/news")}
-            className="text-[11px] font-semibold tracking-widest uppercase text-[#c49b32] border border-[#c49b32]/30 px-4 py-2 rounded-lg hover:bg-[#c49b32]/10 transition-colors cursor-pointer bg-transparent"
+            className="w-full md:w-auto text-[11px] font-bold tracking-widest uppercase text-[#c49b32] border border-[#c49b32]/30 px-6 py-3 rounded-xl hover:bg-[#c49b32] hover:text-[#0a0c10] transition-all duration-300 cursor-pointer bg-transparent"
           >
             {t("news.moreNews")}
           </button>
