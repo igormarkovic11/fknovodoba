@@ -40,13 +40,15 @@ const NewsCard = ({ post }: { post: NewsPost }) => {
   });
 
   return (
-    <div className="bg-[#12161f] border border-white/07 rounded-xl overflow-hidden hover:border-[#c49b32]/30 transition-colors duration-200">
-      <div className="w-full h-44 bg-[#0d1017] overflow-hidden">
+    <div className="bg-[#12161f] border border-white/07 rounded-xl overflow-hidden hover:border-[#c49b32]/30 transition-colors duration-200 flex flex-col h-full">
+      {/* IZMENA: Uklonjen h-44, dodat aspect-video (16:9) */}
+      <div className="w-full aspect-video bg-[#0d1017] overflow-hidden flex-shrink-0">
         {post.coverImage ? (
           <img
             src={post.coverImage}
             alt={post.title}
-            className="w-full h-full object-cover"
+            className="w-full h-full object-cover object-center"
+            loading="lazy"
           />
         ) : (
           <div className="w-full h-full flex items-center justify-center">
@@ -117,7 +119,7 @@ const News = () => {
                 : "bg-transparent text-[#8a8880] border-white/10 hover:border-[#c49b32]/40 hover:text-[#f0ead8]"
             }`}
           >
-            {tag}
+            {t(`news.tags.${tag}`)}
           </button>
         ))}
       </div>
