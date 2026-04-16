@@ -13,6 +13,7 @@ import {
   where,
 } from "firebase/firestore";
 import { db } from "./firebase/config.ts";
+import { HelmetProvider } from "react-helmet-async";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -83,9 +84,11 @@ prefetchData().finally(() => {
   }
   createRoot(document.getElementById("root")!).render(
     <StrictMode>
-      <QueryClientProvider client={queryClient}>
-        <App />
-      </QueryClientProvider>
+      <HelmetProvider>
+        <QueryClientProvider client={queryClient}>
+          <App />
+        </QueryClientProvider>
+      </HelmetProvider>
     </StrictMode>,
   );
 });

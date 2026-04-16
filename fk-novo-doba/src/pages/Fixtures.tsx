@@ -1,6 +1,7 @@
 import { useMatches } from "../hooks/useMatches";
 import { useTranslation } from "react-i18next";
 import type { Match } from "../types";
+import PageMeta from "../components/PageMeta";
 
 const Skeleton = ({ className }: { className: string }) => (
   <div className={`bg-[#12161f] animate-pulse rounded-xl ${className}`} />
@@ -96,51 +97,61 @@ const Fixtures = () => {
   }, {});
 
   return (
-    <div className="min-h-screen bg-[#0a0c10] text-[#e8e4d9]">
-      <div className="bg-[#0d1017] border-b border-white/05 px-5 pt-8 pb-6">
-        <p className="text-[11px] font-semibold tracking-[0.15em] uppercase text-[#c49b32] mb-1">
-          {t("fixtures.season")}
-        </p>
-        <h1 className="text-[36px] font-black text-[#f5f0e8] tracking-wide leading-none">
-          {t("fixtures.title")}
-        </h1>
-      </div>
-      <div className="px-5 py-6 flex flex-col gap-8">
-        {isLoading ? (
-          [...Array(4)].map((_, i) => <Skeleton key={i} className="h-20" />)
-        ) : Object.keys(grouped).length > 0 ? (
-          Object.entries(grouped).map(([month, monthMatches]) => (
-            <div key={month}>
-              <div className="flex items-center gap-3 mb-4">
-                <span className="text-[12px] font-bold tracking-[0.12em] uppercase text-[#c49b32]">
-                  {month}
-                </span>
-                <div className="flex-1 h-px bg-white/05" />
-                <span className="text-[11px] text-[#3a3830]">
-                  {monthMatches.length}{" "}
-                  {monthMatches.length === 1
-                    ? t("fixtures.match")
-                    : t("fixtures.matches")}
-                </span>
+    <>
+      <PageMeta
+        title="Raspored"
+        description="Raspored utakmica FK Novo Doba Kojčinovac u sezoni 2025/26."
+      />
+      <div className="min-h-screen bg-[#0a0c10] text-[#e8e4d9]">
+        <div className="bg-[#0d1017] border-b border-white/05 px-5 pt-8 pb-6">
+          <p className="text-[11px] font-semibold tracking-[0.15em] uppercase text-[#c49b32] mb-1">
+            {t("fixtures.season")}
+          </p>
+          <h1 className="text-[36px] font-black text-[#f5f0e8] tracking-wide leading-none">
+            {t("fixtures.title")}
+          </h1>
+        </div>
+        <div className="px-5 py-6 flex flex-col gap-8">
+          {isLoading ? (
+            [...Array(4)].map((_, i) => <Skeleton key={i} className="h-20" />)
+          ) : Object.keys(grouped).length > 0 ? (
+            Object.entries(grouped).map(([month, monthMatches]) => (
+              <div key={month}>
+                <div className="flex items-center gap-3 mb-4">
+                  <span className="text-[12px] font-bold tracking-[0.12em] uppercase text-[#c49b32]">
+                    {month}
+                  </span>
+                  <div className="flex-1 h-px bg-white/05" />
+                  <span className="text-[11px] text-[#3a3830]">
+                    {monthMatches.length}{" "}
+                    {monthMatches.length === 1
+                      ? t("fixtures.match")
+                      : t("fixtures.matches")}
+                  </span>
+                </div>
+                <div className="flex flex-col gap-3">
+                  {monthMatches.map((match, index) => {
+                    const isNext =
+                      index === 0 && Object.keys(grouped)[0] === month;
+                    return (
+                      <FixtureRow
+                        key={match.id}
+                        match={match}
+                        isNext={isNext}
+                      />
+                    );
+                  })}
+                </div>
               </div>
-              <div className="flex flex-col gap-3">
-                {monthMatches.map((match, index) => {
-                  const isNext =
-                    index === 0 && Object.keys(grouped)[0] === month;
-                  return (
-                    <FixtureRow key={match.id} match={match} isNext={isNext} />
-                  );
-                })}
-              </div>
+            ))
+          ) : (
+            <div className="text-[#56544e] text-sm py-12 text-center">
+              {t("fixtures.noFixtures")}
             </div>
-          ))
-        ) : (
-          <div className="text-[#56544e] text-sm py-12 text-center">
-            {t("fixtures.noFixtures")}
-          </div>
-        )}
+          )}
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 

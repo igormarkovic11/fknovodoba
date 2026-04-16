@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { useNews } from "../hooks/useNews";
 import type { NewsPost } from "../types";
+import PageMeta from "../components/PageMeta";
 
 const tagColors: Record<string, string> = {
   "Match Report": "text-[#3b82f6] bg-[#3b82f6]/10 border-[#3b82f6]/30",
@@ -99,50 +100,56 @@ const News = () => {
   );
 
   return (
-    <div className="min-h-screen bg-[#0a0c10] text-[#e8e4d9]">
-      <div className="bg-[#0d1017] border-b border-white/05 px-5 pt-8 pb-6">
-        <p className="text-[11px] font-semibold tracking-[0.15em] uppercase text-[#c49b32] mb-1">
-          FK Novo Doba
-        </p>
-        <h1 className="text-[36px] font-black text-[#f5f0e8] tracking-wide leading-none">
-          {t("news.title")}
-        </h1>
+    <>
+      <PageMeta
+        title="Vijesti"
+        description="Najnovije vijesti FK Novo Doba Kojčinovac."
+      />
+      <div className="min-h-screen bg-[#0a0c10] text-[#e8e4d9]">
+        <div className="bg-[#0d1017] border-b border-white/05 px-5 pt-8 pb-6">
+          <p className="text-[11px] font-semibold tracking-[0.15em] uppercase text-[#c49b32] mb-1">
+            FK Novo Doba
+          </p>
+          <h1 className="text-[36px] font-black text-[#f5f0e8] tracking-wide leading-none">
+            {t("news.title")}
+          </h1>
+        </div>
+        <div className="px-5 py-4 border-b border-white/05 flex gap-2 overflow-x-auto scrollbar-none">
+          {tagKeys.map((tag) => (
+            <button
+              key={tag}
+              onClick={() => setActiveTag(tag)}
+              className={`shrink-0 px-4 py-2 rounded-full text-[11px] font-semibold tracking-widest uppercase border transition-colors duration-200 cursor-pointer ${
+                activeTag === tag
+                  ? "bg-[#c49b32] text-[#0a0c10] border-[#c49b32]"
+                  : "bg-transparent text-[#8a8880] border-white/10 hover:border-[#c49b32]/40 hover:text-[#f0ead8]"
+              }`}
+            >
+              {t(`news.tags.${tag}`)}
+            </button>
+          ))}
+        </div>
+        <div className="px-5 py-6">
+          {isLoading ? (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+              {[...Array(6)].map((_, i) => (
+                <Skeleton key={i} className="h-80" />
+              ))}
+            </div>
+          ) : filtered && filtered.length > 0 ? (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+              {filtered.map((post) => (
+                <NewsCard key={post.id} post={post} />
+              ))}
+            </div>
+          ) : (
+            <div className="text-[#56544e] text-sm py-12 text-center">
+              {t("news.noNews")}
+            </div>
+          )}
+        </div>
       </div>
-      <div className="px-5 py-4 border-b border-white/05 flex gap-2 overflow-x-auto scrollbar-none">
-        {tagKeys.map((tag) => (
-          <button
-            key={tag}
-            onClick={() => setActiveTag(tag)}
-            className={`shrink-0 px-4 py-2 rounded-full text-[11px] font-semibold tracking-widest uppercase border transition-colors duration-200 cursor-pointer ${
-              activeTag === tag
-                ? "bg-[#c49b32] text-[#0a0c10] border-[#c49b32]"
-                : "bg-transparent text-[#8a8880] border-white/10 hover:border-[#c49b32]/40 hover:text-[#f0ead8]"
-            }`}
-          >
-            {t(`news.tags.${tag}`)}
-          </button>
-        ))}
-      </div>
-      <div className="px-5 py-6">
-        {isLoading ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {[...Array(6)].map((_, i) => (
-              <Skeleton key={i} className="h-80" />
-            ))}
-          </div>
-        ) : filtered && filtered.length > 0 ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {filtered.map((post) => (
-              <NewsCard key={post.id} post={post} />
-            ))}
-          </div>
-        ) : (
-          <div className="text-[#56544e] text-sm py-12 text-center">
-            {t("news.noNews")}
-          </div>
-        )}
-      </div>
-    </div>
+    </>
   );
 };
 

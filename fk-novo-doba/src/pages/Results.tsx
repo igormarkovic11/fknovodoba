@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useMatches } from "../hooks/useMatches";
 import { useTranslation } from "react-i18next";
 import type { Match } from "../types";
+import PageMeta from "../components/PageMeta";
 
 type Filter = "All" | "Win" | "Draw" | "Loss";
 
@@ -101,68 +102,74 @@ const Results = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[#0a0c10] text-[#e8e4d9]">
-      <div className="bg-[#0d1017] border-b border-white/05 px-5 pt-8 pb-6">
-        <p className="text-[11px] font-semibold tracking-[0.15em] uppercase text-[#c49b32] mb-1">
-          {t("results.season")}
-        </p>
-        <h1 className="text-[36px] font-black text-[#f5f0e8] tracking-wide leading-none mb-5">
-          {t("results.title")}
-        </h1>
-        <div className="grid grid-cols-3 gap-3">
-          <div className="bg-green-900/20 border border-green-400/20 rounded-xl p-3 text-center">
-            <span className="text-[26px] font-black text-green-400 leading-none block">
-              {wins}
-            </span>
-            <span className="text-[10px] font-semibold tracking-widest uppercase text-green-400/60">
-              {t("results.win")}
-            </span>
-          </div>
-          <div className="bg-blue-900/20 border border-blue-400/20 rounded-xl p-3 text-center">
-            <span className="text-[26px] font-black text-blue-400 leading-none block">
-              {draws}
-            </span>
-            <span className="text-[10px] font-semibold tracking-widest uppercase text-blue-400/60">
-              {t("results.draw")}
-            </span>
-          </div>
-          <div className="bg-red-900/20 border border-red-400/20 rounded-xl p-3 text-center">
-            <span className="text-[26px] font-black text-red-400 leading-none block">
-              {losses}
-            </span>
-            <span className="text-[10px] font-semibold tracking-widest uppercase text-red-400/60">
-              {t("results.loss")}
-            </span>
+    <>
+      <PageMeta
+        title="Rezultati"
+        description="Svi rezultati FK Novo Doba Kojčinovac u sezoni 2025/26."
+      />
+      <div className="min-h-screen bg-[#0a0c10] text-[#e8e4d9]">
+        <div className="bg-[#0d1017] border-b border-white/05 px-5 pt-8 pb-6">
+          <p className="text-[11px] font-semibold tracking-[0.15em] uppercase text-[#c49b32] mb-1">
+            {t("results.season")}
+          </p>
+          <h1 className="text-[36px] font-black text-[#f5f0e8] tracking-wide leading-none mb-5">
+            {t("results.title")}
+          </h1>
+          <div className="grid grid-cols-3 gap-3">
+            <div className="bg-green-900/20 border border-green-400/20 rounded-xl p-3 text-center">
+              <span className="text-[26px] font-black text-green-400 leading-none block">
+                {wins}
+              </span>
+              <span className="text-[10px] font-semibold tracking-widest uppercase text-green-400/60">
+                {t("results.win")}
+              </span>
+            </div>
+            <div className="bg-blue-900/20 border border-blue-400/20 rounded-xl p-3 text-center">
+              <span className="text-[26px] font-black text-blue-400 leading-none block">
+                {draws}
+              </span>
+              <span className="text-[10px] font-semibold tracking-widest uppercase text-blue-400/60">
+                {t("results.draw")}
+              </span>
+            </div>
+            <div className="bg-red-900/20 border border-red-400/20 rounded-xl p-3 text-center">
+              <span className="text-[26px] font-black text-red-400 leading-none block">
+                {losses}
+              </span>
+              <span className="text-[10px] font-semibold tracking-widest uppercase text-red-400/60">
+                {t("results.loss")}
+              </span>
+            </div>
           </div>
         </div>
+        <div className="px-5 py-4 border-b border-white/05 flex gap-2 overflow-x-auto scrollbar-none">
+          {filters.map((f) => (
+            <button
+              key={f.key}
+              onClick={() => setActiveFilter(f.key)}
+              className={`shrink-0 px-4 py-2 rounded-full text-[11px] font-semibold tracking-widest uppercase border transition-colors duration-200 cursor-pointer ${
+                activeFilter === f.key
+                  ? filterActiveStyles[f.key]
+                  : "bg-transparent text-[#8a8880] border-white/10 hover:border-[#c49b32]/40 hover:text-[#f0ead8]"
+              }`}
+            >
+              {f.label}
+            </button>
+          ))}
+        </div>
+        <div className="px-5 py-6 flex flex-col gap-3">
+          {isLoading ? (
+            [...Array(5)].map((_, i) => <Skeleton key={i} className="h-20" />)
+          ) : filtered.length > 0 ? (
+            filtered.map((match) => <ResultRow key={match.id} match={match} />)
+          ) : (
+            <div className="text-[#56544e] text-sm py-12 text-center">
+              {t("results.noResults")}
+            </div>
+          )}
+        </div>
       </div>
-      <div className="px-5 py-4 border-b border-white/05 flex gap-2 overflow-x-auto scrollbar-none">
-        {filters.map((f) => (
-          <button
-            key={f.key}
-            onClick={() => setActiveFilter(f.key)}
-            className={`shrink-0 px-4 py-2 rounded-full text-[11px] font-semibold tracking-widest uppercase border transition-colors duration-200 cursor-pointer ${
-              activeFilter === f.key
-                ? filterActiveStyles[f.key]
-                : "bg-transparent text-[#8a8880] border-white/10 hover:border-[#c49b32]/40 hover:text-[#f0ead8]"
-            }`}
-          >
-            {f.label}
-          </button>
-        ))}
-      </div>
-      <div className="px-5 py-6 flex flex-col gap-3">
-        {isLoading ? (
-          [...Array(5)].map((_, i) => <Skeleton key={i} className="h-20" />)
-        ) : filtered.length > 0 ? (
-          filtered.map((match) => <ResultRow key={match.id} match={match} />)
-        ) : (
-          <div className="text-[#56544e] text-sm py-12 text-center">
-            {t("results.noResults")}
-          </div>
-        )}
-      </div>
-    </div>
+    </>
   );
 };
 
