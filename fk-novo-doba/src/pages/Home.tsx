@@ -6,6 +6,7 @@ import { getTeamLogo } from "../utils/teamLogos";
 import type { Match, NewsPost } from "../types";
 import { useTranslation } from "react-i18next";
 import LiveBadge from "../components/LiveBadge";
+import PageMeta from "../components/PageMeta";
 
 const NextMatchCard = ({ match }: { match: Match }) => {
   const { t, i18n } = useTranslation();
@@ -208,128 +209,131 @@ const Home = () => {
   const { data: news, isLoading: loadingNews } = useNews(4);
 
   return (
-    <div className="min-h-screen bg-[#0a0c10] text-[#e8e4d9]">
-      {/* ── HERO ── */}
-      <div className="relative bg-[#0d1017] border-b border-white/05 overflow-hidden">
-        <div className="relative pt-10 pb-8 md:min-h-[320px]">
-          {/* Top row — text + divider + logo */}
-          <div className="md:flex md:items-start md:gap-0 mb-6 px-5">
-            <div className="flex-1">
-              <p className="text-[11px] font-bold tracking-[0.2em] uppercase text-[#c49b32] mb-3">
-                {t("home.official")}
-              </p>
-              <h1 className="font-black text-[#f5f0e8] leading-none tracking-wide mb-2">
-                <span className="block text-[58px] md:text-[72px]">
-                  FK NOVO
-                </span>
-                <span className="block text-[58px] md:text-[72px] text-[#c49b32]">
-                  DOBA
-                </span>
-              </h1>
-              <p className="text-[12px] text-[#3a3830] tracking-widest">
-                {t("home.founded")}
-              </p>
-            </div>
-            <div
-              className="hidden md:block w-px bg-white/05 mx-8"
-              style={{ alignSelf: "stretch" }}
-            />
-            {/* Right — logo */}
-            <div className="hidden md:flex shrink-0 items-center justify-center w-56">
-              <img
-                src={fkNovoDoba}
-                alt="FK Novo Doba"
-                className="w-48 h-48 object-contain"
-                style={{ mixBlendMode: "lighten" }}
-                fetchPriority="high"
-                loading="eager"
-              />
-            </div>
-          </div>
-
-          {/* Next match */}
-          <LiveBadge />
-          <div className="border-t border-white/05 pt-6 mt-6 px-5">
-            <div className="flex items-baseline justify-between mb-3">
-              <h2 className="text-[13px] font-black tracking-[0.12em] uppercase text-[#f0ead8]">
-                {t("home.nextMatch")}
-              </h2>
-              <Link
-                to="/fixtures"
-                className="text-[11px] tracking-widest uppercase text-[#c49b32] opacity-70 hover:opacity-100 no-underline transition-opacity"
-              >
-                {t("home.allFixtures")}
-              </Link>
-            </div>
-            {loadingNext ? (
-              <Skeleton className="h-28 w-full" />
-            ) : nextMatch ? (
-              <NextMatchCard match={nextMatch} />
-            ) : (
-              <div className="bg-white/03 border border-dashed border-white/10 rounded-xl p-4 text-[#3a3830] text-[13px] text-center">
-                {t("home.noFixtures")}
+    <>
+      <PageMeta />
+      <div className="min-h-screen bg-[#0a0c10] text-[#e8e4d9]">
+        {/* ── HERO ── */}
+        <div className="relative bg-[#0d1017] border-b border-white/05 overflow-hidden">
+          <div className="relative pt-10 pb-8 md:min-h-[320px]">
+            {/* Top row — text + divider + logo */}
+            <div className="md:flex md:items-start md:gap-0 mb-6 px-5">
+              <div className="flex-1">
+                <p className="text-[11px] font-bold tracking-[0.2em] uppercase text-[#c49b32] mb-3">
+                  {t("home.official")}
+                </p>
+                <h1 className="font-black text-[#f5f0e8] leading-none tracking-wide mb-2">
+                  <span className="block text-[58px] md:text-[72px]">
+                    FK NOVO
+                  </span>
+                  <span className="block text-[58px] md:text-[72px] text-[#c49b32]">
+                    DOBA
+                  </span>
+                </h1>
+                <p className="text-[12px] text-[#3a3830] tracking-widest">
+                  {t("home.founded")}
+                </p>
               </div>
-            )}
-          </div>
-        </div>
-      </div>
+              <div
+                className="hidden md:block w-px bg-white/05 mx-8"
+                style={{ alignSelf: "stretch" }}
+              />
+              {/* Right — logo */}
+              <div className="hidden md:flex shrink-0 items-center justify-center w-56">
+                <img
+                  src={fkNovoDoba}
+                  alt="FK Novo Doba"
+                  className="w-48 h-48 object-contain"
+                  style={{ mixBlendMode: "lighten" }}
+                  fetchPriority="high"
+                  loading="eager"
+                />
+              </div>
+            </div>
 
-      {/* ── LAST RESULT ── */}
-      <div className="px-5 py-6 border-b border-white/05">
-        <div className="flex items-baseline justify-between mb-4">
-          <h2 className="text-[13px] font-black tracking-[0.12em] uppercase text-[#f0ead8]">
-            {t("home.lastResult")}
-          </h2>
-          <Link
-            to="/results"
-            className="text-[11px] tracking-widest uppercase text-[#c49b32] opacity-70 hover:opacity-100 no-underline transition-opacity"
-          >
-            {t("home.allResults")}
-          </Link>
-        </div>
-        {loadingResult ? (
-          <Skeleton className="h-36 w-full" />
-        ) : lastResult ? (
-          <ResultCard match={lastResult} />
-        ) : (
-          <div className="bg-white/03 border border-dashed border-white/10 rounded-xl p-6 text-[#3a3830] text-[13px] text-center">
-            {t("home.noResults")}
+            {/* Next match */}
+            <LiveBadge />
+            <div className="border-t border-white/05 pt-6 mt-6 px-5">
+              <div className="flex items-baseline justify-between mb-3">
+                <h2 className="text-[13px] font-black tracking-[0.12em] uppercase text-[#f0ead8]">
+                  {t("home.nextMatch")}
+                </h2>
+                <Link
+                  to="/fixtures"
+                  className="text-[11px] tracking-widest uppercase text-[#c49b32] opacity-70 hover:opacity-100 no-underline transition-opacity"
+                >
+                  {t("home.allFixtures")}
+                </Link>
+              </div>
+              {loadingNext ? (
+                <Skeleton className="h-28 w-full" />
+              ) : nextMatch ? (
+                <NextMatchCard match={nextMatch} />
+              ) : (
+                <div className="bg-white/03 border border-dashed border-white/10 rounded-xl p-4 text-[#3a3830] text-[13px] text-center">
+                  {t("home.noFixtures")}
+                </div>
+              )}
+            </div>
           </div>
-        )}
-      </div>
+        </div>
 
-      {/* ── LATEST NEWS ── */}
-      <div className="px-5 py-6">
-        <div className="flex items-baseline justify-between mb-4">
-          <h2 className="text-[13px] font-black tracking-[0.12em] uppercase text-[#f0ead8]">
-            {t("home.latestNews")}
-          </h2>
-          <Link
-            to="/news"
-            className="text-[11px] tracking-widest uppercase text-[#c49b32] opacity-70 hover:opacity-100 no-underline transition-opacity"
-          >
-            {t("home.allNews")}
-          </Link>
+        {/* ── LAST RESULT ── */}
+        <div className="px-5 py-6 border-b border-white/05">
+          <div className="flex items-baseline justify-between mb-4">
+            <h2 className="text-[13px] font-black tracking-[0.12em] uppercase text-[#f0ead8]">
+              {t("home.lastResult")}
+            </h2>
+            <Link
+              to="/results"
+              className="text-[11px] tracking-widest uppercase text-[#c49b32] opacity-70 hover:opacity-100 no-underline transition-opacity"
+            >
+              {t("home.allResults")}
+            </Link>
+          </div>
+          {loadingResult ? (
+            <Skeleton className="h-36 w-full" />
+          ) : lastResult ? (
+            <ResultCard match={lastResult} />
+          ) : (
+            <div className="bg-white/03 border border-dashed border-white/10 rounded-xl p-6 text-[#3a3830] text-[13px] text-center">
+              {t("home.noResults")}
+            </div>
+          )}
         </div>
-        {loadingNews ? (
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-            {[...Array(4)].map((_, i) => (
-              <Skeleton key={i} className="h-36" />
-            ))}
+
+        {/* ── LATEST NEWS ── */}
+        <div className="px-5 py-6">
+          <div className="flex items-baseline justify-between mb-4">
+            <h2 className="text-[13px] font-black tracking-[0.12em] uppercase text-[#f0ead8]">
+              {t("home.latestNews")}
+            </h2>
+            <Link
+              to="/news"
+              className="text-[11px] tracking-widest uppercase text-[#c49b32] opacity-70 hover:opacity-100 no-underline transition-opacity"
+            >
+              {t("home.allNews")}
+            </Link>
           </div>
-        ) : news && news.length > 0 ? (
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-            {news.map((post) => (
-              <NewsCard key={post.id} post={post} />
-            ))}
-          </div>
-        ) : (
-          <div className="bg-white/03 border border-dashed border-white/10 rounded-xl p-6 text-[#3a3830] text-[13px] text-center">
-            {t("home.noNews")}
-          </div>
-        )}
+          {loadingNews ? (
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              {[...Array(4)].map((_, i) => (
+                <Skeleton key={i} className="h-36" />
+              ))}
+            </div>
+          ) : news && news.length > 0 ? (
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              {news.map((post) => (
+                <NewsCard key={post.id} post={post} />
+              ))}
+            </div>
+          ) : (
+            <div className="bg-white/03 border border-dashed border-white/10 rounded-xl p-6 text-[#3a3830] text-[13px] text-center">
+              {t("home.noNews")}
+            </div>
+          )}
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 
