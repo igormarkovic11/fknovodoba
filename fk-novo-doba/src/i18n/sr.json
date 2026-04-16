@@ -126,5 +126,12 @@
     "ofVotes": "glasova",
     "vote": "glas",
     "votes": "glasova"
+  },
+  "errors": {
+    "notFoundTitle": "404 — Stranica nije pronađena",
+    "notFoundSubtitle": "Stranica nije pronađena",
+    "notFoundDescription": "Stranica koju tražite ne postoji ili je premještena.",
+    "backHome": "Idi na početnu",
+    "goBack": "Vrati se nazad"
   }
 }
