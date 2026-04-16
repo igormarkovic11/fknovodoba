@@ -126,5 +126,12 @@
     "ofVotes": "of votes",
     "vote": "vote",
     "votes": "votes"
+  },
+  "errors": {
+    "notFoundTitle": "404 — Page Not Found",
+    "notFoundSubtitle": "Page not found",
+    "notFoundDescription": "The page you are looking for does not exist or has been moved.",
+    "backHome": "Go to Home",
+    "goBack": "Go Back"
   }
 }

@@ -23,6 +23,7 @@ import AdminNews from "../pages/admin/AdminNews";
 import AdminStandings from "../pages/admin/AdminStandings";
 import AdminLive from "../pages/admin/AdminLive";
 import AdminCommentary from "../pages/admin/AdminCommentary";
+import NotFound from "../pages/NotFound";
 
 const AnimatedRoutes = () => {
   const location = useLocation();
@@ -161,6 +162,14 @@ const AnimatedRoutes = () => {
             <ProtectedRoute>
               <AdminCommentary />
             </ProtectedRoute>
+          }
+        />
+        <Route
+          path="*"
+          element={
+            <PageTransition>
+              <NotFound />
+            </PageTransition>
           }
         />
       </Routes>
