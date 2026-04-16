@@ -6,6 +6,7 @@ import AnimatedRoutes from "./AnimatedRoutes";
 import AppLoader from "./AppLoader";
 import ScrollToTopButton from "./ScrollToTopButton";
 import ScrollToTop from "./ScrollToTop";
+import ErrorBoundary from "./ErrorBoundary";
 
 const AppContent = () => {
   const location = useLocation();
@@ -25,7 +26,9 @@ const AppContent = () => {
       <ScrollToTop />
       {!isAdmin && <Navbar />}
       <main>
-        <AnimatedRoutes />
+        <ErrorBoundary>
+          <AnimatedRoutes />
+        </ErrorBoundary>
       </main>
       {!isAdmin && <Footer />}
       {!isAdmin && <ScrollToTopButton />}
