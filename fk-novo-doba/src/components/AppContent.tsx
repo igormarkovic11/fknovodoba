@@ -7,6 +7,7 @@ import AppLoader from "./AppLoader";
 import ScrollToTopButton from "./ScrollToTopButton";
 import ScrollToTop from "./ScrollToTop";
 import ErrorBoundary from "./ErrorBoundary";
+import CookieBanner from "./CookieBanner";
 
 const AppContent = () => {
   const location = useLocation();
@@ -32,6 +33,7 @@ const AppContent = () => {
       </main>
       {!isAdmin && <Footer />}
       {!isAdmin && <ScrollToTopButton />}
+      {!isAdmin && <CookieBanner />}
     </>
   );
 };

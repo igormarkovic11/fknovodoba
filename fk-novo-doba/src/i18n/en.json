@@ -100,7 +100,8 @@
     },
     "backToNews": "← Back to News",
     "moreNews": "More News",
-    "about": "Official Club News"
+    "about": "Official Club News",
+    "share": "Share this article"
   },
   "footer": {
     "sponsors": "Official Sponsors",
@@ -133,5 +134,11 @@
     "notFoundDescription": "The page you are looking for does not exist or has been moved.",
     "backHome": "Go to Home",
     "goBack": "Go Back"
+  },
+  "cookies": {
+    "title": "We use cookies",
+    "description": "We use cookies and analytics to improve your experience on our website. By accepting you agree to our use of cookies.",
+    "accept": "Accept",
+    "decline": "Decline"
   }
 }
