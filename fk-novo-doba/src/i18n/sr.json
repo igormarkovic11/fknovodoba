@@ -100,7 +100,8 @@
     },
     "backToNews": "← Nazad na Vijesti",
     "moreNews": "Više Vijesti",
-    "about": "Zvanične Vijesti Kluba"
+    "about": "Zvanične Vijesti Kluba",
+    "share": "Podijeli ovaj članak"
   },
   "footer": {
     "sponsors": "Oficijalni sponzori",
@@ -133,5 +134,11 @@
     "notFoundDescription": "Stranica koju tražite ne postoji ili je premještena.",
     "backHome": "Idi na početnu",
     "goBack": "Vrati se nazad"
+  },
+  "cookies": {
+    "title": "Koristimo kolačiće",
+    "description": "Koristimo kolačiće i analitiku kako bismo poboljšali vaše iskustvo. Prihvatanjem pristajete na korištenje kolačića.",
+    "accept": "Prihvati",
+    "decline": "Odbij"
   }
 }

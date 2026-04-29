@@ -4,6 +4,7 @@ import { useNewsPost } from "../hooks/useNews";
 import logo from "../assets/logos/fk-novo-doba.webp";
 import PlayerOfTheMatch from "../components/PlayerOfTheMatch";
 import PageMeta from "../components/PageMeta";
+import ShareButtons from "../components/ShareButtons";
 
 const tagColors: Record<string, string> = {
   "Match Report": "text-[#3b82f6] bg-[#3b82f6]/10 border-[#3b82f6]/30",
@@ -142,7 +143,11 @@ const NewsArticle = () => {
           <div className="text-[16px] md:text-[17px] text-[#8a8880] leading-[1.8] whitespace-pre-line font-normal selection:bg-[#c49b32]/30">
             {post.body}
           </div>
-
+          <ShareButtons
+            url={`https://fknovodoba.vercel.app/news/${post.id}`}
+            title={post.title}
+            excerpt={post.excerpt}
+          />
           {/* Player of the match sekcija */}
           {post.matchId && (
             <div className="mt-12 p-1 rounded-2xl bg-gradient-to-br from-[#c49b32]/20 to-transparent">
