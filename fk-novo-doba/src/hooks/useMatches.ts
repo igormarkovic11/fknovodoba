@@ -10,16 +10,40 @@ import {
 import { db } from "../firebase/config";
 import type { Match } from "../types";
 
-const fetchMatches = async (): Promise<Match[]> => {
-  const q = query(collection(db, "matches"), orderBy("date", "desc"));
-  const snapshot = await getDocs(q);
-  return snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }) as Match);
+export const useMatches = (season?: string) => {
+  return useQuery({
+    queryKey: ["matches", season],
+    queryFn: async (): Promise<Match[]> => {
+      const q = season
+        ? query(
+            collection(db, "matches"),
+            where("season", "==", season),
+            orderBy("date", "desc"),
+            limit(100),
+          )
+        : query(collection(db, "matches"), orderBy("date", "desc"), limit(100));
+      const snapshot = await getDocs(q);
+      return snapshot.docs.map(
+        (doc) => ({ id: doc.id, ...doc.data() }) as Match,
+      );
+    },
+  });
 };
 
-export const useMatches = () => {
+export const useSeasonsList = () => {
   return useQuery({
-    queryKey: ["matches"],
-    queryFn: fetchMatches,
+    queryKey: ["seasonsList"],
+    queryFn: async (): Promise<string[]> => {
+      const snapshot = await getDocs(collection(db, "matches"));
+      const seasons = new Set<string>();
+      snapshot.docs.forEach((doc) => {
+        const season = doc.data().season;
+        if (season) seasons.add(season);
+      });
+      const list = Array.from(seasons).sort().reverse();
+      // If no seasons found return current season as default
+      return list.length > 0 ? list : ["2025-26"];
+    },
   });
 };
 

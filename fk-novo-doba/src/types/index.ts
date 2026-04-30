@@ -32,6 +32,7 @@ export interface Match {
   venue: string;
   scoreHome?: number;
   scoreAway?: number;
+  season?: string;
 }
 
 export interface LineupPlayer {

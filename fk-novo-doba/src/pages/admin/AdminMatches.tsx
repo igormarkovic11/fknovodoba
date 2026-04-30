@@ -20,6 +20,7 @@ type MatchForm = {
   status: "upcoming" | "played" | "live";
   goalsFor: string;
   goalsAgainst: string;
+  season: string;
 };
 
 const emptyForm: MatchForm = {
@@ -31,6 +32,7 @@ const emptyForm: MatchForm = {
   status: "upcoming",
   goalsFor: "",
   goalsAgainst: "",
+  season: "2025-26",
 };
 
 const AdminMatches = () => {
@@ -62,6 +64,7 @@ const AdminMatches = () => {
         homeAway: form.homeAway,
         venue: form.venue,
         status: form.status,
+        season: form.season,
       };
       if (form.status === "played") {
         data.goalsFor = parseInt(form.goalsFor);
@@ -92,6 +95,7 @@ const AdminMatches = () => {
       status: match.status,
       goalsFor: match.goalsFor?.toString() ?? "",
       goalsAgainst: match.goalsAgainst?.toString() ?? "",
+      season: match.season ?? "2025-26",
     });
     setEditingId(match.id);
     window.scrollTo({ top: 0, behavior: "smooth" });
@@ -167,16 +171,13 @@ const AdminMatches = () => {
                   className={inputClass}
                 />
               </div>
-            </div>
-
-            <div className="grid grid-cols-2 gap-4">
               <div>
-                <label className={labelClass}>Date & Time</label>
+                <label className={labelClass}>Season</label>
                 <input
-                  type="datetime-local"
-                  name="date"
-                  value={form.date}
+                  name="season"
+                  value={form.season}
                   onChange={handleChange}
+                  placeholder="2025-26"
                   required
                   className={inputClass}
                 />
@@ -186,6 +187,20 @@ const AdminMatches = () => {
                 <input
                   name="venue"
                   value={form.venue}
+                  onChange={handleChange}
+                  required
+                  className={inputClass}
+                />
+              </div>
+            </div>
+
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <label className={labelClass}>Date & Time</label>
+                <input
+                  type="datetime-local"
+                  name="date"
+                  value={form.date}
                   onChange={handleChange}
                   required
                   className={inputClass}
@@ -206,6 +221,7 @@ const AdminMatches = () => {
                   <option value="away">Away</option>
                 </select>
               </div>
+
               <div>
                 <label className={labelClass}>Status</label>
                 <select
