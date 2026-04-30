@@ -10,8 +10,8 @@ import PageMeta from "../components/PageMeta";
 
 const NextMatchCard = ({ match }: { match: Match }) => {
   const { t, i18n } = useTranslation();
-  // Force Serbian Latin locale
   const locale = i18n.language === "sr" ? "sr-Latn-RS" : "en-GB";
+  const isHome = match.homeAway === "home";
 
   const date = new Date(match.date);
   const formatted = date.toLocaleDateString(locale, {
@@ -28,50 +28,101 @@ const NextMatchCard = ({ match }: { match: Match }) => {
   });
   const opponentLogo = getTeamLogo(match.opponent);
 
+  const fkBlock = (
+    <div className="flex-1 flex items-center gap-2">
+      <img
+        src={fkNovoDoba}
+        alt="FK Novo Doba"
+        className="w-8 h-8 object-contain"
+        style={{ mixBlendMode: "lighten" }}
+      />
+      <span className="text-[14px] font-black text-[#f0ead8] tracking-wide">
+        FK Novo Doba
+      </span>
+    </div>
+  );
+
+  const opponentBlock = (
+    <div className="flex-1 flex items-center justify-end gap-2">
+      <span className="text-[14px] font-black text-[#f0ead8] tracking-wide text-right">
+        {match.opponent}
+      </span>
+      {opponentLogo ? (
+        <img
+          src={opponentLogo}
+          alt={match.opponent}
+          className="w-8 h-8 object-contain"
+          style={{ mixBlendMode: "lighten" }}
+        />
+      ) : (
+        <div className="w-8 h-8 rounded-full bg-[#1a1f2e] border border-white/10 flex items-center justify-center shrink-0">
+          <span className="text-[8px] font-black text-[#56544e]">
+            {match.opponent
+              .split(" ")
+              .map((w) => w[0])
+              .join("")
+              .slice(0, 2)
+              .toUpperCase()}
+          </span>
+        </div>
+      )}
+    </div>
+  );
+
+  // Away opponent block — logo on left, text on right
+  const opponentBlockAway = (
+    <div className="flex-1 flex items-center gap-2">
+      {opponentLogo ? (
+        <img
+          src={opponentLogo}
+          alt={match.opponent}
+          className="w-8 h-8 object-contain"
+          style={{ mixBlendMode: "lighten" }}
+        />
+      ) : (
+        <div className="w-8 h-8 rounded-full bg-[#1a1f2e] border border-white/10 flex items-center justify-center shrink-0">
+          <span className="text-[8px] font-black text-[#56544e]">
+            {match.opponent
+              .split(" ")
+              .map((w) => w[0])
+              .join("")
+              .slice(0, 2)
+              .toUpperCase()}
+          </span>
+        </div>
+      )}
+      <span className="text-[14px] font-black text-[#f0ead8] tracking-wide">
+        {match.opponent}
+      </span>
+    </div>
+  );
+
+  // FK away block — text on right, logo on left
+  const fkBlockAway = (
+    <div className="flex-1 flex items-center justify-end gap-2">
+      <span className="text-[14px] font-black text-[#f0ead8] tracking-wide text-right">
+        FK Novo Doba
+      </span>
+      <img
+        src={fkNovoDoba}
+        alt="FK Novo Doba"
+        className="w-8 h-8 object-contain"
+        style={{ mixBlendMode: "lighten" }}
+      />
+    </div>
+  );
+
   return (
     <div className="bg-white/05 backdrop-blur-sm border border-[#c49b32]/30 rounded-xl p-4">
       <div className="text-[10px] font-bold tracking-[0.15em] uppercase text-[#c49b32] mb-4">
         {t("home.nextMatch")} · {match.competition}
       </div>
       <div className="flex items-center gap-3 mb-3">
-        <div className="flex-1 flex items-center gap-2">
-          <img
-            src={fkNovoDoba}
-            alt="FK Novo Doba"
-            className="w-8 h-8 object-contain"
-            style={{ mixBlendMode: "lighten" }}
-          />
-          <span className="text-[14px] font-black text-[#f0ead8] tracking-wide">
-            FK Novo Doba
-          </span>
-        </div>
+        {isHome ? fkBlock : opponentBlockAway}
         <div className="text-[16px] font-black text-[#3a3830] tracking-widest px-2">
           VS
         </div>
-        <div className="flex-1 flex items-center justify-end gap-2">
-          <span className="text-[14px] font-black text-[#f0ead8] tracking-wide text-right">
-            {match.opponent}
-          </span>
-          {opponentLogo ? (
-            <img
-              src={opponentLogo}
-              alt={match.opponent}
-              className="w-8 h-8 object-contain"
-              style={{ mixBlendMode: "lighten" }}
-            />
-          ) : (
-            <div className="w-8 h-8 rounded-full bg-[#1a1f2e] border border-white/10 flex items-center justify-center shrink-0">
-              <span className="text-[8px] font-black text-[#56544e]">
-                {match.opponent
-                  .split(" ")
-                  .map((w) => w[0])
-                  .join("")
-                  .slice(0, 2)
-                  .toUpperCase()}
-              </span>
-            </div>
-          )}
-        </div>
+        {isHome ? opponentBlock : fkBlockAway}
       </div>
       <div className="flex flex-wrap gap-3 text-[11px] text-[#56544e] border-t border-white/05 pt-3 mt-1">
         <span className="capitalize">{formatted}</span>
@@ -89,14 +140,13 @@ const ResultCard = ({ match }: { match: Match }) => {
   const ga = match.goalsAgainst ?? 0;
   const isWin = gf > ga;
   const isDraw = gf === ga;
+  const isHome = match.homeAway === "home";
 
-  // Translate Result Label (WIN/DRAW/LOSS)
   const resultLabel = isWin
     ? t("results.win")
     : isDraw
       ? t("results.draw")
       : t("results.loss");
-
   const resultColor = isWin
     ? "bg-green-900/30 text-green-400"
     : isDraw
@@ -111,6 +161,49 @@ const ResultCard = ({ match }: { match: Match }) => {
   });
   const opponentLogo = getTeamLogo(match.opponent);
 
+  const fkLogo = (
+    <div className="flex flex-col items-center gap-2 w-24">
+      <img
+        src={fkNovoDoba}
+        alt="FK Novo Doba"
+        className="w-10 h-10 object-contain"
+        style={{ mixBlendMode: "lighten" }}
+      />
+      <span className="text-[11px] font-bold text-[#8a8880]">FK Novo Doba</span>
+    </div>
+  );
+
+  const opponentBlock = (
+    <div className="flex flex-col items-center gap-2 w-24">
+      {opponentLogo ? (
+        <img
+          src={opponentLogo}
+          alt={match.opponent}
+          className="w-10 h-10 object-contain"
+          style={{ mixBlendMode: "lighten" }}
+        />
+      ) : (
+        <div className="w-10 h-10 rounded-full bg-[#1a1f2e] border border-white/10 flex items-center justify-center">
+          <span className="text-[9px] font-black text-[#56544e]">
+            {match.opponent
+              .split(" ")
+              .map((w) => w[0])
+              .join("")
+              .slice(0, 2)
+              .toUpperCase()}
+          </span>
+        </div>
+      )}
+      <span className="text-[11px] font-bold text-[#8a8880]">
+        {match.opponent}
+      </span>
+    </div>
+  );
+
+  // Score shows home team goals first
+  const homeGoals = isHome ? gf : ga;
+  const awayGoals = isHome ? ga : gf;
+
   return (
     <div className="bg-[#12161f] border border-white/07 rounded-xl p-5 flex flex-col items-center text-center">
       <span
@@ -119,46 +212,13 @@ const ResultCard = ({ match }: { match: Match }) => {
         {resultLabel} · {match.competition}
       </span>
       <div className="flex items-center gap-4 mb-3">
-        <div className="flex flex-col items-center gap-2 w-24">
-          <img
-            src={fkNovoDoba}
-            alt="FK Novo Doba"
-            className="w-10 h-10 object-contain"
-            style={{ mixBlendMode: "lighten" }}
-          />
-          <span className="text-[11px] font-bold text-[#8a8880]">
-            FK Novo Doba
-          </span>
-        </div>
+        {isHome ? fkLogo : opponentBlock}
         <div className="text-[44px] font-black text-[#f5f0e8] leading-none tracking-wider">
-          {gf}
+          {homeGoals}
           <span className="text-[#3a3830] text-[30px] mx-1">:</span>
-          {ga}
+          {awayGoals}
         </div>
-        <div className="flex flex-col items-center gap-2 w-24">
-          {opponentLogo ? (
-            <img
-              src={opponentLogo}
-              alt={match.opponent}
-              className="w-10 h-10 object-contain"
-              style={{ mixBlendMode: "lighten" }}
-            />
-          ) : (
-            <div className="w-10 h-10 rounded-full bg-[#1a1f2e] border border-white/10 flex items-center justify-center">
-              <span className="text-[9px] font-black text-[#56544e]">
-                {match.opponent
-                  .split(" ")
-                  .map((w) => w[0])
-                  .join("")
-                  .slice(0, 2)
-                  .toUpperCase()}
-              </span>
-            </div>
-          )}
-          <span className="text-[11px] font-bold text-[#8a8880]">
-            {match.opponent}
-          </span>
-        </div>
+        {isHome ? opponentBlock : fkLogo}
       </div>
       <div className="text-[11px] text-[#56544e] capitalize">
         {date} · {match.venue}

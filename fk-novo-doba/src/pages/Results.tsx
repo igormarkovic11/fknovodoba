@@ -1,8 +1,8 @@
 import { useState } from "react";
-import { useMatches } from "../hooks/useMatches";
+import { useMatches, useSeasonsList } from "../hooks/useMatches";
 import { useTranslation } from "react-i18next";
-import type { Match } from "../types";
 import PageMeta from "../components/PageMeta";
+import type { Match } from "../types";
 
 type Filter = "All" | "Win" | "Draw" | "Loss";
 
@@ -25,12 +25,11 @@ const Skeleton = ({ className }: { className: string }) => (
 );
 
 const ResultRow = ({ match }: { match: Match }) => {
-  const { t, i18n } = useTranslation();
-  const locale = i18n.language === "sr" ? "sr-Latn-RS" : "en-GB";
+  const { t } = useTranslation();
   const result = getResult(match);
   const gf = match.goalsFor ?? 0;
   const ga = match.goalsAgainst ?? 0;
-  const date = new Date(match.date).toLocaleDateString(locale, {
+  const date = new Date(match.date).toLocaleDateString("en-GB", {
     day: "numeric",
     month: "short",
     year: "numeric",
@@ -50,7 +49,7 @@ const ResultRow = ({ match }: { match: Match }) => {
             {match.homeAway === "home" ? "vs" : "@"} {match.opponent}
           </span>
           <span
-            className={`shrink-0 text-[9px] font-semibold tracking-widest uppercase px-2 py-0.5 rounded border ${
+            className={`shrink-0 text-[9px] font-semibold tracking-widests uppercase px-2 py-0.5 rounded border ${
               match.homeAway === "home"
                 ? "text-[#c49b32] border-[#c49b32]/30 bg-[#c49b32]/10"
                 : "text-[#8a8880] border-white/10 bg-white/05"
@@ -74,15 +73,21 @@ const ResultRow = ({ match }: { match: Match }) => {
   );
 };
 
+const CURRENT_SEASON = "2025-26";
+
 const Results = () => {
   const { t } = useTranslation();
   const [activeFilter, setActiveFilter] = useState<Filter>("All");
-  const { data: matches, isLoading } = useMatches();
+  const [activeSeason, setActiveSeason] = useState<string>(CURRENT_SEASON);
+
+  const { data: seasons, isLoading: loadingSeasons } = useSeasonsList();
+  const { data: matches, isLoading } = useMatches(activeSeason);
 
   const played = matches?.filter((m) => m.status === "played") ?? [];
   const filtered = played.filter((m) =>
     activeFilter === "All" ? true : getResult(m) === activeFilter,
   );
+
   const wins = played.filter((m) => getResult(m) === "Win").length;
   const draws = played.filter((m) => getResult(m) === "Draw").length;
   const losses = played.filter((m) => getResult(m) === "Loss").length;
@@ -102,74 +107,104 @@ const Results = () => {
   };
 
   return (
-    <>
+    <div className="min-h-screen bg-[#0a0c10] text-[#e8e4d9]">
       <PageMeta
-        title="Rezultati"
-        description="Svi rezultati FK Novo Doba Kojčinovac u sezoni 2025/26."
+        title={t("results.title")}
+        description="Svi rezultati FK Novo Doba Kojčinovac."
       />
-      <div className="min-h-screen bg-[#0a0c10] text-[#e8e4d9]">
-        <div className="bg-[#0d1017] border-b border-white/05 px-5 pt-8 pb-6">
-          <p className="text-[11px] font-semibold tracking-[0.15em] uppercase text-[#c49b32] mb-1">
-            {t("results.season")}
-          </p>
-          <h1 className="text-[36px] font-black text-[#f5f0e8] tracking-wide leading-none mb-5">
-            {t("results.title")}
-          </h1>
-          <div className="grid grid-cols-3 gap-3">
-            <div className="bg-green-900/20 border border-green-400/20 rounded-xl p-3 text-center">
-              <span className="text-[26px] font-black text-green-400 leading-none block">
-                {wins}
-              </span>
-              <span className="text-[10px] font-semibold tracking-widest uppercase text-green-400/60">
-                {t("results.win")}
-              </span>
-            </div>
-            <div className="bg-blue-900/20 border border-blue-400/20 rounded-xl p-3 text-center">
-              <span className="text-[26px] font-black text-blue-400 leading-none block">
-                {draws}
-              </span>
-              <span className="text-[10px] font-semibold tracking-widest uppercase text-blue-400/60">
-                {t("results.draw")}
-              </span>
-            </div>
-            <div className="bg-red-900/20 border border-red-400/20 rounded-xl p-3 text-center">
-              <span className="text-[26px] font-black text-red-400 leading-none block">
-                {losses}
-              </span>
-              <span className="text-[10px] font-semibold tracking-widest uppercase text-red-400/60">
-                {t("results.loss")}
-              </span>
-            </div>
+
+      {/* Header */}
+      <div className="bg-[#0d1017] border-b border-white/05 px-5 pt-8 pb-6">
+        <p className="text-[11px] font-semibold tracking-[0.15em] uppercase text-[#c49b32] mb-1">
+          {activeSeason}
+        </p>
+        <h1 className="text-[36px] font-black text-[#f5f0e8] tracking-wide leading-none mb-5">
+          {t("results.title")}
+        </h1>
+
+        {/* Season summary */}
+        <div className="grid grid-cols-3 gap-3">
+          <div className="bg-green-900/20 border border-green-400/20 rounded-xl p-3 text-center">
+            <span className="text-[26px] font-black text-green-400 leading-none block">
+              {wins}
+            </span>
+            <span className="text-[10px] font-semibold tracking-widests uppercase text-green-400/60">
+              {t("results.win")}
+            </span>
+          </div>
+          <div className="bg-blue-900/20 border border-blue-400/20 rounded-xl p-3 text-center">
+            <span className="text-[26px] font-black text-blue-400 leading-none block">
+              {draws}
+            </span>
+            <span className="text-[10px] font-semibold tracking-widests uppercase text-blue-400/60">
+              {t("results.draw")}
+            </span>
+          </div>
+          <div className="bg-red-900/20 border border-red-400/20 rounded-xl p-3 text-center">
+            <span className="text-[26px] font-black text-red-400 leading-none block">
+              {losses}
+            </span>
+            <span className="text-[10px] font-semibold tracking-widests uppercase text-red-400/60">
+              {t("results.loss")}
+            </span>
           </div>
         </div>
-        <div className="px-5 py-4 border-b border-white/05 flex gap-2 overflow-x-auto scrollbar-none">
-          {filters.map((f) => (
+      </div>
+
+      {/* Season selector */}
+      <div className="px-5 py-4 border-b border-white/05 flex gap-2 overflow-x-auto scrollbar-none">
+        {loadingSeasons ? (
+          <div className="h-8 w-24 bg-[#12161f] animate-pulse rounded-full" />
+        ) : (
+          seasons?.map((season) => (
             <button
-              key={f.key}
-              onClick={() => setActiveFilter(f.key)}
-              className={`shrink-0 px-4 py-2 rounded-full text-[11px] font-semibold tracking-widest uppercase border transition-colors duration-200 cursor-pointer ${
-                activeFilter === f.key
-                  ? filterActiveStyles[f.key]
+              key={season}
+              onClick={() => {
+                setActiveSeason(season);
+                setActiveFilter("All");
+              }}
+              className={`shrink-0 px-4 py-2 rounded-full text-[11px] font-semibold tracking-widests uppercase border transition-colors duration-200 cursor-pointer ${
+                activeSeason === season
+                  ? "bg-[#c49b32] text-[#0a0c10] border-[#c49b32]"
                   : "bg-transparent text-[#8a8880] border-white/10 hover:border-[#c49b32]/40 hover:text-[#f0ead8]"
               }`}
             >
-              {f.label}
+              {season}
             </button>
-          ))}
-        </div>
-        <div className="px-5 py-6 flex flex-col gap-3">
-          {isLoading ? (
-            [...Array(5)].map((_, i) => <Skeleton key={i} className="h-20" />)
-          ) : filtered.length > 0 ? (
-            filtered.map((match) => <ResultRow key={match.id} match={match} />)
-          ) : (
-            <div className="text-[#56544e] text-sm py-12 text-center">
-              {t("results.noResults")}
-            </div>
-          )}
-        </div>
+          ))
+        )}
       </div>
-    </>
+
+      {/* Filter */}
+      <div className="px-5 py-4 border-b border-white/05 flex gap-2 overflow-x-auto scrollbar-none">
+        {filters.map((f) => (
+          <button
+            key={f.key}
+            onClick={() => setActiveFilter(f.key)}
+            className={`shrink-0 px-4 py-2 rounded-full text-[11px] font-semibold tracking-widests uppercase border transition-colors duration-200 cursor-pointer ${
+              activeFilter === f.key
+                ? filterActiveStyles[f.key]
+                : "bg-transparent text-[#8a8880] border-white/10 hover:border-[#c49b32]/40 hover:text-[#f0ead8]"
+            }`}
+          >
+            {f.label}
+          </button>
+        ))}
+      </div>
+
+      {/* Results list */}
+      <div className="px-5 py-6 flex flex-col gap-3">
+        {isLoading ? (
+          [...Array(5)].map((_, i) => <Skeleton key={i} className="h-20" />)
+        ) : filtered.length > 0 ? (
+          filtered.map((match) => <ResultRow key={match.id} match={match} />)
+        ) : (
+          <div className="text-[#56544e] text-sm py-12 text-center">
+            {t("results.noResults")}
+          </div>
+        )}
+      </div>
+    </div>
   );
 };
 
