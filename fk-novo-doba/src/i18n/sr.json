@@ -126,7 +126,10 @@
     "leading": "Trenutno vodi",
     "ofVotes": "glasova",
     "vote": "glas",
-    "votes": "glasova"
+    "votes": "glasova",
+    "finalResults": "Konačni rezultati",
+    "closed": "Glasanje je završeno",
+    "winner": "Igrač utakmice"
   },
   "errors": {
     "notFoundTitle": "404 — Stranica nije pronađena",
