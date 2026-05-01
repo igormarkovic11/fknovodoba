@@ -126,7 +126,10 @@
     "leading": "Currently leading",
     "ofVotes": "of votes",
     "vote": "vote",
-    "votes": "votes"
+    "votes": "votes",
+    "finalResults": "Final Results",
+    "closed": "Voting has ended",
+    "winner": "Player of the Match"
   },
   "errors": {
     "notFoundTitle": "404 — Page Not Found",

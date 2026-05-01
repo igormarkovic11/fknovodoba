@@ -91,7 +91,33 @@ const PlayerOfTheMatch = ({
               </span>
             </button>
           ))}
-          {/* ... ovde ide i sekcija za rezerve kao u tvom originalnom kodu ... */}
+          {lineup.reserves.length > 0 && (
+            <>
+              <p className="text-[10px] font-semibold tracking-widest uppercase text-[#56544e] mt-3 mb-1">
+                {t("live.reserves")}
+              </p>
+              {sortByPosition(lineup.reserves).map((player) => (
+                <button
+                  key={player.playerId}
+                  onClick={() => vote(player.playerId, player.name)}
+                  disabled={saving}
+                  className="flex items-center gap-3 p-3 rounded-xl border border-white/07 hover:border-[#c49b32]/40 hover:bg-[#c49b32]/05 transition-colors duration-200 cursor-pointer bg-transparent text-left w-full disabled:opacity-50"
+                >
+                  <div className="w-8 h-8 rounded-full bg-[#1a1f2e] border border-white/10 flex items-center justify-center shrink-0">
+                    <span className="text-[11px] font-black text-[#56544e]">
+                      {player.number}
+                    </span>
+                  </div>
+                  <span className="text-[14px] font-semibold text-[#f0ead8]">
+                    {player.name}
+                  </span>
+                  <span className="text-[11px] text-[#56544e] ml-auto">
+                    {player.position}
+                  </span>
+                </button>
+              ))}
+            </>
+          )}
         </div>
       )}
 

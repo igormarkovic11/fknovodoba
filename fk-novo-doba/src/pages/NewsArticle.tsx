@@ -26,7 +26,7 @@ const NewsArticle = () => {
 
   // PROVERA TRAJANJA GLASANJA (2 dana = 172,800,000 milisekundi)
   const isVotingExpired = post?.date
-    ? new Date().getTime() - new Date(post.date).getTime() <
+    ? new Date().getTime() - new Date(post.date).getTime() >
       2 * 24 * 60 * 60 * 1000
     : false;
 
