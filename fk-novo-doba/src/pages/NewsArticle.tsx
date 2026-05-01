@@ -24,6 +24,12 @@ const NewsArticle = () => {
   const navigate = useNavigate();
   const { data: post, isLoading } = useNewsPost(id ?? "");
 
+  // PROVERA TRAJANJA GLASANJA (2 dana = 172,800,000 milisekundi)
+  const isVotingExpired = post?.date
+    ? new Date().getTime() - new Date(post.date).getTime() <
+      2 * 24 * 60 * 60 * 1000
+    : false;
+
   const locale = i18n.language === "sr" ? "sr-Latn-RS" : "en-GB";
 
   const date = post
@@ -151,7 +157,10 @@ const NewsArticle = () => {
           {/* Player of the match sekcija */}
           {post.matchId && (
             <div className="mt-12 p-1 rounded-2xl bg-gradient-to-br from-[#c49b32]/20 to-transparent">
-              <PlayerOfTheMatch matchId={post.matchId} />
+              <PlayerOfTheMatch
+                matchId={post.matchId}
+                isExpired={isVotingExpired} // Prosleđujemo status
+              />
             </div>
           )}
 
