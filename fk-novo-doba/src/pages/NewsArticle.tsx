@@ -150,7 +150,7 @@ const NewsArticle = () => {
             {post.body}
           </div>
           <ShareButtons
-            url={`https://fknovodoba.vercel.app/news/${post.id}`}
+            url={`https://fknovodoba.com/news/${post.id}`}
             title={post.title}
             excerpt={post.excerpt}
           />

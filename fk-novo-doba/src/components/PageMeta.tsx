@@ -6,7 +6,7 @@ interface PageMetaProps {
   image?: string;
 }
 
-const BASE_URL = "https://fknovodoba.vercel.app";
+const BASE_URL = "https://fknovodoba.com";
 const DEFAULT_IMAGE = `${BASE_URL}/icons/icon-512.png`;
 //const SITE_NAME = 'FK Novo Doba Kojčinovac'
 
