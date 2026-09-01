@@ -21,6 +21,8 @@ import fkSlogaDB from "../assets/logos/fk-sloga-DB.png";
 import fkSlogaJunajted from "../assets/logos/fk-sloga-junajted.png";
 import ofkBatkovic from "../assets/logos/ofk-batković.png";
 import ofkJanja from "../assets/logos/ofk-janja-2009.png";
+import vsk from "../assets/logos/vsk.png";
+import fkSloboda from "../assets/logos/fk-sloboda.png";
 
 const teamLogos: Record<string, string> = {
   fknovodoba: fkNovoDoba,
@@ -35,7 +37,7 @@ const teamLogos: Record<string, string> = {
   fkbalatun: fkBalatun,
   fkglogovac: fkGlogovac,
   fkkoridor2011: fkKoridor2011,
-  fkdringa: fkDrina,
+  fkdrina: fkDrina,
   fkgorica: fkGorica,
   fkkolektiv: fkKolektiv,
   fkobarska: fkObarska,
@@ -44,8 +46,10 @@ const teamLogos: Record<string, string> = {
   fksemberija: fkSemberija,
   fkslogadb: fkSlogaDB,
   fkslogajunajted: fkSlogaJunajted,
-  ofkbatkovic: ofkBatkovic,
-  ofkjanja: ofkJanja,
+  ofkbatković: ofkBatkovic,
+  ofkjanja2009: ofkJanja,
+  vsk: vsk,
+  fksloboda: fkSloboda,
 };
 
 export const getTeamLogo = (teamName: string): string | undefined => {
