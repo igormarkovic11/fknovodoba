@@ -10,6 +10,19 @@ import fkBalatun from "../assets/logos/fk-balatun.png";
 import fkGlogovac from "../assets/logos/fk-glogovac.png";
 import fkKoridor2011 from "../assets/logos/fk-koridor-2011.png";
 import fkSindjelic from "../assets/logos/fk-sindjelic.png";
+import fkDrina from "../assets/logos/fk-drina.png";
+import fkGorica from "../assets/logos/fk-gorica.png";
+import fkKolektiv from "../assets/logos/fk-kolektiv.png";
+import fkObarska from "../assets/logos/fk-obarska.png";
+import fkPanteri from "../assets/logos/fk-panteri.png";
+import fkProleter from "../assets/logos/fk-proleter.png";
+import fkSemberija from "../assets/logos/fk-semberija.png";
+import fkSlogaDB from "../assets/logos/fk-sloga-DB.png";
+import fkSlogaJunajted from "../assets/logos/fk-sloga-junajted.png";
+import ofkBatkovic from "../assets/logos/ofk-batković.png";
+import ofkJanja from "../assets/logos/ofk-janja-2009.png";
+import vsk from "../assets/logos/vsk.png";
+import fkSloboda from "../assets/logos/fk-sloboda.png";
 
 const teamLogos: Record<string, string> = {
   fknovodoba: fkNovoDoba,
@@ -24,6 +37,19 @@ const teamLogos: Record<string, string> = {
   fkbalatun: fkBalatun,
   fkglogovac: fkGlogovac,
   fkkoridor2011: fkKoridor2011,
+  fkdrina: fkDrina,
+  fkgorica: fkGorica,
+  fkkolektiv: fkKolektiv,
+  fkobarska: fkObarska,
+  fkpanteri: fkPanteri,
+  fkproleter: fkProleter,
+  fksemberija: fkSemberija,
+  fkslogadb: fkSlogaDB,
+  fkslogajunajted: fkSlogaJunajted,
+  ofkbatković: ofkBatkovic,
+  ofkjanja2009: ofkJanja,
+  vsk: vsk,
+  fksloboda: fkSloboda,
 };
 
 export const getTeamLogo = (teamName: string): string | undefined => {
