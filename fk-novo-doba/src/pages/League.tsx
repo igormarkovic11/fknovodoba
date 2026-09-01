@@ -6,7 +6,7 @@ import { getTeamLogo } from "../utils/teamLogos";
 import PageMeta from "../components/PageMeta";
 
 const MY_CLUB = "FK Novo Doba";
-const CURRENT_SEASON = "2025-26";
+const CURRENT_SEASON = "2026-27";
 
 const StandingRow = ({
   standing,
