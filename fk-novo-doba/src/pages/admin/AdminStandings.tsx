@@ -35,7 +35,7 @@ const emptyForm: StandingForm = {
 };
 
 const AdminStandings = () => {
-  const [activeSeason, setActiveSeason] = useState("2025-26");
+  const [activeSeason, setActiveSeason] = useState("2026-27");
   const [newSeason, setNewSeason] = useState("");
   const [form, setForm] = useState<StandingForm>(emptyForm);
   const [editingId, setEditingId] = useState<string | null>(null);
