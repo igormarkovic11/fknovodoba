@@ -73,7 +73,7 @@ const ResultRow = ({ match }: { match: Match }) => {
   );
 };
 
-const CURRENT_SEASON = "2025-26";
+const CURRENT_SEASON = "2026-27";
 
 const Results = () => {
   const { t } = useTranslation();

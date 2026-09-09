@@ -25,14 +25,14 @@ type MatchForm = {
 
 const emptyForm: MatchForm = {
   opponent: "",
-  competition: "Prva Opštinska Liga",
+  competition: "Područna Liga Semberije",
   date: "",
   homeAway: "home",
   venue: "Stadion Kojčinovac",
   status: "upcoming",
   goalsFor: "",
   goalsAgainst: "",
-  season: "2025-26",
+  season: "2026-27",
 };
 
 const AdminMatches = () => {
