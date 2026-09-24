@@ -17,7 +17,7 @@ import fkObarska from "../assets/logos/fk-obarska.png";
 import fkPanteri from "../assets/logos/fk-panteri.png";
 import fkProleter from "../assets/logos/fk-proleter.png";
 import fkSemberija from "../assets/logos/fk-semberija.png";
-import fkSlogaDB from "../assets/logos/fk-sloga-DB.png";
+import fkBukovica from "../assets/logos/fk-bukovica.png";
 import fkSlogaJunajted from "../assets/logos/fk-sloga-junajted.png";
 import ofkBatkovic from "../assets/logos/ofk-batković.png";
 import ofkJanja from "../assets/logos/ofk-janja-2009.png";
@@ -44,7 +44,7 @@ const teamLogos: Record<string, string> = {
   fkpanteri: fkPanteri,
   fkproleter: fkProleter,
   fksemberija: fkSemberija,
-  fkslogadb: fkSlogaDB,
+  fkbukovica: fkBukovica,
   fkslogajunajted: fkSlogaJunajted,
   ofkbatković: ofkBatkovic,
   ofkjanja2009: ofkJanja,
