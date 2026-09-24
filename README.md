@@ -9,7 +9,7 @@ A modern, responsive website for FK Novo Doba football club built with React, Ty
 
 ## 🌐 Live Demo
 
-Visit the live website: [fknovodoba.vercel.app](https://fknovodoba.vercel.app)
+Visit the live website: [fknovodoba.com](https://fknovodoba.com)
 
 ## ✨ Features
 
